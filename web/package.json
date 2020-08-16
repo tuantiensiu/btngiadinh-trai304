@@ -7,11 +7,19 @@
   ],
   "dependencies": {
     "@redwoodjs/auth": "^0.14.0",
+    "@redwoodjs/forms": "0.15.3",
     "@redwoodjs/router": "^0.14.0",
     "@redwoodjs/web": "^0.14.0",
+    "@tailwindcss/ui": "0.5.0",
     "firebase": "^7.17.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "9.8.6",
+    "postcss-loader": "3.0.0",
+    "precss": "4.0.0",
+    "tailwindcss": "1.6.2"
   }
 }
