@@ -5,11 +5,11 @@
 # For the full list of options, see the "App Configuration: redwood.toml" doc: 
 # https://redwoodjs.com/docs/app-configuration-redwood-toml
 #
-# By default, a Redwood app's apiProxyPath is the same as Netlify's.
+# By default, a Redwood app's apiProxyPath = "/api"
 
 [web]
   port = 8910
-  apiProxyPath = "/.netlify/functions"
+  apiProxyPath = "/api"
 [api]
   port = 8911
 [browser]
