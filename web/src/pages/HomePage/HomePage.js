@@ -8,6 +8,7 @@ const HomePage = () => {
       <p>
         My default route is named "home", link to me with `
         <Link to="home">routes.home()</Link>`
+        <Link to="camp-form">routes.campForm()</Link>`
       </p>
     </>
   )
