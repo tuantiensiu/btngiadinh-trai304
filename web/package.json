@@ -12,6 +12,7 @@
     "@redwoodjs/web": "^0.16.0",
     "@tailwindcss/ui": "0.5.0",
     "classnames": "2.2.6",
+    "dayjs": "1.8.34",
     "firebase": "^7.17.1",
     "google-libphonenumber": "3.2.12",
     "graphql-tag": "2.11.0",

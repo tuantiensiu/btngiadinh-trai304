@@ -8,15 +8,15 @@ const DraftProfilesLayout = (props) => {
       <header className="rw-header">
         <h1 className="rw-heading rw-heading-primary">
           <Link to={routes.draftProfiles()} className="rw-link">
-            DraftProfiles
+            Danh sách đăng ký TKMT
           </Link>
         </h1>
-        <Link
+        {/* <Link
           to={routes.newDraftProfile()}
           className="rw-button rw-button-green"
         >
           <div className="rw-button-icon">+</div> New DraftProfile
-        </Link>
+        </Link> */}
       </header>
       <main className="rw-main">{props.children}</main>
     </div>

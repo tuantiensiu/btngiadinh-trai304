@@ -1,5 +1,9 @@
 import { useMutation, useFlash } from '@redwoodjs/web'
 import { Link, routes } from '@redwoodjs/router'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+
+dayjs.extend(utc)
 
 const DELETE_DRAFT_PROFILE_MUTATION = gql`
   mutation DeleteDraftProfileMutation($id: String!) {
@@ -53,22 +57,32 @@ const DraftProfilesList = ({ draftProfiles }) => {
       <table className="rw-table">
         <thead>
           <tr>
-            <th>Id</th>
-            <th>Full name</th>
-            <th>National id</th>
-            <th>Phone number</th>
-            <th>Birthday</th>
+            <th>CMND</th>
+            <th>Họ và tên</th>
+            <th>Số điện thoại</th>
+            <th>Sinh nhật</th>
+            <th>Nhóm Nhỏ</th>
+            <th>Size Áo</th>
+            <th>Thời gian nhóm lại</th>
+            <th>Mức đóng lệ phí</th>
+            <th>Hình thức đóng phí</th>
+            <th>Dâng thêm</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
           {draftProfiles.map((draftProfile) => (
             <tr key={draftProfile.id}>
-              <td>{truncate(draftProfile.id)}</td>
-              <td>{truncate(draftProfile.fullName)}</td>
               <td>{truncate(draftProfile.nationalId)}</td>
+              <td>{truncate(draftProfile.fullName)}</td>
               <td>{truncate(draftProfile.phoneNumber)}</td>
-              <td>{timeTag(draftProfile.birthday)}</td>
+              <td>{dayjs(draftProfile.birthday).utc().format('DD/MM/YYYY')}</td>
+              <td>{truncate(draftProfile.meta[1].value)}</td>
+              <td>{truncate(draftProfile.meta[0].value)}</td>
+              <td>{truncate(draftProfile.meta[2].value)}</td>
+              <td>{truncate(draftProfile.meta[3].value)}</td>
+              <td>{truncate(draftProfile.meta[5].value)}</td>
+              <td>{truncate(draftProfile.meta[4].value)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link
@@ -76,23 +90,23 @@ const DraftProfilesList = ({ draftProfiles }) => {
                     title={'Show draftProfile ' + draftProfile.id + ' detail'}
                     className="rw-button rw-button-small"
                   >
-                    Show
+                    Xem
                   </Link>
                   <Link
                     to={routes.editDraftProfile({ id: draftProfile.id })}
                     title={'Edit draftProfile ' + draftProfile.id}
                     className="rw-button rw-button-small rw-button-blue"
                   >
-                    Edit
+                    Sửa
                   </Link>
-                  <a
+                  {/* <a
                     href="#"
                     title={'Delete draftProfile ' + draftProfile.id}
                     className="rw-button rw-button-small rw-button-red"
                     onClick={() => onDeleteClick(draftProfile.id)}
                   >
-                    Delete
-                  </a>
+                    Xóa
+                  </a> */}
                 </nav>
               </td>
             </tr>

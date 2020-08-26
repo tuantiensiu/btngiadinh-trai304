@@ -10,6 +10,10 @@ export const QUERY = gql`
       nationalId
       phoneNumber
       birthday
+      meta {
+        key
+        value
+      }
     }
   }
 `
