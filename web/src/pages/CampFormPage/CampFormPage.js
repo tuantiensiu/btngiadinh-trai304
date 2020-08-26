@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useMutation, useFlash } from '@redwoodjs/web'
+import { navigate, routes } from '@redwoodjs/router'
 import {
   Form,
   TextField,
@@ -9,8 +11,25 @@ import {
 } from '@redwoodjs/forms'
 
 import GridRadio from 'src/components/GridRadio'
+import gql from 'graphql-tag'
+
+const CAMP_REGISTER = gql`
+  mutation campRegister($input: CreateCampRegisterInput!) {
+    campRegister(input: $input) {
+      id
+    }
+  }
+`
 
 export default function FormPage() {
+  const { addMessage } = useFlash()
+  const [register] = useMutation(CAMP_REGISTER, {
+    onCompleted: () => {
+      navigate(routes.draftProfiles())
+      addMessage('Đăng ký thành công!', { classes: 'rw-flash-success' })
+    },
+  })
+
   const [meta, setMeta] = useState({
     clothesSize: 'M',
     group: 1,
@@ -18,9 +37,24 @@ export default function FormPage() {
     paymentLevel: 'Tiền cọc: 400.000đ',
     offering: '0',
     paymentMethod: 'Nộp trực tiếp cho Ban Tổ Chức',
+    season: new Date().getFullYear() + '',
   })
   const onSubmit = (data) => {
-    console.log(data)
+    register({
+      variables: {
+        input: {
+          fullName: String(data.fullName),
+          nationalId: String(data.nationalId),
+          phoneNumber: String(data.phoneNumber),
+          birthday: new Date(
+            data.yearOfBirth,
+            data.monthOfBirth,
+            data.dayOfBirth
+          ),
+          meta: JSON.stringify(meta),
+        },
+      },
+    })
   }
   const onChangeRadio = (key) => (value) => {
     setMeta({ ...meta, [key]: value })
@@ -91,7 +125,7 @@ export default function FormPage() {
               </div>
               <div className="flex flex-col mt-8">
                 <Label
-                  name="nationId"
+                  name="nationalId"
                   className="text-lg"
                   errorClassName="label text-lg error"
                 >
@@ -99,7 +133,7 @@ export default function FormPage() {
                 </Label>
                 <NumberField
                   className="h-16 rounded text-2xl p-4 mt-2"
-                  name="nationId"
+                  name="nationalId"
                   placeholder="261506123"
                   validation={{ required: true }}
                 />
@@ -120,23 +154,26 @@ export default function FormPage() {
               <div className="flex flex-col mt-8">
                 <Label className="text-lg">Ngày sinh</Label>
                 <div className="grid grid-cols-3 gap-2 mt-2">
-                  <input
+                  <NumberField
                     className="h-16 rounded text-2xl p-4 mt-2"
                     type="text"
-                    name="phoneNumber"
-                    placeholder="01"
+                    name="dayOfBirth"
+                    placeholder="31"
+                    validation={{ required: true }}
                   />
-                  <input
+                  <NumberField
                     className="h-16 rounded text-2xl p-4 mt-2"
                     type="text"
-                    name="phoneNumber"
+                    name="monthOfBirth"
                     placeholder="04"
+                    validation={{ required: true }}
                   />
-                  <input
+                  <NumberField
                     className="h-16 rounded text-2xl p-4 mt-2"
                     type="text"
-                    name="phoneNumber"
+                    name="yearOfBirth"
                     placeholder="1996"
+                    validation={{ required: true }}
                   />
                 </div>
               </div>
@@ -161,6 +198,7 @@ export default function FormPage() {
               <div className="flex flex-col">
                 <label className="text-lg">Nhóm nhỏ</label>
                 <GridRadio
+                  // eslint-disable-next-line prefer-spread
                   list={Array.apply(null, { length: 15 })
                     .map(Number.call, Number)
                     .map((i) => i + 1)}
@@ -228,8 +266,12 @@ export default function FormPage() {
             </div>
           </div>
           <hr className="mt-8 bg-gray-700" />
-          <Submit className="button pd-8">Đăng Ký</Submit>
-          <pre>{JSON.stringify(meta, null, 2)}</pre>
+          <div className="flex flex-row mt-8">
+            <span className="flex-1" />
+            <Submit className="button p-2 pr-8 pl-8 bg-green-500 text-white">
+              Nộp Đơn Đăng Ký
+            </Submit>
+          </div>
         </div>
       </div>
     </Form>
