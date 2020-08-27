@@ -74,10 +74,10 @@ export default function FormPage() {
               </h2>
               <ul className="mt-4 text-lg">
                 <li className="mt-2">
-                  * Nhận đăng ký và hoàn tất lệ phí: 26/07/2020 - 13/09/2020
+                  * Nhận đăng ký và hoàn tất lệ phí: 30/08/2020 - 20/09/2020
                 </li>
                 <li className="mt-2">
-                  * Nhận đăng ký và đặt cọc: 26/07/2020 - 06/09/2020
+                  * Nhận đăng ký và đặt cọc: 30/08/2020 - 13/09/2020
                 </li>
                 <li className="mt-2">
                   * Hoàn trả lệ phí nếu hủy đăng ký: Hết ngày 23/09/2020 (Sau
@@ -181,7 +181,14 @@ export default function FormPage() {
               <div className="flex flex-col mt-8">
                 <label className="text-lg">Size áo</label>
                 <GridRadio
-                  list={['S', 'M', 'L', 'XL', 'XXL', 'Khác']}
+                  list={[
+                    'S (<50kg)',
+                    'M (50-60kg)',
+                    'L (60-70kg)',
+                    'XL (<80kg)',
+                    'XXL',
+                    'Khác',
+                  ]}
                   onSelect={(value) => onChangeRadio('clothesSize')(value)}
                 />
               </div>
@@ -230,11 +237,11 @@ export default function FormPage() {
                 <label className="text-lg">Mức lệ phí</label>
                 <GridRadio
                   list={[
-                    'Tiền cọc: 400.000đ',
-                    'Sinh viên, thu nhập dưới 3 triệu: 700.000đ',
-                    'Thu nhập 3-5 triệu: 950.000đ',
-                    'Thu nhập trên 5-7 triệu: 1.150.000đ',
-                    'Thu nhập trên 7 triệu: 1.350.000đ',
+                    'Tiền cọc: 500.000đ',
+                    'Sinh viên, thu nhập dưới 3 triệu: 750.000đ',
+                    'Thu nhập 3-5 triệu: 1.100.000đ',
+                    'Thu nhập trên 5-7 triệu: 1.300.000đ',
+                    'Thu nhập trên 7 triệu: 1.500.000đ',
                   ]}
                   cols={1}
                   onSelect={(value) => onChangeRadio('paymentLevel')(value)}
@@ -259,10 +266,11 @@ export default function FormPage() {
                   cols={1}
                   onSelect={(value) => onChangeRadio('paymentMethod')(value)}
                 />
-                <span className="text-gray-500 text-opacity-75">
-                  Chi tiết về việc đăng ký liên hệ Thủ quỹ Ban Thanh Niên: Như
-                  Ngọc 0902457367
-                </span>
+
+                <strong className="mt-4 text-gray-500 text-opacity-75">
+                  Chi tiết về việc đăng ký liên hệ Thủ quỹ Ban Thanh Niên:
+                  <span className="text-green-500"> Như Ngọc 0902457367</span>
+                </strong>
               </div>
             </div>
           </div>
