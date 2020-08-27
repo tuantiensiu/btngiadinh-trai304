@@ -24,9 +24,10 @@ const CAMP_REGISTER = gql`
 export default function FormPage() {
   const { addMessage } = useFlash()
   const [register] = useMutation(CAMP_REGISTER, {
-    onCompleted: () => {
-      navigate(routes.draftProfiles())
+    onCompleted: (data) => {
+      console.log(`Response: `, data)
       addMessage('Đăng ký thành công!', { classes: 'rw-flash-success' })
+      navigate(routes.campPostSubmit())
     },
   })
 

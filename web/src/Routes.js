@@ -12,16 +12,37 @@ import { Router, Route } from '@redwoodjs/router'
 const Routes = () => {
   return (
     <Router>
-      <Route path="/draft-profiles/new" page={NewDraftProfilePage} name="newDraftProfile" />
-      <Route path="/draft-profiles/{id}/edit" page={EditDraftProfilePage} name="editDraftProfile" />
-      <Route path="/draft-profiles/{id}" page={DraftProfilePage} name="draftProfile" />
-      <Route path="/draft-profiles" page={DraftProfilesPage} name="draftProfiles" />
+      <Route
+        path="/camp-post-submit"
+        page={CampPostSubmitPage}
+        name="campPostSubmit"
+      />
+      <Route
+        path="/draft-profiles/new"
+        page={NewDraftProfilePage}
+        name="newDraftProfile"
+      />
+      <Route
+        path="/draft-profiles/{id}/edit"
+        page={EditDraftProfilePage}
+        name="editDraftProfile"
+      />
+      <Route
+        path="/draft-profiles/{id}"
+        page={DraftProfilePage}
+        name="draftProfile"
+      />
+      <Route
+        path="/draft-profiles"
+        page={DraftProfilesPage}
+        name="draftProfiles"
+      />
       <Route path="/metas/new" page={NewMetaPage} name="newMeta" />
       <Route path="/metas/{id}/edit" page={EditMetaPage} name="editMeta" />
       <Route path="/metas/{id}" page={MetaPage} name="meta" />
       <Route path="/metas" page={MetasPage} name="metas" />
       <Route path="/camp-form" page={CampFormPage} name="campForm" />
-      <Route path="/" page={HomePage} name="home" />
+      <Route path="/" page={CampFormPage} name="home" />
       <Route notfound page={NotFoundPage} />
     </Router>
   )
