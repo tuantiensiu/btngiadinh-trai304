@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@redwoodjs/api": "^0.16.0",
-    "firebase-admin": "9.0.0"
+    "firebase-admin": "9.0.0",
+    "twilio": "3.49.0"
   }
 }

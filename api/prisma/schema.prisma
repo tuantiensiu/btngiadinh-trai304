@@ -19,10 +19,12 @@ model User {
 }
 
 model Meta {
-  id    String @default(cuid()) @id
-  key   String
-  value String
-  type  String
+  id             String        @default(cuid()) @id
+  key            String
+  value          String
+  type           String
+  DraftProfile   DraftProfile? @relation(fields: [draftProfileId], references: [id])
+  draftProfileId String?
 }
 
 model DraftProfile {
@@ -32,6 +34,7 @@ model DraftProfile {
   phoneNumber String?
   birthday    DateTime?
   meta        Meta[]
+  createdAt   DateTime  @default(now())
 }
 
 model Profile {
