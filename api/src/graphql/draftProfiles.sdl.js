@@ -8,6 +8,7 @@ export const schema = gql`
     phoneNumber: String
     birthday: DateTime
     meta: [Meta]!
+    createdAt: DateTime
   }
 
   type Query {

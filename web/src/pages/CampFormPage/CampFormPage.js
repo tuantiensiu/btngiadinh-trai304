@@ -40,6 +40,7 @@ export default function FormPage() {
     paymentMethod: 'Nộp trực tiếp cho Ban Tổ Chức',
     season: new Date().getFullYear() + '',
   })
+
   const onSubmit = (data) => {
     register({
       variables: {
@@ -57,9 +58,11 @@ export default function FormPage() {
       },
     })
   }
+
   const onChangeRadio = (key) => (value) => {
     setMeta({ ...meta, [key]: value })
   }
+
   return (
     <Form onSubmit={onSubmit}>
       <div className="gap-4 h-auto p-4 md:p-8 min-w-full max-w-md mx-auto">
@@ -116,7 +119,7 @@ export default function FormPage() {
                 </Label>
                 <TextField
                   name="fullName"
-                  className="input h-16 rounded text-2xl p-4 mt-2"
+                  className="input h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
                   errorClassName="input error"
                   type="text"
                   placeholder="Nguyễn Văn A"
@@ -133,7 +136,7 @@ export default function FormPage() {
                   Số CMND
                 </Label>
                 <NumberField
-                  className="h-16 rounded text-2xl p-4 mt-2"
+                  className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
                   name="nationalId"
                   placeholder="261506123"
                   validation={{ required: true }}
@@ -145,7 +148,7 @@ export default function FormPage() {
                   Số điện thoại
                 </Label>
                 <TextField
-                  className="h-16 rounded text-2xl p-4 mt-2"
+                  className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
                   name="phoneNumber"
                   placeholder="0913173626"
                   validation={{ required: true }}
@@ -186,11 +189,21 @@ export default function FormPage() {
                     'M (50-60kg)',
                     'L (60-70kg)',
                     'XL (<80kg)',
-                    'XXL',
+                    'XXL (>80kg)',
                     'Khác',
                   ]}
                   onSelect={(value) => onChangeRadio('clothesSize')(value)}
                 />
+                {meta.clothesSize === 'Khác' && (
+                  <TextField
+                    name="clothesSize"
+                    className="input h-16 bg-gray-300 rounded text-2xl p-4 mt-2"
+                    errorClassName="input error"
+                    type="text"
+                    placeholder="Nhập size áo khác"
+                    validation={{ required: true }}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -260,14 +273,14 @@ export default function FormPage() {
                 <label className="text-lg">Hình thức nộp lệ phí</label>
                 <GridRadio
                   list={[
-                    'Nộp trực tiếp cho Ban Tổ Chức',
-                    'Nộp cho nhóm trưởng (tiền mặt)',
+                    'Chuyển khoản trực tiếp cho BTC',
+                    'Nộp tiền mặt trực tiếp cho nhóm trưởng',
                   ]}
                   cols={1}
                   onSelect={(value) => onChangeRadio('paymentMethod')(value)}
                 />
 
-                <strong className="mt-4 text-gray-500 text-opacity-75">
+                <strong className="mt-4">
                   Chi tiết về việc đăng ký liên hệ Thủ quỹ Ban Thanh Niên:
                   <span className="text-green-500"> Như Ngọc 0902457367</span>
                 </strong>
