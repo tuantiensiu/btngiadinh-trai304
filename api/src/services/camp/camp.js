@@ -3,22 +3,17 @@ import { db } from 'src/lib/db'
 export const campRegister = async ({ input }) => {
   if (input.meta) {
     const meta = JSON.parse(input.meta)
-    let metaList = []
+    const createMap = []
     for (const key in meta) {
       if (key in meta) {
-        const newMeta = await db.meta.create({
-          data: {
-            key,
-            value: String(meta[key]),
-            type: 'string',
-          },
-        })
-        metaList.push(newMeta)
+        const payload = {
+          key,
+          value: String(meta[key]),
+          type: 'string',
+        }
+        createMap.push(payload)
       }
     }
-    metaList = metaList.map((m) => ({
-      id: m.id,
-    }))
 
     const payload = {
       data: {
@@ -27,7 +22,7 @@ export const campRegister = async ({ input }) => {
         phoneNumber: input.phoneNumber + '',
         birthday: input.birthday,
         meta: {
-          connect: [...metaList],
+          create: createMap,
         },
       },
     }

@@ -54,7 +54,7 @@ const FORM_MODELS = {
     ],
   },
   paymentMethod: [
-    { value: 'BANK', title: 'Chuyển khoản trực tiếp cho BTC' },
+    { value: 'BANK', title: 'Chuyển khoản trực tiếp cho thủ quỹ' },
     { value: 'GROUP_LEADER', title: 'Nộp tiền mặt trực tiếp cho nhóm trưởng' },
     { value: 'MANAGER', title: 'Nộp tiền mặt trực tiếp cho thủ quỹ' },
   ],
@@ -64,7 +64,7 @@ export default function FormPage() {
   const { addMessage } = useFlash()
   const [register, { loading }] = useMutation(CAMP_REGISTER, {
     onCompleted: (data) => {
-      navigate(routes.campPostSubmit(data.campRegister.id))
+      navigate(routes.campPostSubmit({ id: data.campRegister.id }))
       addMessage('Đăng ký thành công!', { classes: 'rw-flash-success' })
     },
   })
