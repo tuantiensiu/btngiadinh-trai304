@@ -3,7 +3,7 @@ const configDir = __dirname
 module.exports = (config) => {
   config.plugins.forEach((plugin) => {
     if (plugin.constructor.name === 'HtmlWebpackPlugin') {
-      plugin.options.title = 'VietBible Admin'
+      plugin.options.title = 'Đăng Ký Trại - Thanh Niên Gia Định'
     }
   })
 
@@ -17,10 +17,7 @@ module.exports = (config) => {
         loader: 'postcss-loader',
         options: {
           ident: 'postcss',
-          plugins: [
-            require('tailwindcss'),
-            require('autoprefixer'),
-          ],
+          plugins: [require('tailwindcss'), require('autoprefixer')],
           config: {
             path: configDir,
           },
