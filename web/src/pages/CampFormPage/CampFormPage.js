@@ -35,7 +35,7 @@ const FORM_MODELS = {
     .map((i) => ({ value: i + 1, title: i + 1 })),
   joinAge: [
     { value: 'lt3', title: 'Dưới 3 tháng' },
-    { value: 'gt3', title: 'trên 3 tháng' },
+    { value: 'gt3', title: 'Trên 3 tháng' },
   ],
   paymentLevel: {
     newMember: [
