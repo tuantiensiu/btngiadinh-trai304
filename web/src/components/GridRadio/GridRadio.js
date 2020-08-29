@@ -1,5 +1,18 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
+
+const GridCell = ({ text = '' }) => {
+  const isSeparated = text.length > 0 ? text.indexOf('|') > -1 : false
+  const [left, right] =
+    isSeparated && text.length > 0 ? text.split('|') : [text, null]
+  return (
+    <>
+      <span>{left}</span>
+      <div className="flex-1" />
+      <span>{right}</span>
+    </>
+  )
+}
 
 const GridRadio = ({
   list = [],
@@ -9,7 +22,6 @@ const GridRadio = ({
 }) => {
   const [selected, setSelected] = useState(0)
   const switchRadio = (index) => {
-    console.log(index)
     setSelected(index)
     onSelect(list[index])
   }
@@ -20,16 +32,16 @@ const GridRadio = ({
       })}
     >
       {list.map((item, index) => (
-        <span
+        <div
           onClick={() => switchRadio(index)}
           key={index}
-          className={classNames('text-white', 'rouded', 'p-2', {
+          className={classNames('flex', 'text-white', 'rounded', 'p-2', {
             'bg-green-500': selected === index,
             'bg-gray-600': selected !== index,
           })}
         >
-          {item[titleProp]}
-        </span>
+          <GridCell text={item[titleProp]} />
+        </div>
       ))}
     </div>
   )

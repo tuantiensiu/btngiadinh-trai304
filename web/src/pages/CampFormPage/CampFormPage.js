@@ -22,11 +22,11 @@ const CAMP_REGISTER = gql`
 `
 const FORM_MODELS = {
   clothesSize: [
-    { value: 'S', title: 'S (<50kg)' },
-    { value: 'M', title: 'M (50-60kg)' },
-    { value: 'L', title: 'L (60-70kg)' },
-    { value: 'XL', title: 'XL (<80kg)' },
-    { value: 'XXL', title: 'XXL (>80kg)' },
+    { value: 'S', title: 'S|< 50 kg' },
+    { value: 'M', title: 'M|50-60 kg' },
+    { value: 'L', title: 'L|60-70 kg' },
+    { value: 'XL', title: 'XL|< 80 kg' },
+    { value: 'XXL', title: 'XXL|> 80 kg' },
     { value: 'Other', title: 'Khác' },
   ],
   // eslint-disable-next-line prefer-spread
@@ -38,11 +38,11 @@ const FORM_MODELS = {
     { value: 'gt3', title: 'trên 3 tháng' },
   ],
   paymentLevel: [
-    { value: '500000', title: 'Tiền cọc: 500.000đ' },
-    { value: '750000', title: 'Sinh viên, thu nhập dưới 3 triệu: 750.000đ' },
-    { value: '1100000', title: 'Thu nhập 3-5 triệu: 1.100.000đ' },
-    { value: '1300000', title: 'Thu nhập trên 5-7 triệu: 1.300.000đ' },
-    { value: '1500000', title: 'Thu nhập trên 7 triệu: 1.500.000đ' },
+    { value: '500000', title: 'Tiền cọc|500.000đ' },
+    { value: '750000', title: 'Sinh viên, thu nhập dưới 3 triệu|750.000đ' },
+    { value: '1100000', title: 'Thu nhập 3-5 triệu|1.100.000đ' },
+    { value: '1300000', title: 'Thu nhập trên 5-7 triệu|1.300.000đ' },
+    { value: '1500000', title: 'Thu nhập trên 7 triệu|1.500.000đ' },
   ],
   paymentMethod: [
     { value: 'BANK', title: 'Chuyển khoản trực tiếp cho BTC' },
@@ -178,9 +178,14 @@ export default function FormPage() {
                   className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
                   name="nationalId"
                   placeholder="261506123"
-                  validation={{ required: true }}
+                  validation={{
+                    required: true,
+                    pattern: {
+                      value: /^[0-9]{9,12}$/,
+                    },
+                  }}
                 />
-                <FieldError name="fullName" className="error-message" />
+                <FieldError name="nationalId" className="error-message" />
               </div>
               <div className="flex flex-col mt-8">
                 <Label name="phoneNumber" className="text-lg">
@@ -192,7 +197,7 @@ export default function FormPage() {
                   placeholder="0913173626"
                   validation={{ required: true }}
                 />
-                <FieldError name="fullName" className="error-message" />
+                <FieldError name="phoneNumber" className="error-message" />
               </div>
               <div className="flex flex-col mt-8">
                 <Label className="text-lg">Ngày sinh</Label>
@@ -201,18 +206,24 @@ export default function FormPage() {
                     className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
                     name="dayOfBirth"
                     placeholder="ngày"
+                    max={31}
+                    min={1}
                     validation={{ required: true }}
                   />
                   <NumberField
                     className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
                     name="monthOfBirth"
                     placeholder="tháng"
+                    max={12}
+                    min={1}
                     validation={{ required: true }}
                   />
                   <NumberField
                     className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
                     name="yearOfBirth"
                     placeholder="năm"
+                    max={2010}
+                    min={1980}
                     validation={{ required: true }}
                   />
                 </div>
@@ -240,9 +251,10 @@ export default function FormPage() {
           <hr className="mt-8 bg-gray-700" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
             <div>
-              <h3 className="text-lg font-semibold">Thông tin nhóm lại</h3>
+              <h3 className="text-lg font-semibold">Thông tin nhóm</h3>
               <span className="text-gray-500 text-opacity-75">
-                Nhóm nhỏ, thời gian bạn sinh hoạt tại Ban thanh niên Gia Định
+                Chọn nhóm nhỏ bạn đang sinh hoạt, thời gian bạn nhóm lại tại Ban
+                thanh niên Gia Định
               </span>
             </div>
             <div className="">
@@ -268,9 +280,9 @@ export default function FormPage() {
           <hr className="mt-8 bg-gray-700" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
             <div>
-              <h3 className="text-lg font-semibold">Lệ Phí</h3>
+              <h3 className="text-lg font-semibold">Lệ Phí & Dâng Hiến</h3>
               <span className="text-gray-500 text-opacity-75">
-                Thông tin đóng cọc, cách đóng lệ phí
+                Thông tin đóng cọc, cách đóng lệ phí, và dâng hiến cho kì trại
               </span>
             </div>
             <div className="">
