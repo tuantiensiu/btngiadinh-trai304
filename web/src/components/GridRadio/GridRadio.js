@@ -41,7 +41,8 @@ const GridRadio = ({
             'rounded',
             'p-2',
             'h-16',
-            'text-xl',
+            'text-md',
+            'lg:text-xl',
             {
               'bg-green-500': selected === index,
               'bg-gray-600': selected !== index,
