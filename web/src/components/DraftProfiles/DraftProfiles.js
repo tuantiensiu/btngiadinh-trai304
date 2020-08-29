@@ -78,20 +78,18 @@ const metaTitle = (model, metaValue) => {
 }
 
 const timeTag = (datetime) => {
-  return dayjs().locale('vi').from(datetime)
+  return dayjs().locale('vi').from(dayjs(datetime))
 }
 
 const currency = (amount) => {
-  const formatter = new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-  })
-
-  return formatter.format(amount)
-}
-
-const checkboxInputTag = (checked) => {
-  return <input type="checkbox" checked={checked} disabled />
+  if (amount > 0) {
+    const formatter = new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    })
+    return formatter.format(amount)
+  }
+  return null
 }
 
 const DraftProfilesList = ({ draftProfiles }) => {

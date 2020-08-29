@@ -64,7 +64,7 @@ export default function FormPage() {
   const { addMessage } = useFlash()
   const [register, { loading }] = useMutation(CAMP_REGISTER, {
     onCompleted: (data) => {
-      navigate(routes.campPostSubmit(data))
+      navigate(routes.campPostSubmit(data.campRegister.id))
       addMessage('Đăng ký thành công!', { classes: 'rw-flash-success' })
     },
   })
@@ -81,6 +81,7 @@ export default function FormPage() {
     active: true, // Is the form active?
     completed: false, // Is the form completed payment
     status: 'NO_PAYMENT',
+    amount: 0,
   })
 
   const onSubmit = (data) => {
@@ -115,9 +116,6 @@ export default function FormPage() {
     <Lottie
       style={{
         position: 'absolute',
-        // width: 10
-        // height: 10 * unit,
-        // right: -2 * unit,
       }}
       options={{
         loop: false,
