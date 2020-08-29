@@ -1,7 +1,12 @@
 import { useState } from 'react'
 import classNames from 'classnames'
 
-const GridRadio = ({ list = [], cols = 3, onSelect = () => {} }) => {
+const GridRadio = ({
+  list = [],
+  cols = 3,
+  onSelect = () => {},
+  titleProp = 'title',
+}) => {
   const [selected, setSelected] = useState(0)
   const switchRadio = (index) => {
     console.log(index)
@@ -14,7 +19,7 @@ const GridRadio = ({ list = [], cols = 3, onSelect = () => {} }) => {
         ['grid-cols-' + cols]: true,
       })}
     >
-      {list.map((size, index) => (
+      {list.map((item, index) => (
         <span
           onClick={() => switchRadio(index)}
           key={index}
@@ -23,7 +28,7 @@ const GridRadio = ({ list = [], cols = 3, onSelect = () => {} }) => {
             'bg-gray-600': selected !== index,
           })}
         >
-          {size}
+          {item[titleProp]}
         </span>
       ))}
     </div>

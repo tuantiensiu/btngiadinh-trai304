@@ -20,13 +20,42 @@ const CAMP_REGISTER = gql`
     }
   }
 `
+const FORM_MODELS = {
+  clothesSize: [
+    { value: 'S', title: 'S (<50kg)' },
+    { value: 'M', title: 'M (50-60kg)' },
+    { value: 'L', title: 'L (60-70kg)' },
+    { value: 'XL', title: 'XL (<80kg)' },
+    { value: 'XXL', title: 'XXL (>80kg)' },
+    { value: 'Other', title: 'Khác' },
+  ],
+  // eslint-disable-next-line prefer-spread
+  groups: Array.apply(null, { length: 15 })
+    .map(Number.call, Number)
+    .map((i) => ({ value: i + 1, title: i + 1 })),
+  joinAge: [
+    { value: 'lt3', title: 'Dưới 3 tháng' },
+    { value: 'gt3', title: 'trên 3 tháng' },
+  ],
+  paymentLevel: [
+    { value: '500000', title: 'Tiền cọc: 500.000đ' },
+    { value: '750000', title: 'Sinh viên, thu nhập dưới 3 triệu: 750.000đ' },
+    { value: '1100000', title: 'Thu nhập 3-5 triệu: 1.100.000đ' },
+    { value: '1300000', title: 'Thu nhập trên 5-7 triệu: 1.300.000đ' },
+    { value: '1500000', title: 'Thu nhập trên 7 triệu: 1.500.000đ' },
+  ],
+  paymentMethod: [
+    { value: 'BANK', title: 'Chuyển khoản trực tiếp cho BTC' },
+    { value: 'GROUP_LEADER', title: 'Nộp tiền mặt trực tiếp cho nhóm trưởng' },
+    { value: 'MANAGER', title: 'Nộp tiền mặt trực tiếp cho thủ quỹ' },
+  ],
+}
 
 export default function FormPage() {
   const { addMessage } = useFlash()
   const [register] = useMutation(CAMP_REGISTER, {
     onCompleted: (data) => {
-      navigate(routes.campPostSubmit())
-      console.log(`Response: `, data)
+      navigate(routes.campPostSubmit(data))
       addMessage('Đăng ký thành công!', { classes: 'rw-flash-success' })
     },
   })
@@ -34,14 +63,24 @@ export default function FormPage() {
   const [meta, setMeta] = useState({
     clothesSize: 'M',
     group: 1,
-    joinAge: 'trên 3 tháng',
-    paymentLevel: 'Tiền cọc: 400.000đ',
-    offering: '0',
-    paymentMethod: 'Nộp trực tiếp cho Ban Tổ Chức',
+    joinAge: 'lt3',
+    paymentLevel: '500000',
+    offering: 0,
+    paymentMethod: 'BANK',
     season: new Date().getFullYear() + '',
+    sms: false, // Is sms sent?
+    active: true, // Is the form active?
+    completed: false, // Is the form completed payment
+    status: 'NO_PAYMENT',
   })
 
   const onSubmit = (data) => {
+    // Switch to custom value
+    if (meta.clothesSize === 'Other') {
+      meta.clothesSize = data.clothesSize
+    }
+    // Map meta input
+    meta.offering = data.offering
     register({
       variables: {
         input: {
@@ -60,7 +99,7 @@ export default function FormPage() {
   }
 
   const onChangeRadio = (key) => (value) => {
-    setMeta({ ...meta, [key]: value })
+    setMeta({ ...meta, [key]: value.value })
   }
 
   return (
@@ -159,24 +198,21 @@ export default function FormPage() {
                 <Label className="text-lg">Ngày sinh</Label>
                 <div className="grid grid-cols-3 gap-2 mt-2">
                   <NumberField
-                    className="h-16 rounded text-2xl p-4 mt-2"
-                    type="text"
+                    className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
                     name="dayOfBirth"
-                    placeholder="31"
+                    placeholder="ngày"
                     validation={{ required: true }}
                   />
                   <NumberField
-                    className="h-16 rounded text-2xl p-4 mt-2"
-                    type="text"
+                    className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
                     name="monthOfBirth"
-                    placeholder="04"
+                    placeholder="tháng"
                     validation={{ required: true }}
                   />
                   <NumberField
-                    className="h-16 rounded text-2xl p-4 mt-2"
-                    type="text"
+                    className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
                     name="yearOfBirth"
-                    placeholder="1996"
+                    placeholder="năm"
                     validation={{ required: true }}
                   />
                 </div>
@@ -184,17 +220,11 @@ export default function FormPage() {
               <div className="flex flex-col mt-8">
                 <label className="text-lg">Size áo</label>
                 <GridRadio
-                  list={[
-                    'S (<50kg)',
-                    'M (50-60kg)',
-                    'L (60-70kg)',
-                    'XL (<80kg)',
-                    'XXL (>80kg)',
-                    'Khác',
-                  ]}
+                  list={FORM_MODELS.clothesSize}
                   onSelect={(value) => onChangeRadio('clothesSize')(value)}
+                  cols={2}
                 />
-                {meta.clothesSize === 'Khác' && (
+                {meta.clothesSize === 'Other' && (
                   <TextField
                     name="clothesSize"
                     className="input h-16 bg-gray-300 rounded text-2xl p-4 mt-2"
@@ -220,9 +250,7 @@ export default function FormPage() {
                 <label className="text-lg">Nhóm nhỏ</label>
                 <GridRadio
                   // eslint-disable-next-line prefer-spread
-                  list={Array.apply(null, { length: 15 })
-                    .map(Number.call, Number)
-                    .map((i) => i + 1)}
+                  list={FORM_MODELS.groups}
                   cols={5}
                   onSelect={(value) => onChangeRadio('group')(value)}
                 />
@@ -230,7 +258,7 @@ export default function FormPage() {
               <div className="flex flex-col mt-8">
                 <label className="text-lg">Thời gian nhóm lại</label>
                 <GridRadio
-                  list={['Dưới 3 tháng', 'trên 3 tháng']}
+                  list={FORM_MODELS.joinAge}
                   cols={2}
                   onSelect={(value) => onChangeRadio('joinAge')(value)}
                 />
@@ -249,22 +277,15 @@ export default function FormPage() {
               <div className="flex flex-col">
                 <label className="text-lg">Mức lệ phí</label>
                 <GridRadio
-                  list={[
-                    'Tiền cọc: 500.000đ',
-                    'Sinh viên, thu nhập dưới 3 triệu: 750.000đ',
-                    'Thu nhập 3-5 triệu: 1.100.000đ',
-                    'Thu nhập trên 5-7 triệu: 1.300.000đ',
-                    'Thu nhập trên 7 triệu: 1.500.000đ',
-                  ]}
+                  list={FORM_MODELS.paymentLevel}
                   cols={1}
                   onSelect={(value) => onChangeRadio('paymentLevel')(value)}
                 />
               </div>
               <div className="flex flex-col mt-8">
                 <label className="text-lg">Dâng hiến:</label>
-                <input
-                  className="h-16 rounded text-2xl p-4 mt-2"
-                  type="text"
+                <NumberField
+                  className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
                   name="phoneNumber"
                   placeholder="Nhập số tiền dâng..."
                 />
@@ -272,10 +293,7 @@ export default function FormPage() {
               <div className="flex flex-col mt-8">
                 <label className="text-lg">Hình thức nộp lệ phí</label>
                 <GridRadio
-                  list={[
-                    'Chuyển khoản trực tiếp cho BTC',
-                    'Nộp tiền mặt trực tiếp cho nhóm trưởng',
-                  ]}
+                  list={FORM_MODELS.paymentMethod}
                   cols={1}
                   onSelect={(value) => onChangeRadio('paymentMethod')(value)}
                 />
