@@ -10,6 +10,9 @@ import {
   NumberField,
 } from '@redwoodjs/forms'
 
+import Lottie from 'lottie-react-web'
+import animation from './form-submitting.json'
+
 import GridRadio from 'src/components/GridRadio'
 import gql from 'graphql-tag'
 
@@ -59,7 +62,7 @@ const FORM_MODELS = {
 
 export default function FormPage() {
   const { addMessage } = useFlash()
-  const [register] = useMutation(CAMP_REGISTER, {
+  const [register, { loading }] = useMutation(CAMP_REGISTER, {
     onCompleted: (data) => {
       navigate(routes.campPostSubmit(data))
       addMessage('Đăng ký thành công!', { classes: 'rw-flash-success' })
@@ -108,7 +111,20 @@ export default function FormPage() {
     setMeta({ ...meta, [key]: value.value })
   }
 
-  return (
+  return loading ? (
+    <Lottie
+      style={{
+        position: 'absolute',
+        // width: 10
+        // height: 10 * unit,
+        // right: -2 * unit,
+      }}
+      options={{
+        loop: false,
+        animationData: animation,
+      }}
+    />
+  ) : (
     <Form onSubmit={onSubmit}>
       <div className="gap-4 h-auto p-4 md:p-8 min-w-full max-w-md mx-auto">
         <div className="max-w-4xl mx-auto">
