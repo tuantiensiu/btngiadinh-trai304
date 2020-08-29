@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import classNames from 'classnames'
 
 const GridCell = ({ text = '' }) => {
@@ -25,6 +25,9 @@ const GridRadio = ({
     setSelected(index)
     onSelect(list[index])
   }
+  useEffect(() => {
+    setSelected(0)
+  }, [list])
   return (
     <div
       className={classNames('grid', 'gap-2', 'mt-2', {
@@ -36,6 +39,7 @@ const GridRadio = ({
           onClick={() => switchRadio(index)}
           key={index}
           className={classNames(
+            'cursor-pointer',
             'flex',
             'text-white',
             'rounded',

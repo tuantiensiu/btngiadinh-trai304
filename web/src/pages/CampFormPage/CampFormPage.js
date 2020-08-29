@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useMutation, useFlash } from '@redwoodjs/web'
+import { useState, useEffect } from 'react'
+import { useMutation } from '@redwoodjs/web'
 import { navigate, routes } from '@redwoodjs/router'
 import {
   Form,
@@ -37,16 +37,12 @@ const FORM_MODELS = {
     .map(Number.call, Number)
     .map((i) => ({ value: i + 1, title: i + 1 })),
   joinAge: [
-    { value: 'lt3', title: 'Dưới 3 tháng' },
     { value: 'gt3', title: 'Trên 3 tháng' },
+    { value: 'lt3', title: 'Dưới 3 tháng' },
   ],
   paymentLevel: {
-    newMember: [
-      { value: '500000', title: 'Tiền cọc|500.000đ' },
-      { value: '1500000', title: 'Bạn mới|1.500.000đ' },
-    ],
-    activeMember: [
-      { value: '500000', title: 'Tiền cọc|500.000đ' },
+    lt3: [{ value: '1500000', title: 'Bạn mới|1.500.000đ' }],
+    gt3: [
       { value: '750000', title: 'Sinh viên, thu nhập dưới 3 triệu|750.000đ' },
       { value: '1100000', title: 'Thu nhập 3-5 triệu|1.100.000đ' },
       { value: '1300000', title: 'Thu nhập trên 5-7 triệu|1.300.000đ' },
@@ -58,9 +54,14 @@ const FORM_MODELS = {
     { value: 'GROUP_LEADER', title: 'Nộp tiền mặt trực tiếp cho nhóm trưởng' },
     { value: 'MANAGER', title: 'Nộp tiền mặt trực tiếp cho thủ quỹ' },
   ],
+  paymentStage: [
+    { value: 'FULL', title: 'Đóng đủ một lần' },
+    { value: 'PARTIAL', title: 'Đặt cọc|500.000đ' },
+  ],
 }
 
 export default function FormPage() {
+  const [done, setDone] = useState(false)
   const [register, { loading }] = useMutation(CAMP_REGISTER, {
     onCompleted: (data) => {
       setTimeout(() => {
@@ -72,7 +73,7 @@ export default function FormPage() {
   const [meta, setMeta] = useState({
     clothesSize: 'M',
     group: 1,
-    joinAge: 'lt3',
+    joinAge: 'gt3',
     paymentLevel: '500000',
     offering: 0,
     paymentMethod: 'BANK',
@@ -106,13 +107,21 @@ export default function FormPage() {
         },
       },
     })
+    setDone(true)
   }
 
   const onChangeRadio = (key) => (value) => {
-    setMeta({ ...meta, [key]: value.value })
+    // Reset paymentlevel when switch joinAge
+    let resetPaymentLevel = {}
+    if (key === 'joinAge') {
+      resetPaymentLevel = {
+        paymentLevel: FORM_MODELS.paymentLevel[value.value][0].value,
+      }
+    }
+    setMeta({ ...meta, [key]: value.value, ...resetPaymentLevel })
   }
 
-  return loading ? (
+  return loading || done ? (
     <Lottie
       style={{
         position: 'absolute',
@@ -289,7 +298,7 @@ export default function FormPage() {
                 <GridRadio
                   // eslint-disable-next-line prefer-spread
                   list={FORM_MODELS.groups}
-                  cols={3}
+                  cols={5}
                   onSelect={(value) => onChangeRadio('group')(value)}
                 />
               </div>
@@ -320,13 +329,17 @@ export default function FormPage() {
               <div className="flex flex-col">
                 <label className="text-lg">Mức lệ phí</label>
                 <GridRadio
-                  list={
-                    meta.joinAge === 'lt3'
-                      ? FORM_MODELS.paymentLevel.newMember
-                      : FORM_MODELS.paymentLevel.activeMember
-                  }
+                  list={FORM_MODELS.paymentLevel[meta.joinAge]}
                   cols={1}
                   onSelect={(value) => onChangeRadio('paymentLevel')(value)}
+                />
+              </div>
+              <div className="flex flex-col mt-8">
+                <label className="text-lg">Quy cách</label>
+                <GridRadio
+                  list={FORM_MODELS.paymentStage}
+                  cols={2}
+                  onSelect={(value) => onChangeRadio('paymentStage')(value)}
                 />
               </div>
               <div className="flex flex-col mt-8">
