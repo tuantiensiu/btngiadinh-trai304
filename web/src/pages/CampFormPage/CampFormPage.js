@@ -37,13 +37,19 @@ const FORM_MODELS = {
     { value: 'lt3', title: 'Dưới 3 tháng' },
     { value: 'gt3', title: 'trên 3 tháng' },
   ],
-  paymentLevel: [
-    { value: '500000', title: 'Tiền cọc|500.000đ' },
-    { value: '750000', title: 'Sinh viên, thu nhập dưới 3 triệu|750.000đ' },
-    { value: '1100000', title: 'Thu nhập 3-5 triệu|1.100.000đ' },
-    { value: '1300000', title: 'Thu nhập trên 5-7 triệu|1.300.000đ' },
-    { value: '1500000', title: 'Thu nhập trên 7 triệu|1.500.000đ' },
-  ],
+  paymentLevel: {
+    newMember: [
+      { value: '500000', title: 'Tiền cọc|500.000đ' },
+      { value: '1500000', title: 'Bạn mới|1.500.000đ' },
+    ],
+    activeMember: [
+      { value: '500000', title: 'Tiền cọc|500.000đ' },
+      { value: '750000', title: 'Sinh viên, thu nhập dưới 3 triệu|750.000đ' },
+      { value: '1100000', title: 'Thu nhập 3-5 triệu|1.100.000đ' },
+      { value: '1300000', title: 'Thu nhập trên 5-7 triệu|1.300.000đ' },
+      { value: '1500000', title: 'Thu nhập trên 7 triệu|1.500.000đ' },
+    ],
+  },
   paymentMethod: [
     { value: 'BANK', title: 'Chuyển khoản trực tiếp cho BTC' },
     { value: 'GROUP_LEADER', title: 'Nộp tiền mặt trực tiếp cho nhóm trưởng' },
@@ -158,7 +164,7 @@ export default function FormPage() {
                 </Label>
                 <TextField
                   name="fullName"
-                  className="input h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
+                  className="input h-14 rounded text-2xl p-4 mt-2 bg-gray-300"
                   errorClassName="input error"
                   type="text"
                   placeholder="Nguyễn Văn A"
@@ -175,7 +181,7 @@ export default function FormPage() {
                   Số CMND
                 </Label>
                 <NumberField
-                  className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
+                  className="h-14 rounded text-2xl p-4 mt-2 bg-gray-300"
                   name="nationalId"
                   placeholder="261506123"
                   validation={{
@@ -192,7 +198,7 @@ export default function FormPage() {
                   Số điện thoại
                 </Label>
                 <TextField
-                  className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
+                  className="h-14 rounded text-2xl p-4 mt-2 bg-gray-300"
                   name="phoneNumber"
                   placeholder="0913173626"
                   validation={{ required: true }}
@@ -203,7 +209,7 @@ export default function FormPage() {
                 <Label className="text-lg">Ngày sinh</Label>
                 <div className="grid grid-cols-3 gap-2 mt-2">
                   <NumberField
-                    className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
+                    className="h-14 rounded text-2xl p-4 mt-2 bg-gray-300"
                     name="dayOfBirth"
                     placeholder="ngày"
                     max={31}
@@ -211,7 +217,7 @@ export default function FormPage() {
                     validation={{ required: true }}
                   />
                   <NumberField
-                    className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
+                    className="h-14 rounded text-2xl p-4 mt-2 bg-gray-300"
                     name="monthOfBirth"
                     placeholder="tháng"
                     max={12}
@@ -219,7 +225,7 @@ export default function FormPage() {
                     validation={{ required: true }}
                   />
                   <NumberField
-                    className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
+                    className="h-14 rounded text-2xl p-4 mt-2 bg-gray-300"
                     name="yearOfBirth"
                     placeholder="năm"
                     max={2010}
@@ -238,7 +244,7 @@ export default function FormPage() {
                 {meta.clothesSize === 'Other' && (
                   <TextField
                     name="clothesSize"
-                    className="input h-16 bg-gray-300 rounded text-2xl p-4 mt-2"
+                    className="input h-14 bg-gray-300 rounded text-2xl p-4 mt-2"
                     errorClassName="input error"
                     type="text"
                     placeholder="Nhập size áo khác"
@@ -263,7 +269,7 @@ export default function FormPage() {
                 <GridRadio
                   // eslint-disable-next-line prefer-spread
                   list={FORM_MODELS.groups}
-                  cols={5}
+                  cols={3}
                   onSelect={(value) => onChangeRadio('group')(value)}
                 />
               </div>
@@ -282,14 +288,23 @@ export default function FormPage() {
             <div>
               <h3 className="text-lg font-semibold">Lệ Phí & Dâng Hiến</h3>
               <span className="text-gray-500 text-opacity-75">
-                Thông tin đóng cọc, cách đóng lệ phí, và dâng hiến cho kì trại
+                Chọn các mức đóng lệ phí, và dâng hiến cho kì trại.
+              </span>
+              <br />
+              <span className="text-pink-500 text-opacity-75">
+                Lưu ý: Nếu bạn nhóm lại cùng thanh niên chưa đủ tối thiểu 3
+                tháng, bạn cần đóng đủ lệ phí của một trại viên.
               </span>
             </div>
             <div className="">
               <div className="flex flex-col">
                 <label className="text-lg">Mức lệ phí</label>
                 <GridRadio
-                  list={FORM_MODELS.paymentLevel}
+                  list={
+                    meta.joinAge === 'lt3'
+                      ? FORM_MODELS.paymentLevel.newMember
+                      : FORM_MODELS.paymentLevel.activeMember
+                  }
                   cols={1}
                   onSelect={(value) => onChangeRadio('paymentLevel')(value)}
                 />
@@ -297,7 +312,7 @@ export default function FormPage() {
               <div className="flex flex-col mt-8">
                 <label className="text-lg">Dâng hiến:</label>
                 <NumberField
-                  className="h-16 rounded text-2xl p-4 mt-2 bg-gray-300"
+                  className="h-14 rounded text-2xl p-4 mt-2 bg-gray-300"
                   name="phoneNumber"
                   placeholder="Nhập số tiền dâng..."
                 />

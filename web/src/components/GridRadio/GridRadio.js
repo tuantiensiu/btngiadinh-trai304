@@ -35,10 +35,17 @@ const GridRadio = ({
         <div
           onClick={() => switchRadio(index)}
           key={index}
-          className={classNames('flex', 'text-white', 'rounded', 'p-2', {
-            'bg-green-500': selected === index,
-            'bg-gray-600': selected !== index,
-          })}
+          className={classNames(
+            'flex',
+            'text-white',
+            'rounded',
+            'p-2',
+            'h-16',
+            {
+              'bg-green-500': selected === index,
+              'bg-gray-600': selected !== index,
+            }
+          )}
         >
           <GridCell text={item[titleProp]} />
         </div>
