@@ -7,6 +7,7 @@ export const schema = gql`
     phoneNumber: String
     birthday: DateTime
     meta: String
+    createdAt: DateTime
   }
 
   type Mutation {

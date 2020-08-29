@@ -92,7 +92,7 @@ export default function FormPage() {
         input: {
           fullName: String(data.fullName),
           nationalId: String(data.nationalId),
-          phoneNumber: String(data.phoneNumber),
+          phoneNumber: data.phoneNumber,
           birthday: new Date(
             data.yearOfBirth,
             data.monthOfBirth,
@@ -201,7 +201,12 @@ export default function FormPage() {
                   className="h-14 rounded text-2xl p-4 mt-2 bg-gray-300"
                   name="phoneNumber"
                   placeholder="0913173626"
-                  validation={{ required: true }}
+                  validation={{
+                    required: true,
+                    pattern: {
+                      value: /^\+?[0-9]{9,14}$/,
+                    },
+                  }}
                 />
                 <FieldError name="phoneNumber" className="error-message" />
               </div>
@@ -313,7 +318,7 @@ export default function FormPage() {
                 <label className="text-lg">Dâng hiến:</label>
                 <NumberField
                   className="h-14 rounded text-2xl p-4 mt-2 bg-gray-300"
-                  name="phoneNumber"
+                  name="offering"
                   placeholder="Nhập số tiền dâng..."
                 />
               </div>

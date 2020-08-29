@@ -2,8 +2,53 @@ import { useMutation, useFlash } from '@redwoodjs/web'
 import { Link, routes } from '@redwoodjs/router'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/vi'
+
+import _ from 'lodash'
 
 dayjs.extend(utc)
+dayjs.extend(relativeTime)
+
+const FORM_MODELS = {
+  clothesSize: [
+    { value: 'S', title: 'S|< 50 kg' },
+    { value: 'M', title: 'M|50-60 kg' },
+    { value: 'L', title: 'L|60-70 kg' },
+    { value: 'XL', title: 'XL|< 80 kg' },
+    { value: 'XXL', title: 'XXL|> 80 kg' },
+    { value: 'Other', title: 'Khác' },
+  ],
+  // eslint-disable-next-line prefer-spread
+  groups: Array.apply(null, { length: 15 })
+    .map(Number.call, Number)
+    .map((i) => ({ value: i + 1, title: i + 1 })),
+  joinAge: [
+    { value: 'lt3', title: 'Dưới 3 tháng' },
+    { value: 'gt3', title: 'Trên 3 tháng' },
+  ],
+  paymentLevel: {
+    newMember: [
+      { value: '500000', title: 'Tiền cọc|500.000đ' },
+      { value: '1500000', title: 'Bạn mới|1.500.000đ' },
+    ],
+    activeMember: [
+      { value: '500000', title: 'Tiền cọc|500.000đ' },
+      { value: '750000', title: 'Sinh viên, thu nhập dưới 3 triệu|750.000đ' },
+      { value: '1100000', title: 'Thu nhập 3-5 triệu|1.100.000đ' },
+      { value: '1300000', title: 'Thu nhập trên 5-7 triệu|1.300.000đ' },
+      { value: '1500000', title: 'Thu nhập trên 7 triệu|1.500.000đ' },
+    ],
+  },
+  paymentMethod: [
+    { value: 'BANK', title: 'Chuyển khoản trực tiếp cho BTC' },
+    { value: 'GROUP_LEADER', title: 'Nộp tiền mặt trực tiếp cho nhóm trưởng' },
+    { value: 'MANAGER', title: 'Nộp tiền mặt trực tiếp cho thủ quỹ' },
+  ],
+}
+
+const mapArrayAsKeys = (params) =>
+  _.chain(params).keyBy('key').mapValues('value').value()
 
 const DELETE_DRAFT_PROFILE_MUTATION = gql`
   mutation DeleteDraftProfileMutation($id: String!) {
@@ -23,12 +68,26 @@ const truncate = (text) => {
   return output
 }
 
+const metaTitle = (model, metaValue) => {
+  for (const meta of FORM_MODELS[model]) {
+    if (meta.value === metaValue) {
+      return meta.title
+    }
+  }
+  return metaValue
+}
+
 const timeTag = (datetime) => {
-  return (
-    <time dateTime={datetime} title={datetime}>
-      {new Date(datetime).toUTCString()}
-    </time>
-  )
+  return dayjs().locale('vi').from(datetime)
+}
+
+const currency = (amount) => {
+  const formatter = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+  })
+
+  return formatter.format(amount)
 }
 
 const checkboxInputTag = (checked) => {
@@ -37,6 +96,14 @@ const checkboxInputTag = (checked) => {
 
 const DraftProfilesList = ({ draftProfiles }) => {
   const { addMessage } = useFlash()
+
+  // Preprocess meta data
+  const table = []
+  for (const profile of draftProfiles) {
+    const obj = mapArrayAsKeys(profile.meta)
+    table.push({ ...profile, ...obj })
+  }
+
   const [deleteDraftProfile] = useMutation(DELETE_DRAFT_PROFILE_MUTATION, {
     onCompleted: () => {
       addMessage('DraftProfile deleted.', { classes: 'rw-flash-success' })
@@ -65,24 +132,26 @@ const DraftProfilesList = ({ draftProfiles }) => {
             <th>Size Áo</th>
             <th>Thời gian nhóm lại</th>
             <th>Mức đóng lệ phí</th>
-            <th>Hình thức đóng phí</th>
             <th>Dâng thêm</th>
+            <th>Hình thức đóng phí</th>
+            <th>Thời gian</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
-          {draftProfiles.map((draftProfile) => (
+          {table.map((draftProfile) => (
             <tr key={draftProfile.id}>
               <td>{truncate(draftProfile.nationalId)}</td>
               <td>{truncate(draftProfile.fullName)}</td>
               <td>{truncate(draftProfile.phoneNumber)}</td>
               <td>{dayjs(draftProfile.birthday).utc().format('DD/MM/YYYY')}</td>
-              <td>{truncate(draftProfile.meta[1].value)}</td>
-              <td>{truncate(draftProfile.meta[0].value)}</td>
-              <td>{truncate(draftProfile.meta[2].value)}</td>
-              <td>{truncate(draftProfile.meta[3].value)}</td>
-              <td>{truncate(draftProfile.meta[5].value)}</td>
-              <td>{truncate(draftProfile.meta[4].value)}</td>
+              <td>{truncate(draftProfile.group)}</td>
+              <td>{truncate(draftProfile.clothesSize)}</td>
+              <td>{metaTitle('joinAge', draftProfile.joinAge)}</td>
+              <td>{currency(draftProfile.paymentLevel)}</td>
+              <td>{currency(draftProfile.offering)}</td>
+              <td>{metaTitle('paymentMethod', draftProfile.paymentMethod)}</td>
+              <td>{timeTag(draftProfiles.createdAt)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link
@@ -99,14 +168,14 @@ const DraftProfilesList = ({ draftProfiles }) => {
                   >
                     Sửa
                   </Link>
-                  {/* <a
+                  <a
                     href="#"
                     title={'Delete draftProfile ' + draftProfile.id}
                     className="rw-button rw-button-small rw-button-red"
                     onClick={() => onDeleteClick(draftProfile.id)}
                   >
                     Xóa
-                  </a> */}
+                  </a>
                 </nav>
               </td>
             </tr>

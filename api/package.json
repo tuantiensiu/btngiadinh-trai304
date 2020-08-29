@@ -5,6 +5,7 @@
   "dependencies": {
     "@redwoodjs/api": "^0.16.0",
     "firebase-admin": "9.0.0",
+    "google-libphonenumber": "3.2.12",
     "twilio": "3.49.0"
   }
 }
