@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useMutation } from '@redwoodjs/web'
 import { navigate, routes } from '@redwoodjs/router'
 import {
@@ -66,7 +66,7 @@ export default function FormPage() {
     onCompleted: (data) => {
       setTimeout(() => {
         navigate(routes.campPostSubmit({ id: data.campRegister.id }))
-      }, 4000)
+      }, 2000)
     },
   })
 
@@ -74,9 +74,10 @@ export default function FormPage() {
     clothesSize: 'M',
     group: 1,
     joinAge: 'gt3',
-    paymentLevel: '500000',
+    paymentLevel: '750000',
     offering: 0,
     paymentMethod: 'BANK',
+    paymentStage: 'FULL',
     season: new Date().getFullYear() + '',
     sms: false, // Is sms sent?
     active: true, // Is the form active?

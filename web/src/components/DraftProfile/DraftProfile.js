@@ -1,5 +1,9 @@
 import { useMutation, useFlash } from '@redwoodjs/web'
 import { Link, routes, navigate } from '@redwoodjs/router'
+import _ from 'lodash'
+
+const mapArrayAsKeys = (params) =>
+  _.chain(params).keyBy('key').mapValues('value').value()
 
 const DELETE_DRAFT_PROFILE_MUTATION = gql`
   mutation DeleteDraftProfileMutation($id: String!) {
@@ -30,6 +34,8 @@ const DraftProfile = ({ draftProfile }) => {
     },
   })
 
+  draftProfile.meta = mapArrayAsKeys(draftProfile.meta)
+
   const onDeleteClick = (id) => {
     if (confirm('Are you sure you want to delete draftProfile ' + id + '?')) {
       deleteDraftProfile({ variables: { id } })
@@ -41,35 +47,23 @@ const DraftProfile = ({ draftProfile }) => {
       <div className="rw-segment">
         <header className="rw-segment-header">
           <h2 className="rw-heading rw-heading-secondary">
-            DraftProfile {draftProfile.id} Detail
+            Đăng ký thành công
           </h2>
         </header>
         <table className="rw-table">
           <tbody>
             <tr>
-              <th>Id</th>
-              <td>{draftProfile.id}</td>
-            </tr>
-            <tr>
-              <th>Full name</th>
+              <th>Họ tên</th>
               <td>{draftProfile.fullName}</td>
             </tr>
             <tr>
-              <th>National id</th>
-              <td>{draftProfile.nationalId}</td>
-            </tr>
-            <tr>
-              <th>Phone number</th>
-              <td>{draftProfile.phoneNumber}</td>
-            </tr>
-            <tr>
-              <th>Birthday</th>
-              <td>{timeTag(draftProfile.birthday)}</td>
+              <th>Thông báo</th>
+              <td>{draftProfile.meta.message}</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <nav className="rw-button-group">
+      {/* <nav className="rw-button-group">
         <Link
           to={routes.editDraftProfile({ id: draftProfile.id })}
           className="rw-button rw-button-blue"
@@ -83,7 +77,7 @@ const DraftProfile = ({ draftProfile }) => {
         >
           Delete
         </a>
-      </nav>
+      </nav> */}
     </>
   )
 }

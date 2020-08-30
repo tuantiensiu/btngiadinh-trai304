@@ -8,6 +8,11 @@ export const QUERY = gql`
       nationalId
       phoneNumber
       birthday
+      createdAt
+      meta {
+        key
+        value
+      }
     }
   }
 `
