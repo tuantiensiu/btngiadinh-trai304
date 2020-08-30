@@ -205,7 +205,7 @@ export default function FormPage() {
                 >
                   Số CMND
                 </Label>
-                <NumberField
+                <TextField
                   className="h-14 rounded text-2xl p-4 mt-2 bg-gray-300"
                   name="nationalId"
                   placeholder="261506123"
