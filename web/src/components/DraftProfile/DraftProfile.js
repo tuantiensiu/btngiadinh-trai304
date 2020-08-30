@@ -56,6 +56,12 @@ const DraftProfile = ({ draftProfile }) => {
               <th>Họ tên</th>
               <td>{draftProfile.fullName}</td>
             </tr>
+            {draftProfile.meta.paymentMethod === 'BANK' && (
+              <tr>
+                <th>Nội dung chuyển khoản</th>
+                <td>{draftProfile.meta.transactionCode}</td>
+              </tr>
+            )}
             <tr>
               <th>Thông báo</th>
               <td>{draftProfile.meta.message}</td>

@@ -166,14 +166,14 @@ const DraftProfilesList = ({ draftProfiles }) => {
                   >
                     Sửa
                   </Link>
-                  <a
+                  {/* <a
                     href="#"
                     title={'Delete draftProfile ' + draftProfile.id}
                     className="rw-button rw-button-small rw-button-red"
                     onClick={() => onDeleteClick(draftProfile.id)}
                   >
                     Xóa
-                  </a>
+                  </a> */}
                 </nav>
               </td>
             </tr>

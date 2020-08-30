@@ -13,6 +13,17 @@ export const formatPhoneNumber = (phoneNumber) => {
   return formattedNumber
 }
 
+const formatCurrency = (amount) => {
+  if (amount > 0) {
+    const formatter = new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    })
+    return formatter.format(amount)
+  }
+  return null
+}
+
 export const template = (s, placeholders) => (payload, ...rest) => {
   let result = s
   for (const place in placeholders) {
@@ -51,7 +62,7 @@ export const getMessage = (formPayload) => {
   )
   // Get last name and toggle upper case
   let lastName = formPayload.data.fullName.split(' ')
-  lastName = (lastName[lastName.length - 1] + '').toUpperCase()
+  lastName = khongdau(lastName[lastName.length - 1] + '').toUpperCase()
   // Left pad the group name as XX string
   const group =
     formPayload.group < 10 ? `0${formPayload.group}` : formPayload.group
@@ -62,6 +73,7 @@ export const getMessage = (formPayload) => {
   // console.log('messageKey', paymentMethod, paymentMethod === 'BANK')
 
   // Template variables
+  const depositeAmount = process.env.DEPOSITE || 500000
   const contact = '0902457367'
   const camp = 'TKMT'
   const action = paymentStage === 'FULL' ? 'nộp lệ phí' : 'nộp cọc'
@@ -76,7 +88,15 @@ export const getMessage = (formPayload) => {
       : ''
   let amount = 0
   try {
-    amount = parseInt(paymentLevel) + parseInt(offering > 0 ? offering : 0)
+    if (paymentStage === 'FULL') {
+      amount = parseInt(paymentLevel) + parseInt(offering > 0 ? offering : 0)
+      amount = formatCurrency(amount)
+    } else {
+      let fullAmount =
+        parseInt(paymentLevel) + parseInt(offering > 0 ? offering : 0)
+      fullAmount = formatCurrency(fullAmount)
+      amount = `${formatCurrency(depositeAmount)}/${fullAmount}`
+    }
   } catch (err) {
     amount = paymentLevel
   }
@@ -84,7 +104,7 @@ export const getMessage = (formPayload) => {
   const deadlineDay = '20/9'
 
   // Temp statement
-  const bankStatement = `${bankProvider}/${bankID}/${bankName}`
+  const bankStatement = `${bankID}/${bankProvider}/${bankName}`
   const transactionCode = `TKMT${group}${lastNationDigit}${lastName}`
   // const s = `${bankStatement}/${transactionCode}`
 
@@ -147,12 +167,17 @@ export const campRegister = async ({ input }) => {
       paymentMethod: meta['paymentMethod'],
       offering: meta['offering'],
     }
-    const [message, variables] = await getMessage(patchedPayload)
+    const [message, { transactionCode }] = await getMessage(patchedPayload)
 
     // Push message into meta storage
     payload.data.meta.create.push({
       key: 'message',
       value: message,
+      type: 'string',
+    })
+    payload.data.meta.create.push({
+      key: 'transactionCode',
+      value: transactionCode,
       type: 'string',
     })
 
