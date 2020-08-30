@@ -12,19 +12,6 @@ const DELETE_DRAFT_PROFILE_MUTATION = gql`
     }
   }
 `
-
-const timeTag = (datetime) => {
-  return (
-    <time dateTime={datetime} title={datetime}>
-      {new Date(datetime).toUTCString()}
-    </time>
-  )
-}
-
-const checkboxInputTag = (checked) => {
-  return <input type="checkbox" checked={checked} disabled />
-}
-
 const DraftProfile = ({ draftProfile }) => {
   const { addMessage } = useFlash()
   const [deleteDraftProfile] = useMutation(DELETE_DRAFT_PROFILE_MUTATION, {
