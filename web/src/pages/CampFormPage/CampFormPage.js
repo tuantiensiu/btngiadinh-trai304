@@ -58,6 +58,10 @@ const FORM_MODELS = {
     { value: 'FULL', title: 'Đóng đủ một lần' },
     { value: 'PARTIAL', title: 'Đặt cọc|500.000đ' },
   ],
+  gender: [
+    { value: 'MALE', title: 'Nam' },
+    { value: 'FEMALE', title: 'Nữ' },
+  ],
 }
 
 export default function FormPage() {
@@ -263,6 +267,14 @@ export default function FormPage() {
                     validation={{ required: true }}
                   />
                 </div>
+              </div>
+              <div className="flex flex-col mt-8">
+                <label className="text-lg">Giới tính</label>
+                <GridRadio
+                  list={FORM_MODELS.gender}
+                  onSelect={(value) => onChangeRadio('gender')(value)}
+                  cols={2}
+                />
               </div>
               <div className="flex flex-col mt-8">
                 <label className="text-lg">Size áo</label>
