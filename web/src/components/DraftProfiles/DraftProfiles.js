@@ -78,7 +78,7 @@ const metaTitle = (model, metaValue) => {
 }
 
 const timeTag = (datetime) => {
-  return dayjs().locale('vi').from(dayjs(datetime))
+  return dayjs(datetime).locale('vi').fromNow()
 }
 
 const currency = (amount) => {
@@ -149,7 +149,7 @@ const DraftProfilesList = ({ draftProfiles }) => {
               <td>{currency(draftProfile.paymentLevel)}</td>
               <td>{currency(draftProfile.offering)}</td>
               <td>{metaTitle('paymentMethod', draftProfile.paymentMethod)}</td>
-              <td>{timeTag(draftProfiles.createdAt)}</td>
+              <td>{timeTag(draftProfile.createdAt)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link
