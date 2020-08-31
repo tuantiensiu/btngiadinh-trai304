@@ -78,6 +78,7 @@ export default function FormPage() {
     clothesSize: 'M',
     group: 1,
     joinAge: 'gt3',
+    gender: 'MALE',
     paymentLevel: '750000',
     offering: 0,
     paymentMethod: 'BANK',
