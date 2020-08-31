@@ -106,7 +106,7 @@ export default function FormPage() {
           phoneNumber: data.phoneNumber,
           birthday: new Date(
             data.yearOfBirth,
-            data.monthOfBirth,
+            data.monthOfBirth - 1,
             data.dayOfBirth
           ),
           meta: JSON.stringify(meta),

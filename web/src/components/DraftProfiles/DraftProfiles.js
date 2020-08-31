@@ -77,6 +77,10 @@ const metaTitle = (model, metaValue) => {
   return metaValue
 }
 
+const birthdayTag = (birthday) => {
+  return dayjs(birthday).format('DD/MM/YYYY')
+}
+
 const timeTag = (datetime) => {
   return dayjs(datetime).locale('vi').fromNow()
 }
@@ -142,7 +146,7 @@ const DraftProfilesList = ({ draftProfiles }) => {
               <td>{truncate(draftProfile.nationalId)}</td>
               <td>{truncate(draftProfile.fullName)}</td>
               <td>{truncate(draftProfile.phoneNumber)}</td>
-              <td>{dayjs(draftProfile.birthday).utc().format('DD/MM/YYYY')}</td>
+              <td>{birthdayTag(draftProfile.birthday)}</td>
               <td>{truncate(draftProfile.group)}</td>
               <td>{truncate(draftProfile.clothesSize)}</td>
               <td>{metaTitle('joinAge', draftProfile.joinAge)}</td>
