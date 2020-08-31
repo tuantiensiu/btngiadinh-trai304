@@ -126,8 +126,7 @@ export default function FormPage() {
     setMeta({ ...meta, [key]: value.value, ...resetPaymentLevel })
   }
 
-  // return loading || done ? (
-  return true ? (
+  return loading || done ? (
     <div className="flex justify-center">
       <Lottie
         style={{
