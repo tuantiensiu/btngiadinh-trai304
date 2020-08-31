@@ -126,17 +126,21 @@ export default function FormPage() {
     setMeta({ ...meta, [key]: value.value, ...resetPaymentLevel })
   }
 
-  return loading || done ? (
-    <Lottie
-      style={{
-        position: 'absolute',
-        width: '100vw',
-      }}
-      options={{
-        loop: false,
-        animationData: animation,
-      }}
-    />
+  // return loading || done ? (
+  return true ? (
+    <div className="flex justify-center">
+      <Lottie
+        style={{
+          position: 'absolute',
+          width: '100%',
+        }}
+        options={{
+          loop: true,
+          animationData: animation,
+        }}
+      />
+      <p className="self-center p-8">Đang nộp đơn...</p>
+    </div>
   ) : (
     <Form onSubmit={onSubmit}>
       <div className="gap-4 h-auto p-4 md:p-8 min-w-full max-w-md mx-auto">
