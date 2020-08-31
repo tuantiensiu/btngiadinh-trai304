@@ -56,21 +56,21 @@ const DraftProfile = ({ draftProfile }) => {
           </tbody>
         </table>
       </div>
-      {/* <nav className="rw-button-group">
+      <nav className="rw-button-group">
         <Link
           to={routes.editDraftProfile({ id: draftProfile.id })}
           className="rw-button rw-button-blue"
         >
-          Edit
+          Sửa
         </Link>
         <a
           href="#"
           className="rw-button rw-button-red"
           onClick={() => onDeleteClick(draftProfile.id)}
         >
-          Delete
+          Xóa
         </a>
-      </nav> */}
+      </nav>
     </>
   )
 }
