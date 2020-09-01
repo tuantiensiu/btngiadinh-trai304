@@ -48,10 +48,10 @@ export const sendSMS = async (phoneNumber, message) => {
     SecretKey: process.env.SMS_SECRETKEY || `192A989308B9820146A17F07164A94`,
     SmsType: `8`,
   })
-  // console.log(baseURL, params.toString())
-  if (process.env.SMS_ENABLED === true) {
-    return axios.post(baseURL, params.toString())
-  }
+  console.log(baseURL, params.toString())
+  // if (process.env.SMS_ENABLED === true) {
+  return axios(baseURL + '?' + params.toString())
+  // }
 }
 
 export const getMessage = (formPayload) => {
@@ -104,14 +104,14 @@ export const getMessage = (formPayload) => {
   const deadlineDay = '20/9'
 
   // Temp statement
-  const bankStatement = `${bankID}/${bankProvider}/${bankName}`
+  const bankStatement =
+    paymentMethod === 'BANK' ? `${bankID}/${bankProvider}/${bankName}` : ''
   const transactionCode = `TKMT${group}${lastNationDigit}${lastName}`
   // const s = `${bankStatement}/${transactionCode}`
 
   const messageTemplates = {
-    // DEMO: `Cam on ban da su dung dich vu tai {s}. Hay giup chung toi cai thien chat luong bang cach danh gia theo link ben duoi. Xin cam on Quy khach. {url}`,
-    BANK: `Bạn đã đăng ký {camp}. Vui lòng {action} {amount} qua STK: {bankStatement},  nội dung CK: {transactionCode} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}.  Chi tiết liên hệ {contact}.`,
-    PEOPLE: `Bạn đã đăng ký {camp}. Vui lòng {action} cho {who} {amount} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}.  Chi tiết liên hệ {contact}.`,
+    BANK: `Bạn đã đăng ký {camp}. Vui lòng {action} {amount} qua STK: {bankStatement},nội dung CK: {transactionCode} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
+    PEOPLE: `Bạn đã đăng ký {camp}. Vui lòng {action} cho {who} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}.  Chi tiết liên hệ {contact}.`,
   }
 
   const variables = {
