@@ -82,7 +82,7 @@ export const getMessage = (formPayload) => {
   const bankName = `TRUONG THANH NHU NGOC`
   const who =
     paymentMethod !== 'BANK'
-      ? paymentMethod === 'MANAGER'
+      ? paymentMethod === 'GROUP_LEADER'
         ? 'nhóm trưởng'
         : 'thủ quỹ'
       : ''
