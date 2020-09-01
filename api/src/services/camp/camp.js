@@ -48,10 +48,12 @@ export const sendSMS = async (phoneNumber, message) => {
     SecretKey: process.env.SMS_SECRETKEY || `192A989308B9820146A17F07164A94`,
     SmsType: `8`,
   })
-  console.log(baseURL, params.toString())
-  // if (process.env.SMS_ENABLED === true) {
-  return axios(baseURL + '?' + params.toString())
-  // }
+  // console.log(baseURL, params.toString())
+  if (process.env.SMS_ENABLED === true) {
+    return axios(baseURL + '?' + params.toString())
+  } else {
+    return params
+  }
 }
 
 export const getMessage = (formPayload) => {
