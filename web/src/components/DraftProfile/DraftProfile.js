@@ -63,13 +63,13 @@ const DraftProfile = ({ draftProfile }) => {
         >
           Sửa
         </Link>
-        <a
+        {/* <a
           href="#"
           className="rw-button rw-button-red"
           onClick={() => onDeleteClick(draftProfile.id)}
         >
           Xóa
-        </a>
+        </a> */}
       </nav>
     </>
   )
