@@ -63,8 +63,10 @@ export const getMessage = (formPayload) => {
     formPayload.data.nationalId.length - 1
   )
   // Get last name and toggle upper case
-  let lastName = formPayload.data.fullName.split(' ')
-  lastName = khongdau(lastName[lastName.length - 1] + '').toUpperCase()
+  const lastName = formPayload.data.fullName.split(' ')
+  const lastNameSlug = khongdau(
+    lastName[lastName.length - 1] + ''
+  ).toUpperCase()
   // Left pad the group name as XX string
   const group =
     formPayload.group < 10 ? `0${formPayload.group}` : formPayload.group
@@ -108,7 +110,7 @@ export const getMessage = (formPayload) => {
   // Temp statement
   const bankStatement =
     paymentMethod === 'BANK' ? `${bankID}/${bankProvider}/${bankName}` : ''
-  const transactionCode = `TKMT${group}${lastNationDigit}${lastName}`
+  const transactionCode = `TKMT${group}${lastNationDigit}${lastNameSlug}`
   // const s = `${bankStatement}/${transactionCode}`
 
   const messageTemplates = {
@@ -118,6 +120,7 @@ export const getMessage = (formPayload) => {
 
   const variables = {
     contact,
+    lastName,
     camp,
     action,
     who,
