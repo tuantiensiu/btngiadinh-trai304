@@ -48,7 +48,9 @@ export const sendSMS = async (phoneNumber, message) => {
     SecretKey: process.env.SMS_SECRETKEY || `192A989308B9820146A17F07164A94`,
     SmsType: `8`,
   })
-  return axios(baseURL + '?' + params.toString())
+  const result = await axios(baseURL + '?' + params.toString())
+  console.log(params.toString(), result.data)
+  return result.data
 }
 
 export const getMessage = (formPayload) => {
@@ -185,7 +187,8 @@ export const campRegister = async ({ input }) => {
     // console.log(JSON.stringify(payload, null, 2))
 
     const draftProfile = await db.draftProfile.create(payload)
-    await sendSMS(payload.data.phoneNumber, message)
+    // await sendSMS(payload.data.phoneNumber, message) // Formatted phone number
+    await sendSMS(input.phoneNumber, message)
     return draftProfile
   }
   return null
