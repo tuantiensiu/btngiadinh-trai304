@@ -48,12 +48,7 @@ export const sendSMS = async (phoneNumber, message) => {
     SecretKey: process.env.SMS_SECRETKEY || `192A989308B9820146A17F07164A94`,
     SmsType: `8`,
   })
-  // console.log(baseURL, params.toString())
-  if (process.env.SMS_ENABLED === true) {
-    return axios(baseURL + '?' + params.toString())
-  } else {
-    return params
-  }
+  return axios(baseURL + '?' + params.toString())
 }
 
 export const getMessage = (formPayload) => {
@@ -63,7 +58,8 @@ export const getMessage = (formPayload) => {
     formPayload.data.nationalId.length - 1
   )
   // Get last name and toggle upper case
-  const lastName = formPayload.data.fullName.split(' ')
+  const fullName = formPayload.data.fullName
+  const lastName = fullName.split(' ')
   const lastNameSlug = khongdau(
     lastName[lastName.length - 1] + ''
   ).toUpperCase()
@@ -114,13 +110,13 @@ export const getMessage = (formPayload) => {
   // const s = `${bankStatement}/${transactionCode}`
 
   const messageTemplates = {
-    BANK: `Bạn đã đăng ký {camp}, {lastName}. Vui lòng {action} {amount} qua STK: {bankStatement},nội dung CK: {transactionCode} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
-    PEOPLE: `Bạn đã đăng ký {camp}, {lastName}. Vui lòng {action} {amount} cho {who} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
+    BANK: `Bạn đã đăng ký {camp}, {fullName}. Vui lòng {action} {amount} qua STK: {bankStatement},nội dung CK: {transactionCode} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
+    PEOPLE: `Bạn đã đăng ký {camp}, {fullName}. Vui lòng {action} {amount} cho {who} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
   }
 
   const variables = {
     contact,
-    lastName,
+    fullName,
     camp,
     action,
     who,
