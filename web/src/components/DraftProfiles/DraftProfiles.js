@@ -24,16 +24,12 @@ const FORM_MODELS = {
     .map(Number.call, Number)
     .map((i) => ({ value: i + 1, title: i + 1 })),
   joinAge: [
-    { value: 'lt3', title: 'Dưới 3 tháng' },
     { value: 'gt3', title: 'Trên 3 tháng' },
+    { value: 'lt3', title: 'Dưới 3 tháng' },
   ],
   paymentLevel: {
-    newMember: [
-      { value: '500000', title: 'Tiền cọc|500.000đ' },
-      { value: '1500000', title: 'Bạn mới|1.500.000đ' },
-    ],
-    activeMember: [
-      { value: '500000', title: 'Tiền cọc|500.000đ' },
+    lt3: [{ value: '1500000', title: 'Bạn mới|1.500.000đ' }],
+    gt3: [
       { value: '750000', title: 'Sinh viên, thu nhập dưới 3 triệu|750.000đ' },
       { value: '1100000', title: 'Thu nhập 3-5 triệu|1.100.000đ' },
       { value: '1300000', title: 'Thu nhập trên 5-7 triệu|1.300.000đ' },
@@ -41,9 +37,17 @@ const FORM_MODELS = {
     ],
   },
   paymentMethod: [
-    { value: 'BANK', title: 'Chuyển khoản trực tiếp cho BTC' },
+    { value: 'BANK', title: 'Chuyển khoản trực tiếp cho thủ quỹ' },
     { value: 'GROUP_LEADER', title: 'Nộp tiền mặt trực tiếp cho nhóm trưởng' },
     { value: 'MANAGER', title: 'Nộp tiền mặt trực tiếp cho thủ quỹ' },
+  ],
+  paymentStage: [
+    { value: 'FULL', title: 'Đóng đủ một lần' },
+    { value: 'PARTIAL', title: 'Đặt cọc|500.000đ' },
+  ],
+  gender: [
+    { value: 'MALE', title: 'Nam' },
+    { value: 'FEMALE', title: 'Nữ' },
   ],
 }
 
