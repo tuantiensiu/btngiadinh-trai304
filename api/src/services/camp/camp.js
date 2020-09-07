@@ -3,7 +3,6 @@ import url from 'url'
 import axios from 'axios'
 import khongdau from 'khong-dau'
 import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber'
-import { parseString } from 'xml2js'
 
 import { db } from 'src/lib/db'
 
