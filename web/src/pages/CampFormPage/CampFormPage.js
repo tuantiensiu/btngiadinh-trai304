@@ -164,9 +164,18 @@ export default function FormPage() {
                   * Hoàn trả lệ phí nếu hủy đăng ký: Hết ngày 23/09/2020 (Sau
                   thời điểm này nếu hủy đăng ký sẽ không được hoàn cọc)
                 </li>
-                <li>
+                <li className="mt-2">
                   * Đối tượng được đóng lệ phí theo mức đóng hỗ trợ: Thành viên
                   có thời gian sinh hoạt tại BTN Gia Định trên 3 tháng.
+                </li>
+              </ul>
+              <h2 className="mt-4 text-lg font-semibold">
+                <em>Thời gian & Địa điểm</em>
+              </h2>
+              <ul className="mt-4 text-lg">
+                <li className="mt-2">- Nhà thờ Gia Định: tối 29-30/09/2020</li>
+                <li className="mt-2">
+                  - Resort Unique Kê Gà (Bình Thuận): 02/10/2020-04/10/2020
                 </li>
               </ul>
             </div>
