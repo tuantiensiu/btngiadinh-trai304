@@ -3,6 +3,7 @@ import url from 'url'
 import axios from 'axios'
 import khongdau from 'khong-dau'
 import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber'
+import { parseString } from 'xml2js'
 
 import { db } from 'src/lib/db'
 
@@ -194,4 +195,15 @@ export const campRegister = async ({ input }) => {
     return draftProfile
   }
   return null
+}
+
+export const smsBalance = async () => {
+  const API_URL = 'http://rest.esms.vn/MainService.svc/'
+  const SMS_KEY = process.env.SMS_KEY || '3CA9D28C3975CDD621E54083012B54'
+  const SMS_SECRET = process.env.SMS_SECRET || '192A989308B9820146A17F07164A94'
+
+  const url = `${API_URL}/xml/GetBalance/${SMS_KEY}/${SMS_SECRET}`
+  const balanceResponse = await axios(url)
+  const balance = balanceResponse.data
+  return balance.Balance
 }

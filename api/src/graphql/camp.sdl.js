@@ -10,6 +10,10 @@ export const schema = gql`
     createdAt: DateTime
   }
 
+  type Query {
+    smsBalance: Int!
+  }
+
   type Mutation {
     campRegister(input: CreateCampRegisterInput!): DraftProfile
   }
