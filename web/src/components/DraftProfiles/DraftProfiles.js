@@ -130,6 +130,7 @@ const DraftProfilesList = ({ draftProfiles }) => {
       <table className="rw-table">
         <thead>
           <tr>
+            <th>STT</th>
             <th>CMND</th>
             <th>Họ và tên</th>
             <th>Số điện thoại</th>
@@ -145,8 +146,9 @@ const DraftProfilesList = ({ draftProfiles }) => {
           </tr>
         </thead>
         <tbody>
-          {table.map((draftProfile) => (
+          {table.map((draftProfile, index) => (
             <tr key={draftProfile.id}>
+              <td>{index + 1}</td>
               <td>{truncate(draftProfile.nationalId)}</td>
               <td>{truncate(draftProfile.fullName)}</td>
               <td>{truncate(draftProfile.phoneNumber)}</td>
