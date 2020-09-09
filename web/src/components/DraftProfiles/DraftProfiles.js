@@ -120,14 +120,14 @@ const DraftProfilesList = ({ draftProfiles }) => {
     },
   })
 
-  const onDeleteClick = (id) => {
-    if (confirm('Are you sure you want to delete draftProfile ' + id + '?')) {
-      deleteDraftProfile({
-        variables: { id },
-        refetchQueries: ['DRAFT_PROFILES'],
-      })
-    }
-  }
+  // const onDeleteClick = (id) => {
+  //   if (confirm('Bạn có chắc chắn xóa hồ sơ của ' + id + '?')) {
+  //     deleteDraftProfile({
+  //       variables: { id },
+  //       refetchQueries: ['DRAFT_PROFILES'],
+  //     })
+  //   }
+  // }
 
   return (
     <div className="rw-segment rw-table-wrapper-responsive">
@@ -171,24 +171,24 @@ const DraftProfilesList = ({ draftProfiles }) => {
                   <Link
                     to={routes.draftProfile({ id: draftProfile.id })}
                     title={'Xem chi tiết thông tin ' + draftProfile.fullName}
-                    className="rw-button rw-button-small"
+                    className="rw-button rw-button-large"
                   >
                     Xem
                   </Link>
                   <Link
                     to={routes.editMeta({ id: draftProfile.metaKey.amount.id })}
                     title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
-                    className="rw-button rw-button-small"
+                    className="rw-button rw-button-large"
                   >
-                    Phí
+                    Nộp
                   </Link>
-                  <Link
+                  {/* <Link
                     to={routes.editDraftProfile({ id: draftProfile.id })}
                     title={'Sửa hồ sơ gốc của ' + draftProfile.fullName}
                     className="rw-button rw-button-small rw-button-blue"
                   >
                     Sửa
-                  </Link>
+                  </Link> */}
                   {/* <a
                     href="#"
                     title={'Delete draftProfile ' + draftProfile.id}

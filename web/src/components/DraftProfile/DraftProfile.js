@@ -68,7 +68,7 @@ const currency = (amount) => {
 const metaTitle = (model, metaValue) => {
   for (const meta of FORM_MODELS[model]) {
     if (meta.value === metaValue) {
-      return meta.title
+      return meta.title.replace('|', ' - ')
     }
   }
   return metaValue
@@ -76,54 +76,120 @@ const metaTitle = (model, metaValue) => {
 
 const DraftProfile = ({ draftProfile }) => {
   const { addMessage } = useFlash()
-  const [deleteDraftProfile] = useMutation(DELETE_DRAFT_PROFILE_MUTATION, {
-    onCompleted: () => {
-      navigate(routes.draftProfiles())
-      addMessage('DraftProfile deleted.', { classes: 'rw-flash-success' })
-    },
-  })
+  const [deleteDraftProfile, { loading }] = useMutation(
+    DELETE_DRAFT_PROFILE_MUTATION,
+    {
+      onCompleted: () => {
+        navigate(routes.draftProfiles())
+        addMessage('DraftProfile deleted.', { classes: 'rw-flash-success' })
+      },
+    }
+  )
 
-  draftProfile.metaKey = {}
-  for (const meta of draftProfile.meta) {
-    draftProfile.metaKey[meta.key] = meta
+  if (!loading) {
+    draftProfile.metaKey = {}
+    for (const meta of draftProfile.meta) {
+      draftProfile.metaKey[meta.key] = meta
+    }
+
+    draftProfile.meta = mapArrayAsKeys(draftProfile.meta)
   }
 
-  draftProfile.meta = mapArrayAsKeys(draftProfile.meta)
-
-  const onDeleteClick = (id) => {
-    if (confirm('Are you sure you want to delete draftProfile ' + id + '?')) {
+  const onDeleteClick = (id, fullName) => {
+    if (confirm('Bạn có chắc chắn muốn xóa hồ sơ của ' + fullName + '?')) {
       deleteDraftProfile({ variables: { id } })
     }
+  }
+
+  if (loading) {
+    return 'Loading...'
   }
 
   return (
     <>
       <div className="rw-segment">
         <header className="rw-segment-header">
-          <h2 className="rw-heading rw-heading-secondary">
-            Đăng ký thành công
-          </h2>
+          <h2 className="rw-heading rw-heading-secondary">Thông tin cá nhân</h2>
         </header>
         <table className="rw-table">
           <tbody>
             <tr>
               <th>Họ tên</th>
               <td>{draftProfile.fullName}</td>
+              <td></td>
             </tr>
             {draftProfile.meta.paymentMethod === 'BANK' && (
               <tr>
                 <th>Nội dung chuyển khoản</th>
                 <td>{draftProfile.meta.transactionCode}</td>
+                <td></td>
               </tr>
             )}
             <tr>
               <th>Giới tính</th>
               <td>{metaTitle('gender', draftProfile.meta.gender)}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>Số điện thoại</th>
+              <td>{draftProfile.phoneNumber}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>CMND</th>
+              <td>{draftProfile.nationalId}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>Size áo</th>
+              <td>{metaTitle('clothesSize', draftProfile.meta.clothesSize)}</td>
+              <td>
+                <Link
+                  to={routes.editMeta({
+                    id: draftProfile.metaKey.paymentLevel.id,
+                  })}
+                  title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
+                  className="rw-button rw-button-small"
+                >
+                  Sửa
+                </Link>
+              </td>
             </tr>
             <tr>
               <th>Quy cách thanh toán</th>
               <td>
                 {metaTitle('paymentStage', draftProfile.meta.paymentStage)}
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>Mức lệ phí</th>
+              <td>{currency(draftProfile.meta.paymentLevel)}</td>
+              <td>
+                <Link
+                  to={routes.editMeta({
+                    id: draftProfile.metaKey.paymentLevel.id,
+                  })}
+                  title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
+                  className="rw-button rw-button-small"
+                >
+                  Sửa
+                </Link>
+              </td>
+            </tr>
+            <tr>
+              <th>Dâng hiến thêm</th>
+              <td>{currency(draftProfile.meta.offering)}</td>
+              <td>
+                <Link
+                  to={routes.editMeta({
+                    id: draftProfile.metaKey.offering.id,
+                  })}
+                  title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
+                  className="rw-button rw-button-small"
+                >
+                  Sửa
+                </Link>
               </td>
             </tr>
             <tr>
@@ -142,6 +208,7 @@ const DraftProfile = ({ draftProfile }) => {
             <tr>
               <th>Thông báo</th>
               <td>{draftProfile.meta.message}</td>
+              <td></td>
             </tr>
           </tbody>
         </table>
@@ -153,13 +220,13 @@ const DraftProfile = ({ draftProfile }) => {
         >
           Sửa
         </Link>
-        {/* <a
+        <a
           href="#"
           className="rw-button rw-button-red"
-          onClick={() => onDeleteClick(draftProfile.id)}
+          onClick={() => onDeleteClick(draftProfile.id, draftProfile.fullName)}
         >
-          Xóa
-        </a> */}
+          Xóa Hồ Sơ
+        </a>
       </nav>
     </>
   )
