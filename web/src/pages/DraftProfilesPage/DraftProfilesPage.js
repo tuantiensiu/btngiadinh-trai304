@@ -5,8 +5,13 @@ import SMSBalanceCell from 'src/components/SmsBalanceCell'
 const DraftProfilesPage = () => {
   return (
     <DraftProfilesLayout>
-      <SMSBalanceCell />
-      <DraftProfilesCell />
+      <div className="mt-8 flex flex-row justify-between">
+        <SMSBalanceCell />
+        <SMSBalanceCell />
+      </div>
+      <div className="mt-8">
+        <DraftProfilesCell />
+      </div>
     </DraftProfilesLayout>
   )
 }

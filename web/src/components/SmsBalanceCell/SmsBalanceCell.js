@@ -12,8 +12,8 @@ export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
 export const Success = ({ smsBalance }) => {
   return (
-    <div>
-      <span>SMS còn lại:: {Math.round(smsBalance / 450)}</span>
+    <div className="bg-green-800 rounded p-2 text-white">
+      <span>SMS còn lại: {Math.round(smsBalance / 450)}</span>
     </div>
   )
 }
