@@ -8,12 +8,12 @@ const MetasLayout = (props) => {
       <header className="rw-header">
         <h1 className="rw-heading rw-heading-primary">
           <Link to={routes.metas()} className="rw-link">
-            Metas
+            Thông tin chi tiết
           </Link>
         </h1>
-        <Link to={routes.newMeta()} className="rw-button rw-button-green">
+        {/* <Link to={routes.newMeta()} className="rw-button rw-button-green">
           <div className="rw-button-icon">+</div> New Meta
-        </Link>
+        </Link> */}
       </header>
       <main className="rw-main">{props.children}</main>
     </div>

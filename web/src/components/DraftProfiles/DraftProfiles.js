@@ -107,6 +107,10 @@ const DraftProfilesList = ({ draftProfiles }) => {
   const table = []
   for (const profile of draftProfiles) {
     const obj = mapArrayAsKeys(profile.meta)
+    profile.metaKey = {}
+    for (const meta of profile.meta) {
+      profile.metaKey[meta.key] = meta
+    }
     table.push({ ...profile, ...obj })
   }
 
@@ -141,8 +145,9 @@ const DraftProfilesList = ({ draftProfiles }) => {
             <th>Mức đóng lệ phí</th>
             <th>Dâng thêm</th>
             <th>Hình thức đóng phí</th>
+            <th>Đã nộp</th>
             <th>Thời gian</th>
-            <th>&nbsp;</th>
+            <th>Hành động&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -159,19 +164,27 @@ const DraftProfilesList = ({ draftProfiles }) => {
               <td>{currency(draftProfile.paymentLevel)}</td>
               <td>{currency(draftProfile.offering)}</td>
               <td>{metaTitle('paymentMethod', draftProfile.paymentMethod)}</td>
+              <td>{currency(draftProfile.amount)}</td>
               <td>{timeTag(draftProfile.createdAt)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link
                     to={routes.draftProfile({ id: draftProfile.id })}
-                    title={'Show draftProfile ' + draftProfile.id + ' detail'}
+                    title={'Xem chi tiết thông tin ' + draftProfile.fullName}
                     className="rw-button rw-button-small"
                   >
                     Xem
                   </Link>
                   <Link
+                    to={routes.editMeta({ id: draftProfile.metaKey.amount.id })}
+                    title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
+                    className="rw-button rw-button-small"
+                  >
+                    Phí
+                  </Link>
+                  <Link
                     to={routes.editDraftProfile({ id: draftProfile.id })}
-                    title={'Edit draftProfile ' + draftProfile.id}
+                    title={'Sửa hồ sơ gốc của ' + draftProfile.fullName}
                     className="rw-button rw-button-small rw-button-blue"
                   >
                     Sửa

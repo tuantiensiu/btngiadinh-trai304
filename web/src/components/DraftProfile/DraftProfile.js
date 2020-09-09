@@ -54,6 +54,17 @@ const DELETE_DRAFT_PROFILE_MUTATION = gql`
   }
 `
 
+const currency = (amount) => {
+  if (amount > 0) {
+    const formatter = new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    })
+    return formatter.format(amount)
+  }
+  return null
+}
+
 const metaTitle = (model, metaValue) => {
   for (const meta of FORM_MODELS[model]) {
     if (meta.value === metaValue) {
@@ -62,6 +73,7 @@ const metaTitle = (model, metaValue) => {
   }
   return metaValue
 }
+
 const DraftProfile = ({ draftProfile }) => {
   const { addMessage } = useFlash()
   const [deleteDraftProfile] = useMutation(DELETE_DRAFT_PROFILE_MUTATION, {
@@ -70,6 +82,11 @@ const DraftProfile = ({ draftProfile }) => {
       addMessage('DraftProfile deleted.', { classes: 'rw-flash-success' })
     },
   })
+
+  draftProfile.metaKey = {}
+  for (const meta of draftProfile.meta) {
+    draftProfile.metaKey[meta.key] = meta
+  }
 
   draftProfile.meta = mapArrayAsKeys(draftProfile.meta)
 
@@ -107,6 +124,19 @@ const DraftProfile = ({ draftProfile }) => {
               <th>Quy cách thanh toán</th>
               <td>
                 {metaTitle('paymentStage', draftProfile.meta.paymentStage)}
+              </td>
+            </tr>
+            <tr>
+              <th>Số tiền đã nộp</th>
+              <td>{currency(draftProfile.meta.amount)}</td>
+              <td>
+                <Link
+                  to={routes.editMeta({ id: draftProfile.metaKey.amount.id })}
+                  title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
+                  className="rw-button rw-button-small"
+                >
+                  Sửa
+                </Link>
               </td>
             </tr>
             <tr>

@@ -5,12 +5,32 @@ import {
   Label,
   TextField,
   Submit,
+  useMutation,
 } from '@redwoodjs/web'
+import { navigate, routes } from '@redwoodjs/router'
+import gql from 'graphql-tag'
+
+const UPDATE_META = gql`
+  mutation UpdateMetaMutation($id: String!, $input: UpdateMetaInput!) {
+    updateMeta(id: $id, input: $input) {
+      id
+    }
+  }
+`
 
 const MetaForm = (props) => {
+  const [update, { loading }] = useMutation(UPDATE_META, {
+    onCompleted: () => {
+      navigate(routes.draftProfile({ id: props.meta?.draftProfileId }))
+    },
+  })
   const onSubmit = (data) => {
-    props.onSave(data, props?.meta?.id)
+    console.log('form', data)
+    update({ variables: { id: props?.meta?.id, input: data } })
+    // props.onSave(data, props?.meta?.id)
   }
+
+  if (loading) return 'Loading...'
 
   return (
     <div className="rw-form-wrapper">
@@ -23,27 +43,11 @@ const MetaForm = (props) => {
         />
 
         <Label
-          name="key"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Key
-        </Label>
-        <TextField
-          name="key"
-          defaultValue={props.meta?.key}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-        <FieldError name="key" className="rw-field-error" />
-
-        <Label
           name="value"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Value
+          Giá trị
         </Label>
         <TextField
           name="value"
@@ -54,41 +58,9 @@ const MetaForm = (props) => {
         />
         <FieldError name="value" className="rw-field-error" />
 
-        <Label
-          name="type"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Type
-        </Label>
-        <TextField
-          name="type"
-          defaultValue={props.meta?.type}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-        <FieldError name="type" className="rw-field-error" />
-
-        <Label
-          name="draftProfileId"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Draft profile id
-        </Label>
-        <TextField
-          name="draftProfileId"
-          defaultValue={props.meta?.draftProfileId}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-        <FieldError name="draftProfileId" className="rw-field-error" />
-
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">
-            Save
+            Lưu
           </Submit>
         </div>
       </Form>

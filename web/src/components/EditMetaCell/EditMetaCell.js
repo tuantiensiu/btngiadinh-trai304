@@ -10,6 +10,9 @@ export const QUERY = gql`
       value
       type
       draftProfileId
+      DraftProfile {
+        fullName
+      }
     }
   }
 `
@@ -39,7 +42,9 @@ export const Success = ({ meta }) => {
   return (
     <div className="rw-segment">
       <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">Edit Meta {meta.id}</h2>
+        <h2 className="rw-heading rw-heading-secondary">
+          Cập nhật chi tiết {meta.key} của {meta.DraftProfile.fullName}
+        </h2>
       </header>
       <div className="rw-segment-main">
         <MetaForm meta={meta} onSave={onSave} error={error} loading={loading} />
