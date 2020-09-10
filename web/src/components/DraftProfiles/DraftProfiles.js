@@ -85,6 +85,10 @@ const birthdayTag = (birthday) => {
   return dayjs(birthday).format('DD/MM/YYYY')
 }
 
+const createdAtTag = (time) => {
+  return dayjs(time).format('HH:mm DD/MM/YYYY')
+}
+
 const timeTag = (datetime) => {
   return dayjs(datetime).locale('vi').fromNow()
 }
@@ -135,17 +139,17 @@ const DraftProfilesList = ({ draftProfiles }) => {
         <thead>
           <tr>
             <th>STT</th>
-            <th>CMND</th>
+            {/* <th>CMND</th> */}
             <th>Họ và tên</th>
             <th>Số điện thoại</th>
             <th>Sinh nhật</th>
-            <th>Nhóm Nhỏ</th>
+            <th>Nhóm</th>
             <th>Size Áo</th>
-            <th>Thời gian nhóm lại</th>
+            {/* <th>Thời gian nhóm lại</th> */}
             <th>Mức đóng lệ phí</th>
             <th>Dâng thêm</th>
-            <th>Hình thức đóng phí</th>
             <th>Đã nộp</th>
+            <th>Hình thức đóng phí</th>
             <th>Thời gian</th>
             <th>Hành động&nbsp;</th>
           </tr>
@@ -154,18 +158,22 @@ const DraftProfilesList = ({ draftProfiles }) => {
           {table.map((draftProfile, index) => (
             <tr key={draftProfile.id}>
               <td>{index + 1}</td>
-              <td>{truncate(draftProfile.nationalId)}</td>
+              {/* <td>{truncate(draftProfile.nationalId)}</td> */}
               <td>{truncate(draftProfile.fullName)}</td>
               <td>{truncate(draftProfile.phoneNumber)}</td>
               <td>{birthdayTag(draftProfile.birthday)}</td>
               <td>{truncate(draftProfile.group)}</td>
               <td>{truncate(draftProfile.clothesSize)}</td>
-              <td>{metaTitle('joinAge', draftProfile.joinAge)}</td>
+              {/* <td>{metaTitle('joinAge', draftProfile.joinAge)}</td> */}
               <td>{currency(draftProfile.paymentLevel)}</td>
               <td>{currency(draftProfile.offering)}</td>
-              <td>{metaTitle('paymentMethod', draftProfile.paymentMethod)}</td>
               <td>{currency(draftProfile.amount)}</td>
-              <td>{timeTag(draftProfile.createdAt)}</td>
+              <td>{metaTitle('paymentMethod', draftProfile.paymentMethod)}</td>
+              <td>
+                <Link to="#" title={timeTag(draftProfile.createdAt)}>
+                  {createdAtTag(draftProfile.createdAt)}
+                </Link>
+              </td>
               <td>
                 <nav className="rw-table-actions">
                   <Link
