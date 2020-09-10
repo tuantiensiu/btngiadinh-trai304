@@ -146,7 +146,7 @@ const DraftProfilesList = ({ draftProfiles }) => {
             <th>Nhóm</th>
             <th>Size Áo</th>
             {/* <th>Thời gian nhóm lại</th> */}
-            <th>Mức đóng lệ phí</th>
+            <th>Mức đóng</th>
             <th>Dâng thêm</th>
             <th>Đã nộp</th>
             <th>Hình thức đóng phí</th>
@@ -168,7 +168,12 @@ const DraftProfilesList = ({ draftProfiles }) => {
               <td>{currency(draftProfile.paymentLevel)}</td>
               <td>{currency(draftProfile.offering)}</td>
               <td>{currency(draftProfile.amount)}</td>
-              <td>{metaTitle('paymentMethod', draftProfile.paymentMethod)}</td>
+              <td>
+                {metaTitle('paymentMethod', draftProfile.paymentMethod).replace(
+                  ' trực tiếp',
+                  ''
+                )}
+              </td>
               <td>
                 <Link to="#" title={timeTag(draftProfile.createdAt)}>
                   {createdAtTag(draftProfile.createdAt)}
@@ -195,7 +200,7 @@ const DraftProfilesList = ({ draftProfiles }) => {
                     title={'Sửa hồ sơ gốc của ' + draftProfile.fullName}
                     className="rw-button rw-button-small rw-button-blue"
                   >
-                    Sửa
+                    SMS
                   </Link> */}
                   {/* <a
                     href="#"

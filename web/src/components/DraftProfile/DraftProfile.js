@@ -74,7 +74,7 @@ const metaTitle = (model, metaValue) => {
   return metaValue
 }
 
-const DraftProfile = ({ draftProfile }) => {
+const DraftProfile = ({ draftProfile: profile }) => {
   const { addMessage } = useFlash()
   const [deleteDraftProfile, { loading }] = useMutation(
     DELETE_DRAFT_PROFILE_MUTATION,
@@ -86,15 +86,6 @@ const DraftProfile = ({ draftProfile }) => {
     }
   )
 
-  if (!loading) {
-    draftProfile.metaKey = {}
-    for (const meta of draftProfile.meta) {
-      draftProfile.metaKey[meta.key] = meta
-    }
-
-    draftProfile.meta = mapArrayAsKeys(draftProfile.meta)
-  }
-
   const onDeleteClick = (id, fullName) => {
     if (confirm('Bạn có chắc chắn muốn xóa hồ sơ của ' + fullName + '?')) {
       deleteDraftProfile({ variables: { id } })
@@ -103,6 +94,16 @@ const DraftProfile = ({ draftProfile }) => {
 
   if (loading) {
     return 'Loading...'
+  }
+
+  let draftProfile = { ...profile }
+  if (!loading) {
+    draftProfile.metaKey = {}
+    for (const meta of draftProfile.meta) {
+      draftProfile.metaKey[meta.key] = meta
+    }
+
+    draftProfile.meta = mapArrayAsKeys(draftProfile.meta)
   }
 
   return (
@@ -138,6 +139,26 @@ const DraftProfile = ({ draftProfile }) => {
             <tr>
               <th>CMND</th>
               <td>{draftProfile.nationalId}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>Nhóm</th>
+              <td>{draftProfile.meta.group}</td>
+              <td>
+                <Link
+                  to={routes.editMeta({
+                    id: draftProfile.metaKey.group.id,
+                  })}
+                  title={'Cập nhật Nhóm cho ' + draftProfile.fullName}
+                  className="rw-button rw-button-small"
+                >
+                  Sửa
+                </Link>
+              </td>
+            </tr>
+            <tr>
+              <th>Thời gian nhóm lại</th>
+              <td>{metaTitle('joinAge', draftProfile.meta.joinAge)}</td>
               <td></td>
             </tr>
             <tr>
