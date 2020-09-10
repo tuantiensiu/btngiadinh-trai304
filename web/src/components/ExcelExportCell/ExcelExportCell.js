@@ -108,6 +108,7 @@ export const Success = ({ draftProfiles }) => {
         'Họ và tên': profile.fullName,
         'Giới tính': metaTitle('gender', meta.gender),
         CMND: "'" + profile.nationalId,
+        'Số điện thoại': profile.phoneNumber.replace('+84', "'0"),
         'Ngày sinh': birthdayTag(profile.birthday),
         'Size áo': meta.clothesSize,
         'Nhóm nhỏ': meta.group,
@@ -123,7 +124,7 @@ export const Success = ({ draftProfiles }) => {
     exportFromJSON({
       data: table,
       fileName: 'tkmt' + dayjs().format('YYYYMMDD-HHmm'),
-      exportType: 'csv',
+      exportType: 'xls',
     })
   }
   return (
