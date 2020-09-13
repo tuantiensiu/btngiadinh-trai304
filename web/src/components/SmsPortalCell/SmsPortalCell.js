@@ -17,6 +17,8 @@ const currency = (amount) => {
       currency: 'VND',
     })
     return formatter.format(amount)
+  } else if (amount === 0) {
+    return 0
   }
   return null
 }
@@ -54,8 +56,8 @@ const SMS_TEMPLATES = {
     `Bạn đã đăng ký {camp}, {fullName}. Vui lòng {action} {amount} cho {who} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
   ],
   byManual: [
-    'BTC chuong trinh {camp} da nhan duoc le phi {amount} tu ban. Chuc ban co ki trai y nghia va phuoc hanh, hay lien he thu quy Nhu Ngoc de nhan bien lai.',
-    'BTC chuong trinh {camp} da nhan duoc le phi {amount}, ban can nop them {negativeBalance} de hoan tat le phi.',
+    'BTC chuong trinh {camp} da nhan duoc le phi {balance} tu ban. Chuc ban co ki trai y nghia va phuoc hanh, hay lien he thu quy Nhu Ngoc de nhan bien lai.',
+    'BTC chuong trinh {camp} da nhan duoc le phi {balance}, ban can nop them {negativeBalance} de hoan tat le phi.',
   ],
 }
 
@@ -84,6 +86,7 @@ export const Success = ({ sms }) => {
   const [selectedSMS, setSelectedSMS] = useState(null)
   const [sendSMSMutation, { loading }] = useMutation(SEND_SMS_MUTATION, {
     onCompleted: () => {
+      alert(`Gửi tin nhắn đến ${profile.fullName} thành công!`)
       navigate(routes.draftProfile({ id: profile.id }))
     },
   })
@@ -94,17 +97,17 @@ export const Success = ({ sms }) => {
   const balance = parseInt(meta.amount) || 0
   const negativeBalance = totalDeposit - balance
   const smsList =
-    sms.value == 'false' ? [khongdau(meta.message)] : JSON.parse(meta.sms)
-
-  console.log(smsList)
+    sms.value == 'false'
+      ? [{ id: null, message: khongdau(meta.message) }]
+      : JSON.parse(meta.sms)
 
   const variables = {
     camp: 'TKMT',
     fullName: profile.fullName,
     amount: currency(meta.amount),
     totalDeposit,
-    balance,
-    negativeBalance: currency(negativeBalance),
+    balance: currency(balance),
+    negativeBalance: currency(negativeBalance || 0),
   }
 
   const SMS_OPTIONS = SMS_TEMPLATES.byManual.map((temp) => {
@@ -122,7 +125,6 @@ export const Success = ({ sms }) => {
         message: selectedSMS.value,
       },
     }
-    console.log(smsParams)
     sendSMSMutation(smsParams)
   }
 
