@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useMutation, useFlash } from '@redwoodjs/web'
+import { useMutation } from '@redwoodjs/web'
 import { navigate, routes } from '@redwoodjs/router'
 import {
   Form,
@@ -37,16 +37,12 @@ const FORM_MODELS = {
     .map(Number.call, Number)
     .map((i) => ({ value: i + 1, title: i + 1 })),
   joinAge: [
-    { value: 'lt3', title: 'Dưới 3 tháng' },
     { value: 'gt3', title: 'Trên 3 tháng' },
+    { value: 'lt3', title: 'Dưới 3 tháng' },
   ],
   paymentLevel: {
-    newMember: [
-      { value: '500000', title: 'Tiền cọc|500.000đ' },
-      { value: '1500000', title: 'Bạn mới|1.500.000đ' },
-    ],
-    activeMember: [
-      { value: '500000', title: 'Tiền cọc|500.000đ' },
+    lt3: [{ value: '1500000', title: 'Bạn mới|1.500.000đ' }],
+    gt3: [
       { value: '750000', title: 'Sinh viên, thu nhập dưới 3 triệu|750.000đ' },
       { value: '1100000', title: 'Thu nhập 3-5 triệu|1.100.000đ' },
       { value: '1300000', title: 'Thu nhập trên 5-7 triệu|1.300.000đ' },
@@ -54,33 +50,45 @@ const FORM_MODELS = {
     ],
   },
   paymentMethod: [
-    { value: 'BANK', title: 'Chuyển khoản trực tiếp cho BTC' },
+    { value: 'BANK', title: 'Chuyển khoản trực tiếp cho thủ quỹ' },
     { value: 'GROUP_LEADER', title: 'Nộp tiền mặt trực tiếp cho nhóm trưởng' },
     { value: 'MANAGER', title: 'Nộp tiền mặt trực tiếp cho thủ quỹ' },
+  ],
+  paymentStage: [
+    { value: 'FULL', title: 'Đóng đủ một lần' },
+    // { value: 'PARTIAL', title: 'Đặt cọc|500.000đ' },
+  ],
+  gender: [
+    { value: 'MALE', title: 'Nam' },
+    { value: 'FEMALE', title: 'Nữ' },
   ],
 }
 
 export default function FormPage() {
-  const { addMessage } = useFlash()
+  const [done, setDone] = useState(false)
   const [register, { loading }] = useMutation(CAMP_REGISTER, {
     onCompleted: (data) => {
-      navigate(routes.campPostSubmit(data))
-      addMessage('Đăng ký thành công!', { classes: 'rw-flash-success' })
+      setTimeout(() => {
+        navigate(routes.campPostSubmit({ id: data.campRegister.id }))
+      }, 2000)
     },
   })
 
   const [meta, setMeta] = useState({
     clothesSize: 'M',
     group: 1,
-    joinAge: 'lt3',
-    paymentLevel: '500000',
+    joinAge: 'gt3',
+    gender: 'MALE',
+    paymentLevel: '750000',
     offering: 0,
     paymentMethod: 'BANK',
+    paymentStage: 'FULL',
     season: new Date().getFullYear() + '',
     sms: false, // Is sms sent?
     active: true, // Is the form active?
     completed: false, // Is the form completed payment
     status: 'NO_PAYMENT',
+    amount: 0,
   })
 
   const onSubmit = (data) => {
@@ -98,32 +106,41 @@ export default function FormPage() {
           phoneNumber: data.phoneNumber,
           birthday: new Date(
             data.yearOfBirth,
-            data.monthOfBirth,
+            data.monthOfBirth - 1,
             data.dayOfBirth
           ),
           meta: JSON.stringify(meta),
         },
       },
     })
+    setDone(true)
   }
 
   const onChangeRadio = (key) => (value) => {
-    setMeta({ ...meta, [key]: value.value })
+    // Reset paymentlevel when switch joinAge
+    let resetPaymentLevel = {}
+    if (key === 'joinAge') {
+      resetPaymentLevel = {
+        paymentLevel: FORM_MODELS.paymentLevel[value.value][0].value,
+      }
+    }
+    setMeta({ ...meta, [key]: value.value, ...resetPaymentLevel })
   }
 
-  return loading ? (
-    <Lottie
-      style={{
-        position: 'absolute',
-        // width: 10
-        // height: 10 * unit,
-        // right: -2 * unit,
-      }}
-      options={{
-        loop: false,
-        animationData: animation,
-      }}
-    />
+  return loading || done ? (
+    <div className="flex justify-center">
+      <Lottie
+        style={{
+          position: 'absolute',
+          width: '100%',
+        }}
+        options={{
+          loop: true,
+          animationData: animation,
+        }}
+      />
+      <p className="self-center p-8">Đang nộp đơn...</p>
+    </div>
   ) : (
     <Form onSubmit={onSubmit}>
       <div className="gap-4 h-auto p-4 md:p-8 min-w-full max-w-md mx-auto">
@@ -147,9 +164,18 @@ export default function FormPage() {
                   * Hoàn trả lệ phí nếu hủy đăng ký: Hết ngày 23/09/2020 (Sau
                   thời điểm này nếu hủy đăng ký sẽ không được hoàn cọc)
                 </li>
-                <li>
+                <li className="mt-2">
                   * Đối tượng được đóng lệ phí theo mức đóng hỗ trợ: Thành viên
                   có thời gian sinh hoạt tại BTN Gia Định trên 3 tháng.
+                </li>
+              </ul>
+              <h2 className="mt-4 text-lg font-semibold">
+                <em>Thời gian & Địa điểm</em>
+              </h2>
+              <ul className="mt-4 text-lg">
+                <li className="mt-2">- Nhà thờ Gia Định: tối 29&30/09/2020</li>
+                <li className="mt-2">
+                  - Resort Unique Kê Gà (Bình Thuận): 02/10/2020-03/10/2020
                 </li>
               </ul>
             </div>
@@ -196,7 +222,7 @@ export default function FormPage() {
                 >
                   Số CMND
                 </Label>
-                <NumberField
+                <TextField
                   className="h-14 rounded text-2xl p-4 mt-2 bg-gray-300"
                   name="nationalId"
                   placeholder="261506123"
@@ -256,6 +282,14 @@ export default function FormPage() {
                 </div>
               </div>
               <div className="flex flex-col mt-8">
+                <label className="text-lg">Giới tính</label>
+                <GridRadio
+                  list={FORM_MODELS.gender}
+                  onSelect={(value) => onChangeRadio('gender')(value)}
+                  cols={2}
+                />
+              </div>
+              <div className="flex flex-col mt-8">
                 <label className="text-lg">Size áo</label>
                 <GridRadio
                   list={FORM_MODELS.clothesSize}
@@ -290,7 +324,7 @@ export default function FormPage() {
                 <GridRadio
                   // eslint-disable-next-line prefer-spread
                   list={FORM_MODELS.groups}
-                  cols={3}
+                  cols={5}
                   onSelect={(value) => onChangeRadio('group')(value)}
                 />
               </div>
@@ -321,13 +355,17 @@ export default function FormPage() {
               <div className="flex flex-col">
                 <label className="text-lg">Mức lệ phí</label>
                 <GridRadio
-                  list={
-                    meta.joinAge === 'lt3'
-                      ? FORM_MODELS.paymentLevel.newMember
-                      : FORM_MODELS.paymentLevel.activeMember
-                  }
+                  list={FORM_MODELS.paymentLevel[meta.joinAge]}
                   cols={1}
                   onSelect={(value) => onChangeRadio('paymentLevel')(value)}
+                />
+              </div>
+              <div className="flex flex-col mt-8">
+                <label className="text-lg">Quy cách</label>
+                <GridRadio
+                  list={FORM_MODELS.paymentStage}
+                  cols={2}
+                  onSelect={(value) => onChangeRadio('paymentStage')(value)}
                 />
               </div>
               <div className="flex flex-col mt-8">

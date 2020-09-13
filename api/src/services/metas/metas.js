@@ -4,6 +4,19 @@ export const metas = () => {
   return db.meta.findMany()
 }
 
+export const metaByKey = async ({ key, profileId }) => {
+  const metaArray = await db.meta.findMany({
+    where: {
+      draftProfileId: profileId,
+      key,
+    },
+  })
+  if (metaArray.length > 0) {
+    return metaArray[0]
+  }
+  return null
+}
+
 export const meta = ({ id }) => {
   return db.meta.findOne({
     where: { id },

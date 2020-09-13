@@ -24,16 +24,12 @@ const FORM_MODELS = {
     .map(Number.call, Number)
     .map((i) => ({ value: i + 1, title: i + 1 })),
   joinAge: [
-    { value: 'lt3', title: 'Dưới 3 tháng' },
     { value: 'gt3', title: 'Trên 3 tháng' },
+    { value: 'lt3', title: 'Dưới 3 tháng' },
   ],
   paymentLevel: {
-    newMember: [
-      { value: '500000', title: 'Tiền cọc|500.000đ' },
-      { value: '1500000', title: 'Bạn mới|1.500.000đ' },
-    ],
-    activeMember: [
-      { value: '500000', title: 'Tiền cọc|500.000đ' },
+    lt3: [{ value: '1500000', title: 'Bạn mới|1.500.000đ' }],
+    gt3: [
       { value: '750000', title: 'Sinh viên, thu nhập dưới 3 triệu|750.000đ' },
       { value: '1100000', title: 'Thu nhập 3-5 triệu|1.100.000đ' },
       { value: '1300000', title: 'Thu nhập trên 5-7 triệu|1.300.000đ' },
@@ -41,9 +37,17 @@ const FORM_MODELS = {
     ],
   },
   paymentMethod: [
-    { value: 'BANK', title: 'Chuyển khoản trực tiếp cho BTC' },
+    { value: 'BANK', title: 'Chuyển khoản trực tiếp cho thủ quỹ' },
     { value: 'GROUP_LEADER', title: 'Nộp tiền mặt trực tiếp cho nhóm trưởng' },
     { value: 'MANAGER', title: 'Nộp tiền mặt trực tiếp cho thủ quỹ' },
+  ],
+  paymentStage: [
+    { value: 'FULL', title: 'Đóng đủ một lần' },
+    { value: 'PARTIAL', title: 'Đặt cọc|500.000đ' },
+  ],
+  gender: [
+    { value: 'MALE', title: 'Nam' },
+    { value: 'FEMALE', title: 'Nữ' },
   ],
 }
 
@@ -77,21 +81,27 @@ const metaTitle = (model, metaValue) => {
   return metaValue
 }
 
+const birthdayTag = (birthday) => {
+  return dayjs(birthday).format('DD/MM/YYYY')
+}
+
+const createdAtTag = (time) => {
+  return dayjs(time).format('HH:mm DD/MM/YYYY')
+}
+
 const timeTag = (datetime) => {
-  return dayjs().locale('vi').from(datetime)
+  return dayjs(datetime).locale('vi').fromNow()
 }
 
 const currency = (amount) => {
-  const formatter = new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-  })
-
-  return formatter.format(amount)
-}
-
-const checkboxInputTag = (checked) => {
-  return <input type="checkbox" checked={checked} disabled />
+  if (amount > 0) {
+    const formatter = new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    })
+    return formatter.format(amount)
+  }
+  return null
 }
 
 const DraftProfilesList = ({ draftProfiles }) => {
@@ -101,6 +111,10 @@ const DraftProfilesList = ({ draftProfiles }) => {
   const table = []
   for (const profile of draftProfiles) {
     const obj = mapArrayAsKeys(profile.meta)
+    profile.metaKey = {}
+    for (const meta of profile.meta) {
+      profile.metaKey[meta.key] = meta
+    }
     table.push({ ...profile, ...obj })
   }
 
@@ -110,72 +124,92 @@ const DraftProfilesList = ({ draftProfiles }) => {
     },
   })
 
-  const onDeleteClick = (id) => {
-    if (confirm('Are you sure you want to delete draftProfile ' + id + '?')) {
-      deleteDraftProfile({
-        variables: { id },
-        refetchQueries: ['DRAFT_PROFILES'],
-      })
-    }
-  }
+  // const onDeleteClick = (id) => {
+  //   if (confirm('Bạn có chắc chắn xóa hồ sơ của ' + id + '?')) {
+  //     deleteDraftProfile({
+  //       variables: { id },
+  //       refetchQueries: ['DRAFT_PROFILES'],
+  //     })
+  //   }
+  // }
 
   return (
     <div className="rw-segment rw-table-wrapper-responsive">
       <table className="rw-table">
         <thead>
           <tr>
-            <th>CMND</th>
+            <th>STT</th>
+            {/* <th>CMND</th> */}
             <th>Họ và tên</th>
             <th>Số điện thoại</th>
             <th>Sinh nhật</th>
-            <th>Nhóm Nhỏ</th>
+            <th>Nhóm</th>
             <th>Size Áo</th>
-            <th>Thời gian nhóm lại</th>
-            <th>Mức đóng lệ phí</th>
+            {/* <th>Thời gian nhóm lại</th> */}
+            <th>Mức đóng</th>
             <th>Dâng thêm</th>
+            <th>Đã nộp</th>
             <th>Hình thức đóng phí</th>
             <th>Thời gian</th>
-            <th>&nbsp;</th>
+            <th>Hành động&nbsp;</th>
           </tr>
         </thead>
         <tbody>
-          {table.map((draftProfile) => (
+          {table.map((draftProfile, index) => (
             <tr key={draftProfile.id}>
-              <td>{truncate(draftProfile.nationalId)}</td>
+              <td>{index + 1}</td>
+              {/* <td>{truncate(draftProfile.nationalId)}</td> */}
               <td>{truncate(draftProfile.fullName)}</td>
               <td>{truncate(draftProfile.phoneNumber)}</td>
-              <td>{dayjs(draftProfile.birthday).utc().format('DD/MM/YYYY')}</td>
+              <td>{birthdayTag(draftProfile.birthday)}</td>
               <td>{truncate(draftProfile.group)}</td>
               <td>{truncate(draftProfile.clothesSize)}</td>
-              <td>{metaTitle('joinAge', draftProfile.joinAge)}</td>
+              {/* <td>{metaTitle('joinAge', draftProfile.joinAge)}</td> */}
               <td>{currency(draftProfile.paymentLevel)}</td>
               <td>{currency(draftProfile.offering)}</td>
-              <td>{metaTitle('paymentMethod', draftProfile.paymentMethod)}</td>
-              <td>{timeTag(draftProfiles.createdAt)}</td>
+              <td>{currency(draftProfile.amount)}</td>
+              <td>
+                {metaTitle('paymentMethod', draftProfile.paymentMethod).replace(
+                  ' trực tiếp',
+                  ''
+                )}
+              </td>
+              <td>
+                <Link to="#" title={timeTag(draftProfile.createdAt)}>
+                  {createdAtTag(draftProfile.createdAt)}
+                </Link>
+              </td>
               <td>
                 <nav className="rw-table-actions">
                   <Link
                     to={routes.draftProfile({ id: draftProfile.id })}
-                    title={'Show draftProfile ' + draftProfile.id + ' detail'}
-                    className="rw-button rw-button-small"
+                    title={'Xem chi tiết thông tin ' + draftProfile.fullName}
+                    className="rw-button rw-button-large"
                   >
                     Xem
                   </Link>
                   <Link
+                    to={routes.editMeta({ id: draftProfile.metaKey.amount.id })}
+                    title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
+                    className="rw-button rw-button-large"
+                  >
+                    Nộp
+                  </Link>
+                  {/* <Link
                     to={routes.editDraftProfile({ id: draftProfile.id })}
-                    title={'Edit draftProfile ' + draftProfile.id}
+                    title={'Sửa hồ sơ gốc của ' + draftProfile.fullName}
                     className="rw-button rw-button-small rw-button-blue"
                   >
-                    Sửa
-                  </Link>
-                  <a
+                    SMS
+                  </Link> */}
+                  {/* <a
                     href="#"
                     title={'Delete draftProfile ' + draftProfile.id}
                     className="rw-button rw-button-small rw-button-red"
                     onClick={() => onDeleteClick(draftProfile.id)}
                   >
                     Xóa
-                  </a>
+                  </a> */}
                 </nav>
               </td>
             </tr>

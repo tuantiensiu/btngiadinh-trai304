@@ -1,7 +1,13 @@
 import { db } from 'src/lib/db'
 
+export const stats = async () => {
+  const profiles = await db.draftProfile
+    .findMany({ orderBy: { createdAt: 'asc' } })
+    .select({ meta: true })
+}
+
 export const draftProfiles = () => {
-  return db.draftProfile.findMany()
+  return db.draftProfile.findMany({ orderBy: { createdAt: 'asc' } })
 }
 
 export const draftProfile = ({ id }) => {
