@@ -56,7 +56,7 @@ const FORM_MODELS = {
   ],
   paymentStage: [
     { value: 'FULL', title: 'Đóng đủ một lần' },
-    { value: 'PARTIAL', title: 'Đặt cọc|500.000đ' },
+    // { value: 'PARTIAL', title: 'Đặt cọc|500.000đ' },
   ],
   gender: [
     { value: 'MALE', title: 'Nam' },
