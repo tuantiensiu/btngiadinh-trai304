@@ -173,9 +173,9 @@ export default function FormPage() {
                 <em>Thời gian & Địa điểm</em>
               </h2>
               <ul className="mt-4 text-lg">
-                <li className="mt-2">- Nhà thờ Gia Định: tối 29-30/09/2020</li>
+                <li className="mt-2">- Nhà thờ Gia Định: tối 29&30/09/2020</li>
                 <li className="mt-2">
-                  - Resort Unique Kê Gà (Bình Thuận): 02/10/2020-04/10/2020
+                  - Resort Unique Kê Gà (Bình Thuận): 02/10/2020-03/10/2020
                 </li>
               </ul>
             </div>
