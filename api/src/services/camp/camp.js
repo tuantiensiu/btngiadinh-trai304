@@ -1,4 +1,5 @@
 import url from 'url'
+import _ from 'lodash'
 
 import axios from 'axios'
 import khongdau from 'khong-dau'
@@ -205,4 +206,54 @@ export const smsBalance = async () => {
   const balanceResponse = await axios(url)
   const balance = balanceResponse.data
   return balance.Balance
+}
+
+export const smsSend = async ({ profileId, message }) => {
+  const draftProfile = await db.draftProfile.findOne({
+    where: { id: profileId },
+    select: {
+      phoneNumber: true,
+      meta: true,
+    },
+  })
+
+  console.log(JSON.stringify(draftProfile, null, 2))
+
+  if (draftProfile) {
+    const SMSMeta = _.find(draftProfile.meta, { key: 'sms' })
+    let lastSMSList = { ...SMSMeta }
+    console.log('lastSMSList: ', lastSMSList)
+    const phoneNumber =
+      process.env.NODE_ENV === 'production'
+        ? draftProfile.phoneNumber
+        : '0772010496'
+    // const phoneNumber = '0772010496'
+    const result = await sendSMS(phoneNumber, message)
+    // const result = { SMSID: '12345' }
+    // check lastSMSList is boolean or array json?
+    // if boolean then init new array
+    // if array then append below smsData
+    if (lastSMSList.value === 'false') {
+      const initialMessage = _.find(draftProfile.meta, { key: 'message' })
+      lastSMSList = [{ id: null, message: khongdau(initialMessage.value) }]
+    } else {
+      lastSMSList = JSON.parse(lastSMSList.value)
+    }
+    const smsData = {
+      id: result.SMSID,
+      message,
+    }
+    lastSMSList.push(smsData)
+    const updateData = {
+      where: { id: SMSMeta.id },
+      data: {
+        value: JSON.stringify(lastSMSList),
+      },
+    }
+    console.log(updateData)
+    await db.meta.update(updateData)
+    return result
+    // return null
+  }
+  return null
 }

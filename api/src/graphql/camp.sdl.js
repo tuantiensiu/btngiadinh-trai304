@@ -1,6 +1,12 @@
 import gql from 'graphql-tag'
 
 export const schema = gql`
+  type ESMSResponse {
+    CodeResult: String!
+    CountRegenerate: String
+    SMSID: String
+  }
+
   input CreateCampRegisterInput {
     fullName: String!
     nationalId: String
@@ -16,5 +22,6 @@ export const schema = gql`
 
   type Mutation {
     campRegister(input: CreateCampRegisterInput!): DraftProfile
+    smsSend(profileId: String!, message: String!): ESMSResponse
   }
 `

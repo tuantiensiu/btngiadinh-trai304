@@ -13,6 +13,7 @@ export const schema = gql`
   type Query {
     metas: [Meta!]!
     meta(id: String!): Meta!
+    metaByKey(key: String!, profileId: String!): Meta
   }
 
   input CreateMetaInput {

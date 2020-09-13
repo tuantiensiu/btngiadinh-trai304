@@ -17,11 +17,13 @@
     "firebase": "^7.17.1",
     "google-libphonenumber": "3.2.12",
     "graphql-tag": "2.11.0",
+    "khong-dau": "2.0.0",
     "lodash": "4.17.20",
     "lottie-react-web": "2.2.2",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-select": "3.1.0"
   },
   "devDependencies": {
     "autoprefixer": "9.8.6",
