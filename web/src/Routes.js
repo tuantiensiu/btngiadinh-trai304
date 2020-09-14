@@ -12,6 +12,78 @@ import { Router, Route } from '@redwoodjs/router'
 const Routes = () => {
   return (
     <Router>
+      <Route
+        path="/container-roles/new"
+        page={NewContainerRolePage}
+        name="newContainerRole"
+      />
+      <Route
+        path="/container-roles/{id}/edit"
+        page={EditContainerRolePage}
+        name="editContainerRole"
+      />
+      <Route
+        path="/container-roles/{id}"
+        page={ContainerRolePage}
+        name="containerRole"
+      />
+      <Route
+        path="/container-roles"
+        page={ContainerRolesPage}
+        name="containerRoles"
+      />
+      <Route
+        path="/containers/new"
+        page={NewContainerPage}
+        name="newContainer"
+      />
+      <Route
+        path="/containers/{id}/edit"
+        page={EditContainerPage}
+        name="editContainer"
+      />
+      <Route path="/containers/{id}" page={ContainerPage} name="container" />
+      <Route path="/containers" page={ContainersPage} name="containers" />
+      <Route
+        path="/container-hosts/new"
+        page={NewContainerHostPage}
+        name="newContainerHost"
+      />
+      <Route
+        path="/container-hosts/{id}/edit"
+        page={EditContainerHostPage}
+        name="editContainerHost"
+      />
+      <Route
+        path="/container-hosts/{id}"
+        page={ContainerHostPage}
+        name="containerHost"
+      />
+      <Route
+        path="/container-hosts"
+        page={ContainerHostsPage}
+        name="containerHosts"
+      />
+      <Route
+        path="/container-types/new"
+        page={NewContainerTypePage}
+        name="newContainerType"
+      />
+      <Route
+        path="/container-types/{id}/edit"
+        page={EditContainerTypePage}
+        name="editContainerType"
+      />
+      <Route
+        path="/container-types/{id}"
+        page={ContainerTypePage}
+        name="containerType"
+      />
+      <Route
+        path="/container-types"
+        page={ContainerTypesPage}
+        name="containerTypes"
+      />
       <Route path="/ho-so" page={CampPostSubmitPage} name="campPostSubmit" />
       <Route
         path="/draft-profiles/new"
