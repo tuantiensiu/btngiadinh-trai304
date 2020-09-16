@@ -58,6 +58,7 @@ const SMS_TEMPLATES = {
   byManual: [
     'BTC chuong trinh {camp} da nhan duoc le phi {balance} tu ban. Chuc ban co ki trai y nghia va phuoc hanh, hay lien he thu quy Nhu Ngoc de nhan bien lai.',
     'BTC chuong trinh {camp} da nhan duoc le phi {balance}, ban can nop them {negativeBalance} de hoan tat le phi.',
+    'BTC chuong trinh {camp} gui den ban {name}, hien tai thu quy van chua nhan duoc le phi tu {name}, ban vui long lien he Nhu Ngoc de hoan tat le phi truoc ngay 20/9.',
   ],
 }
 
@@ -104,6 +105,7 @@ export const Success = ({ sms }) => {
   const variables = {
     camp: 'TKMT',
     fullName: profile.fullName,
+    name: profile.fullName.slice(-1)[0],
     amount: currency(meta.amount),
     totalDeposit,
     balance: currency(balance),
