@@ -105,7 +105,7 @@ export const Success = ({ sms }) => {
   const variables = {
     camp: 'TKMT',
     fullName: profile.fullName,
-    name: profile.fullName.slice(-1)[0],
+    name: khongdau(profile.fullName.split(' ').slice(-2).join(' ')),
     amount: currency(meta.amount),
     totalDeposit,
     balance: currency(balance),
