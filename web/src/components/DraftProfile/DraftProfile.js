@@ -167,9 +167,9 @@ const DraftProfile = ({ draftProfile: profile }) => {
               <td>
                 <Link
                   to={routes.editMeta({
-                    id: draftProfile.metaKey.paymentLevel.id,
+                    id: draftProfile.metaKey.clothesSize.id,
                   })}
-                  title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
+                  title={'Cập nhật size áo cho ' + draftProfile.fullName}
                   className="rw-button rw-button-small"
                 >
                   Sửa
