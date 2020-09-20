@@ -65,7 +65,7 @@ const SMS_TEMPLATES = {
     'BTC chuong trinh {camp} da nhan duoc le phi {balance} tu ban. Chuc ban co ki trai y nghia va phuoc hanh, hay lien he thu quy Nhu Ngoc de nhan bien lai.',
     'BTC chuong trinh {camp} da nhan duoc le phi {balance}, ban can nop them {negativeBalance} de hoan tat le phi.',
     // 'BTC chuong trinh {camp} gui den ban {name}, hay hoan tat le phi truoc ngay 20/9 ban nhe',
-    'Hien tai BTC trai {camp} van chua nhan duoc khoan thanh toan le phi tu ban. Vui long CK so tien {paymentLevel} qua STK: {bankInfo} - Noi dung CK: {transactionCode} truoc 23/09. Chi tiet lien he {contact}',
+    'Hien tai BTC trai {camp} van chua nhan duoc khoan thanh toan le phi tu ban. Vui long CK so tien {paymentLevel} qua STK: {bankInfo} - Noi dung CK: {transactionCode} hoac nop truc tiep cho thu quy truoc 23/09. Chi tiet lien he {contact}',
     'BTC chuong trinh {camp} gui den {name}, ban vui long hoan tat le phi truoc ngay 20/9 de ho tro BTC trong cong tac to chuc trai.',
   ],
 }
