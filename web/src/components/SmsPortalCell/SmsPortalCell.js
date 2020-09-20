@@ -50,6 +50,12 @@ const SEND_SMS_MUTATION = gql`
   }
 `
 
+const bankProvider = 'Vietcombank'
+const bankID = `0531002575122`
+const bankName = `TRUONG THANH NHU NGOC`
+const contact = '0902457367'
+const bankInfo = `${bankID}/${bankProvider}/${bankName}`
+
 const SMS_TEMPLATES = {
   byEvents: [
     `Bạn đã đăng ký {camp}, {fullName}. Vui lòng {action} {amount} qua STK: {bankStatement},nội dung CK: {transactionCode} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
@@ -58,7 +64,9 @@ const SMS_TEMPLATES = {
   byManual: [
     'BTC chuong trinh {camp} da nhan duoc le phi {balance} tu ban. Chuc ban co ki trai y nghia va phuoc hanh, hay lien he thu quy Nhu Ngoc de nhan bien lai.',
     'BTC chuong trinh {camp} da nhan duoc le phi {balance}, ban can nop them {negativeBalance} de hoan tat le phi.',
-    'BTC chuong trinh {camp} gui den ban {name}, hien tai thu quy van chua nhan duoc le phi tu {name}, ban vui long lien he Nhu Ngoc de hoan tat le phi truoc ngay 20/9.',
+    // 'BTC chuong trinh {camp} gui den ban {name}, hay hoan tat le phi truoc ngay 20/9 ban nhe',
+    'Hien tai BTC trai {camp} van chua nhan duoc khoan thanh toan le phi tu ban. Vui long CK so tien {paymentLevel} qua STK: {bankInfo} - Noi dung CK: {transactionCode} truoc 23/09. Chi tiet lien he {contact}',
+    'BTC chuong trinh {camp} gui den {name}, ban vui long hoan tat le phi truoc ngay 20/9 de ho tro BTC trong cong tac to chuc trai.',
   ],
 }
 
@@ -92,6 +100,7 @@ export const Success = ({ sms }) => {
     },
   })
   const meta = mapArrayAsKeys(profile.meta)
+  const transactionCode = meta.transactionCode
   const paymentLevel = parseInt(meta.paymentLevel)
   const offering = parseInt(meta.offering) || 0
   const totalDeposit = paymentLevel + offering
@@ -110,6 +119,10 @@ export const Success = ({ sms }) => {
     totalDeposit,
     balance: currency(balance),
     negativeBalance: currency(negativeBalance || 0),
+    bankInfo,
+    transactionCode,
+    contact,
+    paymentLevel,
   }
 
   const SMS_OPTIONS = SMS_TEMPLATES.byManual.map((temp) => {
