@@ -54,28 +54,24 @@ const ContainersList = ({ containers }) => {
       <table className="rw-table">
         <thead>
           <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Note</th>
-            <th>Capacity</th>
-            <th>Updated at</th>
-            <th>Created at</th>
-            <th>Container type id</th>
-            <th>Container host id</th>
+            <th>Tên không gian</th>
+            <th>Loại</th>
+            <th>Ghi chú</th>
+            <th>Sức chứa</th>
+            <th>Cập nhật lúc</th>
+            <th>Chủ không gian</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
           {containers.map((container) => (
             <tr key={container.id}>
-              <td>{truncate(container.id)}</td>
               <td>{truncate(container.name)}</td>
+              <td>{truncate(container.type.name)}</td>
               <td>{truncate(container.note)}</td>
               <td>{truncate(container.capacity)}</td>
               <td>{timeTag(container.updatedAt)}</td>
-              <td>{timeTag(container.createdAt)}</td>
-              <td>{truncate(container.containerTypeId)}</td>
-              <td>{truncate(container.containerHostId)}</td>
+              <td>{truncate(container.host?.name)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link

@@ -1,7 +1,7 @@
 import { db } from 'src/lib/db'
 
 export const containers = () => {
-  return db.container.findMany()
+  return db.container.findMany({ select: { type: true, host: true } })
 }
 
 export const container = ({ id }) => {
@@ -10,10 +10,42 @@ export const container = ({ id }) => {
   })
 }
 
-export const createContainer = ({ input }) => {
-  return db.container.create({
-    data: input,
+export const createContainer = async ({ input }) => {
+  const { containerTypeId, containerHostId, ...params } = input
+  const cType = await db.containerType.findOne({
+    where: { id: containerTypeId },
   })
+  const cHost = await db.containerHost.findOne({
+    where: { id: containerHostId },
+  })
+
+  const connectWithType = {
+    type: {
+      connect: { id: cType.id },
+    },
+  }
+  const connectWithHost = cHost
+    ? {
+        host: {
+          connect: { id: cHost.id },
+        },
+      }
+    : undefined
+  const connect = {
+    ...connectWithType,
+    ...connectWithHost,
+  }
+
+  if (cType) {
+    return db.container.create({
+      data: {
+        ...params,
+        ...connect,
+      },
+    })
+  } else {
+    throw new Error('Not found container type')
+  }
 }
 
 export const updateContainer = ({ id, input }) => {

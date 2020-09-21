@@ -28,7 +28,7 @@ const ContainerForm = (props) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Name
+          Tên không gian
         </Label>
         <TextField
           name="name"
@@ -44,14 +44,13 @@ const ContainerForm = (props) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Note
+          Ghi chú
         </Label>
         <TextField
           name="note"
           defaultValue={props.container?.note}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
         />
         <FieldError name="note" className="rw-field-error" />
 
@@ -60,7 +59,7 @@ const ContainerForm = (props) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Capacity
+          Sức chứa
         </Label>
         <NumberField
           name="capacity"
@@ -76,7 +75,7 @@ const ContainerForm = (props) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Container type id
+          Loại không gian
         </Label>
         <TextField
           name="containerTypeId"
@@ -92,14 +91,13 @@ const ContainerForm = (props) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Container host id
+          Chủ không gian
         </Label>
         <TextField
           name="containerHostId"
           defaultValue={props.container?.containerHostId}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
         />
         <FieldError name="containerHostId" className="rw-field-error" />
 

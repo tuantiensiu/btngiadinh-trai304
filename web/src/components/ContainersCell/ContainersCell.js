@@ -11,8 +11,14 @@ export const QUERY = gql`
       capacity
       updatedAt
       createdAt
-      containerTypeId
-      containerHostId
+      type {
+        id
+        name
+      }
+      host {
+        id
+        name
+      }
     }
   }
 `
