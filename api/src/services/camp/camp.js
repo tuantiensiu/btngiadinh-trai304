@@ -104,7 +104,7 @@ export const getMessage = (formPayload) => {
     amount = paymentLevel
   }
   const remainDay = paymentMethod === 'BANK' ? 3 : 7
-  const deadlineDay = '20/9'
+  const deadlineDay = '22/9'
 
   // Temp statement
   const bankStatement =
