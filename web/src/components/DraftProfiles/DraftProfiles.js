@@ -150,6 +150,7 @@ const DraftProfilesList = ({ draftProfiles }) => {
             <th>Dâng thêm</th>
             <th>Đã nộp</th>
             <th>Hình thức đóng phí</th>
+            <th>Note</th>
             <th>Thời gian</th>
             <th>Hành động&nbsp;</th>
           </tr>
@@ -173,6 +174,11 @@ const DraftProfilesList = ({ draftProfiles }) => {
                   ' trực tiếp',
                   ''
                 )}
+              </td>
+              <td>
+                {draftProfile.status === 'NO_PAYMENT'
+                  ? ''
+                  : draftProfile.status}
               </td>
               <td>
                 <Link to="#" title={timeTag(draftProfile.createdAt)}>

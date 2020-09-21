@@ -103,6 +103,7 @@ export const Success = ({ draftProfiles }) => {
           : balance > 0 && balance < totalDeposit && paymentStage === 'PARTIAL'
           ? 'Đã đóng cọc'
           : 'Chưa hoàn tất'
+      const note = meta.status === 'NO_PAYMENT' ? '' : meta.status
       table.push({
         STT: i++,
         'Họ và tên': profile.fullName,
@@ -119,6 +120,7 @@ export const Success = ({ draftProfiles }) => {
         'Đã nộp': balance,
         'Trạng thái': status,
         'Ngày nộp': birthdayTag(profile.createdAt),
+        'Ghi chú': note,
       })
     }
     exportFromJSON({

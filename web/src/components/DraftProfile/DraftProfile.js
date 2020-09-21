@@ -231,6 +231,23 @@ const DraftProfile = ({ draftProfile: profile }) => {
               <td>{draftProfile.meta.message}</td>
               <td></td>
             </tr>
+            <tr>
+              <th>Ghi chú</th>
+              <td>
+                {draftProfile.meta.status === 'NO_PAYMENT'
+                  ? ''
+                  : draftProfile.meta.status}
+              </td>
+              <td>
+                <Link
+                  to={routes.editMeta({ id: draftProfile.metaKey.status.id })}
+                  title={'Cập nhật ghi chú cho ' + draftProfile.fullName}
+                  className="rw-button rw-button-small"
+                >
+                  Sửa
+                </Link>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
