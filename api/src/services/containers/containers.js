@@ -1,7 +1,8 @@
 import { db } from 'src/lib/db'
 
 export const containers = () => {
-  return db.container.findMany({ select: { type: true, host: true } })
+  // return db.container.findMany({ select: { type: true, host: true } })
+  return db.container.findMany()
 }
 
 export const container = ({ id }) => {

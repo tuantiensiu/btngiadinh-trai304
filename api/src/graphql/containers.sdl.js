@@ -14,7 +14,7 @@ export const schema = gql`
   }
 
   type Query {
-    containers: [Container!]!
+    containers: [Container]
     container(id: String!): Container
   }
 

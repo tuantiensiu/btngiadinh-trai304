@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   Form,
   FormError,
@@ -7,10 +8,17 @@ import {
   NumberField,
   Submit,
 } from '@redwoodjs/forms'
+import ContainerTypeSelectCell from 'src/components/ContainerTypeSelectCell'
 
 const ContainerForm = (props) => {
+  const [containerTypeId, setContainerTypeId] = useState(null)
+
   const onSubmit = (data) => {
-    props.onSave(data, props?.container?.id)
+    props.onSave({ ...data, containerTypeId }, props?.container?.id)
+  }
+
+  const changeContainerType = (containerTypeId) => {
+    setContainerTypeId(containerTypeId)
   }
 
   return (
@@ -75,8 +83,9 @@ const ContainerForm = (props) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Loại không gian
+          Loại
         </Label>
+        <ContainerTypeSelectCell onChange={changeContainerType} />
         <TextField
           name="containerTypeId"
           defaultValue={props.container?.containerTypeId}
@@ -86,7 +95,7 @@ const ContainerForm = (props) => {
         />
         <FieldError name="containerTypeId" className="rw-field-error" />
 
-        <Label
+        {/* <Label
           name="containerHostId"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
@@ -98,12 +107,12 @@ const ContainerForm = (props) => {
           defaultValue={props.container?.containerHostId}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
-        />
-        <FieldError name="containerHostId" className="rw-field-error" />
+        /> */}
+        {/* <FieldError name="containerHostId" className="rw-field-error" /> */}
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">
-            Save
+            Lưu
           </Submit>
         </div>
       </Form>
