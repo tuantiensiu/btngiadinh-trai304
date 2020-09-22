@@ -8,10 +8,12 @@
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
 
 import { Router, Route } from '@redwoodjs/router'
+import CountDownPage from './pages/CountDownPage/CountDownPage'
 
 const Routes = () => {
   return (
     <Router>
+      <Route path="/count-down" page={CountDownPage} name="countDown" />
       <Route
         path="/container-roles/new"
         page={NewContainerRolePage}
@@ -110,7 +112,7 @@ const Routes = () => {
       <Route path="/metas/{id}" page={MetaPage} name="meta" />
       <Route path="/metas" page={MetasPage} name="metas" />
       <Route path="/camp-form" page={CampFormPage} name="campForm" />
-      <Route path="/" page={CampFormPage} name="home" />
+      <Route path="/" page={CountDownPage} name="home" />
       <Route notfound page={NotFoundPage} />
     </Router>
   )
