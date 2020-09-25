@@ -44,6 +44,10 @@ export const schema = gql`
     updateContainer(id: String!, input: UpdateContainerInput!): Container!
     deleteContainer(id: String!): Container!
     attachProfileToContainer(containerId: String!, profileId: String!): Boolean!
+    attachProfilesToContainer(
+      containerId: String!
+      profileIds: [String!]
+    ): Boolean!
     detachProfileFromContainer(
       containerId: String!
       profileId: String!

@@ -93,6 +93,21 @@ export const attachProfileToContainer = async ({ containerId, profileId }) => {
   }
 }
 
+export const attachProfilesToContainer = async ({
+  containerId,
+  profileIds,
+}) => {
+  try {
+    const map = profileIds.map((profileId) =>
+      attachProfileToContainer({ containerId, profileId })
+    )
+    await Promise.all(map)
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
 export const detachProfileFromContainer = async ({
   containerId,
   profileId,
