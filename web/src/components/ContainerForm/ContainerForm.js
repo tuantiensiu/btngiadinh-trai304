@@ -15,7 +15,6 @@ const ContainerForm = (props) => {
 
   const onSubmit = (data) => {
     const params = { ...data, containerTypeId: containerTypeId.current }
-    console.log(params)
     props.onSave(params, props?.container?.id)
   }
 
@@ -91,29 +90,6 @@ const ContainerForm = (props) => {
           type="containerType"
           onChange={changeContainerType}
         />
-        {/* <TextField
-          name="containerTypeId"
-          defaultValue={props.container?.containerTypeId}
-          className="rw-input invisible"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        /> */}
-        {/* <FieldError name="containerTypeId" className="rw-field-error" /> */}
-
-        {/* <Label
-          name="containerHostId"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Chủ không gian
-        </Label>
-        <TextField
-          name="containerHostId"
-          defaultValue={props.container?.containerHostId}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-        /> */}
-        {/* <FieldError name="containerHostId" className="rw-field-error" /> */}
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">

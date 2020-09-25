@@ -53,5 +53,10 @@ export const schema = gql`
       containerId: String!
       profileId: String!
     ): Boolean!
+    updateContainerProfileNote(
+      containerId: String!
+      profileId: String!
+      note: String!
+    ): Boolean!
   }
 `

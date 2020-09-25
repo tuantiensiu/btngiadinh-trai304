@@ -64,11 +64,50 @@ export const createContainer = async ({ input }) => {
   }
 }
 
-export const updateContainer = ({ id, input }) => {
-  return db.container.update({
-    data: input,
-    where: { id },
+export const updateContainer = async ({ id, input }) => {
+  const { containerTypeId, containerHostId, ...params } = input
+  const cType = await db.containerType.findOne({
+    where: { id: containerTypeId },
   })
+  const cHost = containerHostId
+    ? await db.containerHost.findOne({
+        where: { id: containerHostId },
+      })
+    : null
+
+  const connectWithType = {
+    type: {
+      connect: { id: cType.id },
+    },
+  }
+  const connectWithHost = cHost
+    ? {
+        host: {
+          connect: { id: cHost.id },
+        },
+      }
+    : undefined
+  const connect = {
+    ...connectWithType,
+    ...connectWithHost,
+  }
+
+  if (cType) {
+    const slug = `${cType.slug}::${khongdau(params.name)
+      .replace(/\s/g, '_')
+      .toUpperCase()}`
+
+    return db.container.update({
+      where: { id },
+      data: {
+        ...params,
+        ...connect,
+        slug,
+      },
+    })
+  } else {
+    throw new Error('Not found container type')
+  }
 }
 
 export const deleteContainer = ({ id }) => {
@@ -131,6 +170,18 @@ export const detachProfileFromContainer = async ({
     console.error(err)
     return false
   }
+}
+
+export const updateContainerProfileNote = ({
+  containerId,
+  profileId,
+  note,
+}) => {
+  return db.profilesOnContainers.update({
+    where: {
+      containerId_profileId: {},
+    },
+  })
 }
 
 export const Container = {
