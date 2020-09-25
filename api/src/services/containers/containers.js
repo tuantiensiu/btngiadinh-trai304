@@ -1,4 +1,5 @@
 import { db } from 'src/lib/db'
+import khongdau from 'khong-dau'
 
 export const containers = ({ containerTypeId }) => {
   // return db.container.findMany({ select: { type: true, host: true } })
@@ -44,10 +45,13 @@ export const createContainer = async ({ input }) => {
   }
 
   if (cType) {
+    const slug = `${cType.slug}::${khongdau(params.name).toUpperCase()}`
+
     return db.container.create({
       data: {
         ...params,
         ...connect,
+        slug,
       },
     })
   } else {

@@ -13,6 +13,7 @@ export const QUERY = gql`
         profile {
           id
           fullName
+          metaByKeys(keys: "group")
         }
       }
       type {

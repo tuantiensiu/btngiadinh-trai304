@@ -1,4 +1,5 @@
 import { Link, routes } from '@redwoodjs/router'
+import ProfileListItem from 'src/components/ProfileListItem'
 
 const ContainerCard = ({ data }) => {
   const { id, name, type, note, capacity, profiles } = data
@@ -11,13 +12,11 @@ const ContainerCard = ({ data }) => {
             {profiles.length}/{capacity}
           </span>
         </div>
-        <p className="text-orange-300 text-base">{note}</p>
+        <p className="text-gray-400 text-base">{note}</p>
       </div>
       <ul>
-        {profiles.map(({ profile }) => (
-          <li key={profile.id}>
-            <span>{profile.fullName}</span>
-          </li>
+        {profiles.map(({ profile }, index) => (
+          <ProfileListItem key={profile.id} profile={profile} index={index} />
         ))}
       </ul>
       <div className="px-6 pt-4 pb-2">
