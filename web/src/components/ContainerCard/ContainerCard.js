@@ -28,8 +28,16 @@ const ContainerCard = ({ data }) => {
   const [enableInput, setEnableInput] = useState(false)
   const selectedProfiles = useRef([])
   const { id, name, note, capacity, profiles } = data
-  const [attachProfilesToContainer, { loading }] = useMutation(
+  const [attachProfilesToContainer, { attachLoading }] = useMutation(
     ATTACH_PROFILES_TO_CONTAINER_MUTATION,
+    {
+      onCompleted: () => {
+        navigate(routes.containers())
+      },
+    }
+  )
+  const [detachProfileFromContainer, { detachLoading }] = useMutation(
+    DETACH_PROFILE_FROM_CONTAINER_MUTATION,
     {
       onCompleted: () => {
         navigate(routes.containers())
@@ -51,12 +59,21 @@ const ContainerCard = ({ data }) => {
     })
   }
 
+  const detachProfile = (profileId) => {
+    detachProfileFromContainer({
+      variables: {
+        containerId: id,
+        profileId,
+      },
+    })
+  }
+
   const onSelectionChange = (profiles) => {
     selectedProfiles.current = profiles.map((p) => p.id)
     console.log(selectedProfiles.current)
   }
 
-  if (loading) return 'Loading...'
+  if (attachLoading || detachLoading) return 'Loading...'
 
   return (
     <div className="flex flex-col max-w-sm rounded shadow-lg">
@@ -72,7 +89,12 @@ const ContainerCard = ({ data }) => {
       <ul>
         {profiles.length > 0 ? (
           profiles.map(({ profile }, index) => (
-            <ProfileListItem key={profile.id} profile={profile} index={index} />
+            <ProfileListItem
+              key={profile.id}
+              profile={profile}
+              onRemove={detachProfile}
+              index={index}
+            />
           ))
         ) : (
           <li className="p-4">
@@ -94,7 +116,7 @@ const ContainerCard = ({ data }) => {
       <span className="flex-1" />
       <div className="flex flex-row justify-between px-6 pt-4 pb-2 bg-orange-200">
         <Link
-          to={routes.containers({ id })}
+          to={routes.container({ id })}
           className="inline-block bg-green-500 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
         >
           Xem

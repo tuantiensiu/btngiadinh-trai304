@@ -2,10 +2,13 @@ import { useState } from 'react'
 import { Link, routes } from '@redwoodjs/router'
 import classNames from 'classnames'
 
-const ProfileListItem = ({ profile, index }) => {
+const ProfileListItem = ({ profile, index, onRemove }) => {
   const meta = JSON.parse(profile.metaByKeys)
   const [showButtons, setShowButtons] = useState(false)
 
+  const remove = () => {
+    onRemove(profile.id)
+  }
   return (
     <div
       onMouseEnter={() => setShowButtons(true)}
@@ -24,6 +27,7 @@ const ProfileListItem = ({ profile, index }) => {
       )}
       <button
         className={classNames('rw-button', showButtons ? 'visible' : 'hidden')}
+        onClick={remove}
       >
         Gỡ bỏ
       </button>

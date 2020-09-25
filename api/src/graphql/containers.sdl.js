@@ -6,6 +6,7 @@ export const schema = gql`
 
   type Container {
     id: String!
+    slug: String
     name: String!
     note: String
     profiles: [ProfileOnContainer!]

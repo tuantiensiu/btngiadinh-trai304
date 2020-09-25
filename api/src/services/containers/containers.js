@@ -7,6 +7,9 @@ export const containers = ({ containerTypeId }) => {
     where: {
       containerTypeId,
     },
+    orderBy: {
+      name: 'asc',
+    },
   })
 }
 
@@ -45,7 +48,9 @@ export const createContainer = async ({ input }) => {
   }
 
   if (cType) {
-    const slug = `${cType.slug}::${khongdau(params.name).toUpperCase()}`
+    const slug = `${cType.slug}::${khongdau(params.name)
+      .replace(/\s/g, '_')
+      .toUpperCase()}`
 
     return db.container.create({
       data: {
