@@ -9,8 +9,12 @@ export const QUERY = gql`
       name
       note
       capacity
-      updatedAt
-      createdAt
+      profiles {
+        profile {
+          id
+          fullName
+        }
+      }
       type {
         id
         name

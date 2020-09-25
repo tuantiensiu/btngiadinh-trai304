@@ -1,9 +1,14 @@
 export const schema = gql`
+  type ProfileOnContainer {
+    profile: DraftProfile
+    container: Container
+  }
+
   type Container {
     id: String!
     name: String!
     note: String
-    profiles: [DraftProfile]!
+    profiles: [ProfileOnContainer!]
     host: ContainerHost
     type: ContainerType!
     capacity: Int
@@ -14,7 +19,7 @@ export const schema = gql`
   }
 
   type Query {
-    containers: [Container]
+    containers(filterType: String): [Container]
     container(id: String!): Container
   }
 
@@ -38,5 +43,10 @@ export const schema = gql`
     createContainer(input: CreateContainerInput!): Container!
     updateContainer(id: String!, input: UpdateContainerInput!): Container!
     deleteContainer(id: String!): Container!
+    attachProfileToContainer(containerId: String!, profileId: String!): Boolean!
+    detachProfileFromContainer(
+      containerId: String!
+      profileId: String!
+    ): Boolean!
   }
 `

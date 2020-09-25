@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import {
   Form,
   FormError,
@@ -11,14 +11,16 @@ import {
 import ContainerTypeSelectCell from 'src/components/ContainerTypeSelectCell'
 
 const ContainerForm = (props) => {
-  const [containerTypeId, setContainerTypeId] = useState(null)
+  const containerTypeId = useRef(null)
 
   const onSubmit = (data) => {
-    props.onSave({ ...data, containerTypeId }, props?.container?.id)
+    const params = { ...data, containerTypeId: containerTypeId.current }
+    console.log(params)
+    props.onSave(params, props?.container?.id)
   }
 
-  const changeContainerType = (containerTypeId) => {
-    setContainerTypeId(containerTypeId)
+  const changeContainerType = (value) => {
+    containerTypeId.current = value
   }
 
   return (
@@ -85,15 +87,18 @@ const ContainerForm = (props) => {
         >
           Loại
         </Label>
-        <ContainerTypeSelectCell onChange={changeContainerType} />
-        <TextField
+        <ContainerTypeSelectCell
+          type="containerType"
+          onChange={changeContainerType}
+        />
+        {/* <TextField
           name="containerTypeId"
           defaultValue={props.container?.containerTypeId}
-          className="rw-input"
+          className="rw-input invisible"
           errorClassName="rw-input rw-input-error"
           validation={{ required: true }}
-        />
-        <FieldError name="containerTypeId" className="rw-field-error" />
+        /> */}
+        {/* <FieldError name="containerTypeId" className="rw-field-error" /> */}
 
         {/* <Label
           name="containerHostId"

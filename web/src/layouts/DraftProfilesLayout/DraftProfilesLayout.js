@@ -5,12 +5,15 @@ const DraftProfilesLayout = (props) => {
   return (
     <div className="rw-scaffold">
       <Flash timeout={1000} />
-      <header className="rw-header">
-        <h1 className="rw-heading rw-heading-primary">
-          <Link to={routes.draftProfiles()} className="rw-link">
-            Danh sách đăng ký TKMT
+      <header className="rw-header max-w-full">
+        <div className="flex flex-row justify-between max-w-full rw-heading rw-heading-primary">
+          <Link to={routes.draftProfiles()} className="rw-button">
+            Danh sách trại viên
           </Link>
-        </h1>
+          <Link to={routes.containers()} className="rw-button">
+            Danh sách phòng & xe
+          </Link>
+        </div>
         {/* <Link
           to={routes.newDraftProfile()}
           className="rw-button rw-button-green"
