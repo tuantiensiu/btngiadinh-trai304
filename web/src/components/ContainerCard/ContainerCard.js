@@ -1,16 +1,14 @@
-import exportFromJSON from 'export-from-json'
 import _ from 'lodash'
+import exportFromJSON from 'export-from-json'
 import { useState, useRef } from 'react'
 import { useMutation } from '@redwoodjs/web'
 import { Link, navigate, routes } from '@redwoodjs/router'
 import ProfileListItem from 'src/components/ProfileListItem'
 import ProfileSelectCell from 'src/components/ProfileSelectCell'
+import khongdau from 'khong-dau'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/vi'
-
-const mapArrayAsKeys = (params) =>
-  _.chain(params).keyBy('key').mapValues('value').value()
 
 const birthdayTag = (birthday) => {
   return dayjs(birthday).format('DD/MM/YYYY')
@@ -88,24 +86,33 @@ const ContainerCard = ({ data }) => {
   const exportExcel = () => {
     const table = []
     let i = 1
-    for (const { profile } of profiles) {
+    const list = _.orderBy(
+      profiles.map((p) => p.profile),
+      ['fullName'],
+      ['asc']
+    )
+    for (const profile of list) {
       const meta = JSON.parse(profile.metaByKeys)
       const note = meta.status === 'NO_PAYMENT' ? '' : meta.status
-      const nameSplit = profile.fullName.split(' ')
+      const nameSplit = profile.fullName.trim().split(' ')
+      const firstName = nameSplit.pop()
+      const lastName = nameSplit.join(' ')
       table.push({
         STT: i++,
-        Họ: nameSplit.slice(0, nameSplit.length - 1).join(' '),
-        Tên: nameSplit[nameSplit.length - 1],
+        Họ: lastName,
+        Tên: firstName,
         'Nhóm nhỏ': meta.group,
         'Ngày sinh': birthdayTag(profile.birthday),
         'Số điện thoại': profile.phoneNumber.replace('+84', "'0"),
         'Ghi chú': note,
       })
     }
+    table.push({ 'Bổ sung': note })
     exportFromJSON({
       data: table,
-      fileName: `${type.name} - ${name}`,
+      fileName: `${khongdau(name).replace(' ', '_').toUpperCase()}`,
       exportType: 'xls',
+      // exportType: 'csv',
     })
   }
 

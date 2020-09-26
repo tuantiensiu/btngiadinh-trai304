@@ -18,14 +18,6 @@ export const QUERY = gql`
           metaByKeys(keys: "group,status")
         }
       }
-      type {
-        id
-        name
-      }
-      host {
-        id
-        name
-      }
     }
   }
 `
