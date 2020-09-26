@@ -69,13 +69,14 @@ const ContainerCard = ({ data }) => {
     })
   }
 
-  const detachProfile = (profileId) => {
-    detachProfileFromContainer({
-      variables: {
-        containerId: id,
-        profileId,
-      },
-    })
+  const detachProfile = (profileName) => (profileId) => {
+    if (confirm(`Bạn chắc chắn muốn gỡ bỏ ${profileName} khỏi ${name}`))
+      detachProfileFromContainer({
+        variables: {
+          containerId: id,
+          profileId,
+        },
+      })
   }
 
   const onSelectionChange = (profiles) => {
@@ -135,7 +136,7 @@ const ContainerCard = ({ data }) => {
             <ProfileListItem
               key={profile.id}
               profile={profile}
-              onRemove={detachProfile}
+              onRemove={detachProfile(profile.fullName)}
               index={index}
             />
           ))
