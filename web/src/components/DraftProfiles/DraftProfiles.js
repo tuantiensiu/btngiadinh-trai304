@@ -75,10 +75,10 @@ const truncate = (text) => {
 const metaTitle = (model, metaValue) => {
   for (const meta of FORM_MODELS[model]) {
     if (meta.value === metaValue) {
-      return meta.title
+      return meta.title || ''
     }
   }
-  return metaValue
+  return metaValue || ''
 }
 
 const birthdayTag = (birthday) => {
@@ -194,13 +194,17 @@ const DraftProfilesList = ({ draftProfiles }) => {
                   >
                     Xem
                   </Link>
-                  <Link
-                    to={routes.editMeta({ id: draftProfile.metaKey.amount.id })}
-                    title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
-                    className="rw-button rw-button-large"
-                  >
-                    Nộp
-                  </Link>
+                  {draftProfile.metaKey.amount ? (
+                    <Link
+                      to={routes.editMeta({
+                        id: draftProfile.metaKey.amount.id,
+                      })}
+                      title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
+                      className="rw-button rw-button-large"
+                    >
+                      Nộp
+                    </Link>
+                  ) : null}
                   {/* <Link
                     to={routes.editDraftProfile({ id: draftProfile.id })}
                     title={'Sửa hồ sơ gốc của ' + draftProfile.fullName}

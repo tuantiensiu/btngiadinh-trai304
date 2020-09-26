@@ -144,17 +144,19 @@ const DraftProfile = ({ draftProfile: profile }) => {
             <tr>
               <th>Nhóm</th>
               <td>{draftProfile.meta.group}</td>
-              <td>
-                <Link
-                  to={routes.editMeta({
-                    id: draftProfile.metaKey.group.id,
-                  })}
-                  title={'Cập nhật Nhóm cho ' + draftProfile.fullName}
-                  className="rw-button rw-button-small"
-                >
-                  Sửa
-                </Link>
-              </td>
+              {draftProfile.metaKey.group && (
+                <td>
+                  <Link
+                    to={routes.editMeta({
+                      id: draftProfile.metaKey.group.id,
+                    })}
+                    title={'Cập nhật Nhóm cho ' + draftProfile.fullName}
+                    className="rw-button rw-button-small"
+                  >
+                    Sửa
+                  </Link>
+                </td>
+              )}
             </tr>
             <tr>
               <th>Thời gian nhóm lại</th>
@@ -164,17 +166,19 @@ const DraftProfile = ({ draftProfile: profile }) => {
             <tr>
               <th>Size áo</th>
               <td>{metaTitle('clothesSize', draftProfile.meta.clothesSize)}</td>
-              <td>
-                <Link
-                  to={routes.editMeta({
-                    id: draftProfile.metaKey.clothesSize.id,
-                  })}
-                  title={'Cập nhật size áo cho ' + draftProfile.fullName}
-                  className="rw-button rw-button-small"
-                >
-                  Sửa
-                </Link>
-              </td>
+              {draftProfile.metaKey.clothesSize && (
+                <td>
+                  <Link
+                    to={routes.editMeta({
+                      id: draftProfile.metaKey.clothesSize.id,
+                    })}
+                    title={'Cập nhật size áo cho ' + draftProfile.fullName}
+                    className="rw-button rw-button-small"
+                  >
+                    Sửa
+                  </Link>
+                </td>
+              )}
             </tr>
             <tr>
               <th>Quy cách thanh toán</th>
@@ -186,45 +190,51 @@ const DraftProfile = ({ draftProfile: profile }) => {
             <tr>
               <th>Mức lệ phí</th>
               <td>{currency(draftProfile.meta.paymentLevel)}</td>
-              <td>
-                <Link
-                  to={routes.editMeta({
-                    id: draftProfile.metaKey.paymentLevel.id,
-                  })}
-                  title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
-                  className="rw-button rw-button-small"
-                >
-                  Sửa
-                </Link>
-              </td>
+              {draftProfile.metaKey.paymentLevel && (
+                <td>
+                  <Link
+                    to={routes.editMeta({
+                      id: draftProfile.metaKey.paymentLevel.id,
+                    })}
+                    title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
+                    className="rw-button rw-button-small"
+                  >
+                    Sửa
+                  </Link>
+                </td>
+              )}
             </tr>
             <tr>
               <th>Dâng hiến thêm</th>
               <td>{currency(draftProfile.meta.offering)}</td>
-              <td>
-                <Link
-                  to={routes.editMeta({
-                    id: draftProfile.metaKey.offering.id,
-                  })}
-                  title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
-                  className="rw-button rw-button-small"
-                >
-                  Sửa
-                </Link>
-              </td>
+              {draftProfile.metaKey.offering && (
+                <td>
+                  <Link
+                    to={routes.editMeta({
+                      id: draftProfile.metaKey.offering.id,
+                    })}
+                    title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
+                    className="rw-button rw-button-small"
+                  >
+                    Sửa
+                  </Link>
+                </td>
+              )}
             </tr>
             <tr>
               <th>Số tiền đã nộp</th>
               <td>{currency(draftProfile.meta.amount)}</td>
-              <td>
-                <Link
-                  to={routes.editMeta({ id: draftProfile.metaKey.amount.id })}
-                  title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
-                  className="rw-button rw-button-small"
-                >
-                  Sửa
-                </Link>
-              </td>
+              {draftProfile.metaKey.amount && (
+                <td>
+                  <Link
+                    to={routes.editMeta({ id: draftProfile.metaKey.amount.id })}
+                    title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
+                    className="rw-button rw-button-small"
+                  >
+                    Sửa
+                  </Link>
+                </td>
+              )}
             </tr>
             <tr>
               <th>Thông báo</th>
@@ -238,15 +248,17 @@ const DraftProfile = ({ draftProfile: profile }) => {
                   ? ''
                   : draftProfile.meta.status}
               </td>
-              <td>
-                <Link
-                  to={routes.editMeta({ id: draftProfile.metaKey.status.id })}
-                  title={'Cập nhật ghi chú cho ' + draftProfile.fullName}
-                  className="rw-button rw-button-small"
-                >
-                  Sửa
-                </Link>
-              </td>
+              {draftProfile.metaKey.status && (
+                <td>
+                  <Link
+                    to={routes.editMeta({ id: draftProfile.metaKey.status.id })}
+                    title={'Cập nhật ghi chú cho ' + draftProfile.fullName}
+                    className="rw-button rw-button-small"
+                  >
+                    Sửa
+                  </Link>
+                </td>
+              )}
             </tr>
           </tbody>
         </table>
