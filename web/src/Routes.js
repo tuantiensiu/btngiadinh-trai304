@@ -9,10 +9,12 @@
 
 import { Router, Route } from '@redwoodjs/router'
 import CountDownPage from './pages/CountDownPage/CountDownPage'
+import BulkSMSPage from './pages/BulkSmsPage/BulkSmsPage'
 
 const Routes = () => {
   return (
     <Router>
+      <Route path="/bulk-sms" page={BulkSMSPage} name="bulkSms" />
       <Route path="/count-down" page={CountDownPage} name="countDown" />
       <Route
         path="/container-roles/new"

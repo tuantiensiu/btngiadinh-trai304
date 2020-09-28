@@ -13,6 +13,9 @@ const DraftProfilesLayout = (props) => {
           <Link to={routes.containers()} className="rw-button">
             Danh sách phòng & xe
           </Link>
+          <Link to={routes.bulkSms()} className="rw-button">
+            Gửi tin nhắn hàng loạt
+          </Link>
         </div>
         {/* <Link
           to={routes.newDraftProfile()}
