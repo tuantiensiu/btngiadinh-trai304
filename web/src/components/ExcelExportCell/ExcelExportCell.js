@@ -149,8 +149,8 @@ export const Success = ({ draftProfiles }) => {
     exportFromJSON({
       data: table,
       fileName: 'tkmt' + dayjs().format('YYYYMMDD-HHmm'),
-      // exportType: 'xls',
-      exportType: 'csv',
+      exportType: 'xls',
+      // exportType: 'csv',
     })
   }
   return (
