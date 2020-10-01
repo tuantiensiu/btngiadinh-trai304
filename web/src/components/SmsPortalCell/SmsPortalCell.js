@@ -37,6 +37,23 @@ export const QUERY = gql`
           key
           value
         }
+        containers {
+          container {
+            id
+            name
+            note
+            type {
+              slug
+            }
+            profiles {
+              profile {
+                fullName
+                phoneNumber
+                metaByKeys(keys: "status")
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -65,6 +82,7 @@ const SMS_TEMPLATES = {
     'BTC chuong trinh {camp} da nhan duoc le phi {balance} tu ban. Chuc ban co ki trai y nghia va phuoc hanh, hay lien he thu quy Nhu Ngoc de nhan bien lai.',
     'BTC chuong trinh {camp} da nhan duoc le phi {balance}, ban can nop them {negativeBalance} de hoan tat le phi.',
     'Hien tai BTC trai {camp} van chua nhan duoc khoan thanh toan le phi tu ban. Vui long CK so tien {paymentLevel} qua STK: {bankInfo} - Noi dung CK: {transactionCode} hoac nop truc tiep cho thu quy truoc 22/09. Chi tiet lien he {contact}',
+    'Chi {hour} tieng nua la den ki trai TKMT tai Unique Ke Ga cua chung ta. Ban nho chuan bi hanh ly bao gom: Kinh Thanh, ban chai, khan tam, dep lao - {shortName} se di chuyen bang {busInfo}, truong xe {busLeader} va o {roomInfo}, truong phong {roomLeader}. Than ai!',
   ],
 }
 
@@ -88,6 +106,19 @@ export const Empty = () => <div>Empty</div>
 
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
+const findLeader = (type, array) => {
+  const profile = array.find((p) => {
+    if (p.profile.metaByKeys) {
+      const json = JSON.parse(p.profile.metaByKeys)
+      const status = (json.status || '').toLowerCase()
+      return status.startsWith(type === 'BUS' ? 'trưởng xe' : 'trưởng phòng')
+    } else {
+      return false
+    }
+  })
+  return profile
+}
+
 export const Success = ({ sms }) => {
   const profile = sms.DraftProfile
   const [selectedSMS, setSelectedSMS] = useState(null)
@@ -109,6 +140,39 @@ export const Success = ({ sms }) => {
       ? [{ id: null, message: khongdau(meta.message) }]
       : JSON.parse(meta.sms)
 
+  // Reminder
+  const busContainer = profile.containers.find(
+    (c) => c.container.type.slug === 'BUS'
+  )
+  const roomContainer = profile.containers.find(
+    (c) => c.container.type.slug === 'ROOM'
+  )
+  const busLeaderProfile = findLeader('BUS', busContainer.container.profiles)
+    .profile
+  const roomLeaderProfile = findLeader('ROOM', roomContainer.container.profiles)
+    .profile
+  const hour = 4
+  const busInfo = khongdau(
+    `${busContainer.container.name.toLowerCase()} (${
+      busContainer.container.note
+    })`
+  )
+  const busLeaderPhoneNumber = busLeaderProfile.phoneNumber.replace('+84', '0')
+  const roomLeaderPhoneNumber = roomLeaderProfile.phoneNumber.replace(
+    '+84',
+    '0'
+  )
+  const busLeader = khongdau(
+    `${busLeaderProfile.fullName.trim()} ${busLeaderPhoneNumber}`
+  )
+  const roomInfo = khongdau(roomContainer.container.name).toLowerCase()
+  const roomLeader = khongdau(
+    `${roomLeaderProfile.fullName.trim()} ${roomLeaderPhoneNumber}`
+  )
+  const shortName = khongdau(
+    profile.fullName.trim().split(' ').slice(-2).join(' ')
+  )
+
   const variables = {
     camp: 'TKMT',
     fullName: profile.fullName,
@@ -121,6 +185,13 @@ export const Success = ({ sms }) => {
     transactionCode,
     contact,
     paymentLevel,
+    // Reminder
+    hour,
+    shortName,
+    busInfo,
+    busLeader,
+    roomInfo,
+    roomLeader,
   }
 
   const SMS_OPTIONS = SMS_TEMPLATES.byManual.map((temp) => {
