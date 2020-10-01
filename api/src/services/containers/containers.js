@@ -172,17 +172,17 @@ export const detachProfileFromContainer = async ({
   }
 }
 
-export const updateContainerProfileNote = ({
-  containerId,
-  profileId,
-  note,
-}) => {
-  return db.profilesOnContainers.update({
-    where: {
-      containerId_profileId: {},
-    },
-  })
-}
+// export const updateContainerProfileNote = ({
+//   containerId,
+//   profileId,
+//   note,
+// }) => {
+//   return db.profilesOnContainers.update({
+//     where: {
+//       containerId_profileId: {},
+//     },
+//   })
+// }
 
 export const Container = {
   profiles: async (_obj, { root }) => {

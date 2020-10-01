@@ -10,8 +10,10 @@ import _ from 'lodash'
 const mapArrayAsKeys = (params) =>
   _.chain(params).keyBy('key').mapValues('value').value()
 
-export const draftProfiles = () => {
-  return db.draftProfile.findMany({ orderBy: { createdAt: 'asc' } })
+export const draftProfiles = ({ orderBy }) => {
+  return db.draftProfile.findMany({
+    orderBy: { [orderBy || 'createdAt']: 'asc' },
+  })
 }
 
 export const draftProfile = ({ id }) => {
@@ -52,4 +54,8 @@ export const DraftProfile = {
     )
     return JSON.stringify(metaObject)
   },
+  containers: (_obj, { root }) =>
+    db.draftProfile
+      .findOne({ where: { id: root.id } })
+      .containers({ select: { profile: true, container: true } }),
 }

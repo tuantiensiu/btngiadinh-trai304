@@ -13,9 +13,9 @@ const ContainersLayout = (props) => {
           <Link to={routes.containers()} className="rw-button">
             Danh sách phòng & xe
           </Link>
-          <Link to={routes.bulkSms()} className="rw-button">
+          {/* <Link to={routes.bulkSms()} className="rw-button">
             Gửi tin nhắn hàng loạt
-          </Link>
+          </Link> */}
         </div>
         {/* <Link
           to={routes.newDraftProfile()}

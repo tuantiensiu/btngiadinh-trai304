@@ -93,6 +93,14 @@ const timeTag = (datetime) => {
   return dayjs(datetime).locale('vi').fromNow()
 }
 
+const containerTag = (typeSlug, array) => {
+  const el = array.find((x) => x.container.type.slug === typeSlug)
+  if (el) {
+    return (el.container.name || '').replace(/(Xe Số|Phòng)/g, '')
+  }
+  return ''
+}
+
 const currency = (amount) => {
   if (amount > 0) {
     const formatter = new Intl.NumberFormat('vi-VN', {
@@ -152,6 +160,8 @@ const DraftProfilesList = ({ draftProfiles }) => {
             <th>Hình thức đóng phí</th>
             <th>Note</th>
             <th>Thời gian</th>
+            <th>Xe</th>
+            <th>Phòng</th>
             <th>Hành động&nbsp;</th>
           </tr>
         </thead>
@@ -185,6 +195,8 @@ const DraftProfilesList = ({ draftProfiles }) => {
                   {createdAtTag(draftProfile.createdAt)}
                 </Link>
               </td>
+              <td>{containerTag('BUS', draftProfile.containers)}</td>
+              <td>{containerTag('ROOM', draftProfile.containers)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link

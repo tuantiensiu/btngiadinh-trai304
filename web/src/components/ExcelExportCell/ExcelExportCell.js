@@ -1,8 +1,8 @@
 import exportFromJSON from 'export-from-json'
 import _ from 'lodash'
 import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import relativeTime from 'dayjs/plugin/relativeTime'
+// import utc from 'dayjs/plugin/utc'
+// import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/vi'
 
 const mapArrayAsKeys = (params) =>
@@ -21,6 +21,14 @@ export const QUERY = gql`
         id
         key
         value
+      }
+      containers {
+        container {
+          type {
+            slug
+          }
+          name
+        }
       }
     }
   }
@@ -80,6 +88,14 @@ const birthdayTag = (birthday) => {
   return dayjs(birthday).format('DD/MM/YYYY')
 }
 
+const containerTag = (typeSlug, array) => {
+  const el = array.find((x) => x.container.type.slug === typeSlug)
+  if (el) {
+    return (el.container.name || '').replace(/(Xe Số|Phòng)/g, '')
+  }
+  return ''
+}
+
 export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => <div>Empty</div>
@@ -88,7 +104,7 @@ export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
 export const Success = ({ draftProfiles }) => {
   const ex = () => {
-    const table = []
+    let table = []
     let i = 1
     for (const profile of draftProfiles) {
       const meta = mapArrayAsKeys(profile.meta)
@@ -104,9 +120,13 @@ export const Success = ({ draftProfiles }) => {
           ? 'Đã đóng cọc'
           : 'Chưa hoàn tất'
       const note = meta.status === 'NO_PAYMENT' ? '' : meta.status
+      const nameSplit = profile.fullName.trim().split(' ')
+      const firstName = nameSplit.pop()
+      const lastName = nameSplit.join(' ')
       table.push({
         STT: i++,
-        'Họ và tên': profile.fullName,
+        Họ: lastName,
+        Tên: firstName,
         'Giới tính': metaTitle('gender', meta.gender),
         CMND: "'" + profile.nationalId,
         'Số điện thoại': profile.phoneNumber.replace('+84', "'0"),
@@ -120,13 +140,17 @@ export const Success = ({ draftProfiles }) => {
         'Đã nộp': balance,
         'Trạng thái': status,
         'Ngày nộp': birthdayTag(profile.createdAt),
+        Xe: containerTag('BUS', profile.containers),
+        Phòng: containerTag('ROOM', profile.containers),
         'Ghi chú': note,
       })
+      table = _.orderBy(table, ['Tên'], ['asc'])
     }
     exportFromJSON({
       data: table,
       fileName: 'tkmt' + dayjs().format('YYYYMMDD-HHmm'),
-      exportType: 'xls',
+      // exportType: 'xls',
+      exportType: 'csv',
     })
   }
   return (

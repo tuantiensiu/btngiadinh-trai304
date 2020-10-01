@@ -85,13 +85,9 @@ const ContainerCard = ({ data }) => {
   }
 
   const exportExcel = () => {
-    const table = []
+    let table = []
     let i = 1
-    const list = _.orderBy(
-      profiles.map((p) => p.profile),
-      ['fullName'],
-      ['asc']
-    )
+    const list = profiles.map((p) => p.profile)
     for (const profile of list) {
       const meta = JSON.parse(profile.metaByKeys)
       const note = meta.status === 'NO_PAYMENT' ? '' : meta.status
@@ -108,6 +104,7 @@ const ContainerCard = ({ data }) => {
         'Ghi chú': note,
       })
     }
+    table = _.orderBy(table, ['Tên'], ['asc'])
     table.push({ 'Bổ sung': note })
     exportFromJSON({
       data: table,

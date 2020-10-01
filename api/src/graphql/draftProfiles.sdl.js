@@ -10,10 +10,11 @@ export const schema = gql`
     meta: [Meta]!
     metaByKeys(keys: String!): String
     createdAt: DateTime
+    containers: [ProfileOnContainer!]
   }
 
   type Query {
-    draftProfiles: [DraftProfile!]!
+    draftProfiles(orderBy: String): [DraftProfile!]!
     draftProfile(id: String!): DraftProfile!
   }
 
