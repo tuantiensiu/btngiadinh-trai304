@@ -75,10 +75,10 @@ const truncate = (text) => {
 const metaTitle = (model, metaValue) => {
   for (const meta of FORM_MODELS[model]) {
     if (meta.value === metaValue) {
-      return meta.title
+      return meta.title || ''
     }
   }
-  return metaValue
+  return metaValue || ''
 }
 
 const birthdayTag = (birthday) => {
@@ -91,6 +91,14 @@ const createdAtTag = (time) => {
 
 const timeTag = (datetime) => {
   return dayjs(datetime).locale('vi').fromNow()
+}
+
+const containerTag = (typeSlug, array) => {
+  const el = array.find((x) => x.container.type.slug === typeSlug)
+  if (el) {
+    return (el.container.name || '').replace(/(Xe Số|Phòng)/g, '')
+  }
+  return ''
 }
 
 const currency = (amount) => {
@@ -150,7 +158,10 @@ const DraftProfilesList = ({ draftProfiles }) => {
             <th>Dâng thêm</th>
             <th>Đã nộp</th>
             <th>Hình thức đóng phí</th>
+            <th>Note</th>
             <th>Thời gian</th>
+            <th>Xe</th>
+            <th>Phòng</th>
             <th>Hành động&nbsp;</th>
           </tr>
         </thead>
@@ -175,10 +186,17 @@ const DraftProfilesList = ({ draftProfiles }) => {
                 )}
               </td>
               <td>
+                {draftProfile.status === 'NO_PAYMENT'
+                  ? ''
+                  : draftProfile.status}
+              </td>
+              <td>
                 <Link to="#" title={timeTag(draftProfile.createdAt)}>
                   {createdAtTag(draftProfile.createdAt)}
                 </Link>
               </td>
+              <td>{containerTag('BUS', draftProfile.containers)}</td>
+              <td>{containerTag('ROOM', draftProfile.containers)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link
@@ -188,13 +206,17 @@ const DraftProfilesList = ({ draftProfiles }) => {
                   >
                     Xem
                   </Link>
-                  <Link
-                    to={routes.editMeta({ id: draftProfile.metaKey.amount.id })}
-                    title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
-                    className="rw-button rw-button-large"
-                  >
-                    Nộp
-                  </Link>
+                  {draftProfile.metaKey.amount ? (
+                    <Link
+                      to={routes.editMeta({
+                        id: draftProfile.metaKey.amount.id,
+                      })}
+                      title={'Cập nhật lệ phí cho ' + draftProfile.fullName}
+                      className="rw-button rw-button-large"
+                    >
+                      Nộp
+                    </Link>
+                  ) : null}
                   {/* <Link
                     to={routes.editDraftProfile({ id: draftProfile.id })}
                     title={'Sửa hồ sơ gốc của ' + draftProfile.fullName}

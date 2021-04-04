@@ -16,6 +16,14 @@ export const QUERY = gql`
         key
         value
       }
+      containers {
+        container {
+          type {
+            slug
+          }
+          name
+        }
+      }
     }
   }
 `

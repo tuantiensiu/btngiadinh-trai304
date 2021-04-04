@@ -8,11 +8,13 @@ export const schema = gql`
     phoneNumber: String
     birthday: DateTime
     meta: [Meta]!
+    metaByKeys(keys: String!): String
     createdAt: DateTime
+    containers: [ProfileOnContainer!]
   }
 
   type Query {
-    draftProfiles: [DraftProfile!]!
+    draftProfiles(orderBy: String): [DraftProfile!]!
     draftProfile(id: String!): DraftProfile!
   }
 
