@@ -57,8 +57,8 @@ export const sendSMS = async (phoneNumber, message) => {
 export const getMessage = (formPayload) => {
   // const url = `https://tkmt.btngiadinh.com/ho-so?id=${draftProfile.id}`
   const lastNationDigit = formPayload.data.nationalId.slice(
-    formPayload.data.nationalId.length - 5,
-    formPayload.data.nationalId.length - 1
+    formPayload.data.nationalId.length - 2,
+    formPayload.data.nationalId.length
   )
   // Get last name and toggle upper case
   const fullName = formPayload.data.fullName

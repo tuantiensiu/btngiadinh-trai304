@@ -147,7 +147,7 @@ export const Success = ({ sms }) => {
   let roomInfo = ''
   const hour = 4
 
-  if (profile.containers.length > 0) {
+  if (profile.containers.length >= 2) {
     const busContainer = profile.containers.find(
       (c) => c.container.type.slug === 'BUS'
     )
