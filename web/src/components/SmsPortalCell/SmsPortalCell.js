@@ -141,34 +141,46 @@ export const Success = ({ sms }) => {
       : JSON.parse(meta.sms)
 
   // Reminder
-  const busContainer = profile.containers.find(
-    (c) => c.container.type.slug === 'BUS'
-  )
-  const roomContainer = profile.containers.find(
-    (c) => c.container.type.slug === 'ROOM'
-  )
-  const busLeaderProfile = findLeader('BUS', busContainer.container.profiles)
-    .profile
-  const roomLeaderProfile = findLeader('ROOM', roomContainer.container.profiles)
-    .profile
+  let busInfo = ''
+  let busLeader = ''
+  let roomLeader = ''
+  let roomInfo = ''
   const hour = 4
-  const busInfo = khongdau(
-    `${busContainer.container.name.toLowerCase()} (${
-      busContainer.container.note
-    })`
-  )
-  const busLeaderPhoneNumber = busLeaderProfile.phoneNumber.replace('+84', '0')
-  const roomLeaderPhoneNumber = roomLeaderProfile.phoneNumber.replace(
-    '+84',
-    '0'
-  )
-  const busLeader = khongdau(
-    `${busLeaderProfile.fullName.trim()} ${busLeaderPhoneNumber}`
-  )
-  const roomInfo = khongdau(roomContainer.container.name).toLowerCase()
-  const roomLeader = khongdau(
-    `${roomLeaderProfile.fullName.trim()} ${roomLeaderPhoneNumber}`
-  )
+
+  if (profile.containers.length > 0) {
+    const busContainer = profile.containers.find(
+      (c) => c.container.type.slug === 'BUS'
+    )
+    const roomContainer = profile.containers.find(
+      (c) => c.container.type.slug === 'ROOM'
+    )
+    const busLeaderProfile = busContainer
+      ? findLeader('BUS', busContainer.container.profiles).profile
+      : null
+    const roomLeaderProfile = roomContainer
+      ? findLeader('ROOM', roomContainer.container.profiles).profile
+      : null
+    busInfo = khongdau(
+      `${busContainer.container.name.toLowerCase()} (${
+        busContainer.container.note
+      })`
+    )
+    const busLeaderPhoneNumber = busLeaderProfile.phoneNumber.replace(
+      '+84',
+      '0'
+    )
+    const roomLeaderPhoneNumber = roomLeaderProfile.phoneNumber.replace(
+      '+84',
+      '0'
+    )
+    busLeader = busLeaderProfile
+      ? khongdau(`${busLeaderProfile.fullName.trim()} ${busLeaderPhoneNumber}`)
+      : null
+    roomInfo = khongdau(roomContainer.container.name).toLowerCase()
+    roomLeader = khongdau(
+      `${roomLeaderProfile.fullName.trim()} ${roomLeaderPhoneNumber}`
+    )
+  }
   const shortName = khongdau(
     profile.fullName.trim().split(' ').slice(-2).join(' ')
   )
