@@ -33,7 +33,7 @@ const FORM_MODELS = {
     { value: 'Other', title: 'Khác' },
   ],
   // eslint-disable-next-line prefer-spread
-  groups: Array.apply(null, { length: 15 })
+  groups: Array.apply(null, { length: 16 })
     .map(Number.call, Number)
     .map((i) => ({ value: i + 1, title: i + 1 })),
   joinAge: [
@@ -41,12 +41,12 @@ const FORM_MODELS = {
     { value: 'lt3', title: 'Dưới 3 tháng' },
   ],
   paymentLevel: {
-    lt3: [{ value: '1500000', title: 'Bạn mới|1.500.000đ' }],
+    lt3: [{ value: '515000', title: 'Chi phí trại viên|515.000đ' }],
     gt3: [
-      { value: '750000', title: 'Sinh viên, thu nhập dưới 3 triệu|750.000đ' },
-      { value: '1100000', title: 'Thu nhập 3-5 triệu|1.100.000đ' },
-      { value: '1300000', title: 'Thu nhập trên 5-7 triệu|1.300.000đ' },
-      { value: '1500000', title: 'Thu nhập trên 7 triệu|1.500.000đ' },
+      { value: '515000', title: 'Chi phí trại viên|515.000đ' },
+      // { value: '1100000', title: 'Thu nhập 3-5 triệu|1.100.000đ' },
+      // { value: '1300000', title: 'Thu nhập trên 5-7 triệu|1.300.000đ' },
+      // { value: '1500000', title: 'Thu nhập trên 7 triệu|1.500.000đ' },
     ],
   },
   paymentMethod: [
@@ -79,7 +79,7 @@ export default function FormPage() {
     group: 1,
     joinAge: 'gt3',
     gender: 'MALE',
-    paymentLevel: '750000',
+    paymentLevel: '515000',
     offering: 0,
     paymentMethod: 'BANK',
     paymentStage: 'FULL',
@@ -146,7 +146,7 @@ export default function FormPage() {
       <div className="gap-4 h-auto p-4 md:p-8 min-w-full max-w-md mx-auto">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-2xl md:text-3xl lg font-bold uppercase">
-            Phiếu Đăng Ký Thánh Kinh Mùa Thu 2020
+            Phiếu Đăng Ký Trại LINK 30/4
           </h1>
           <div>
             <div className="bg-gray-700 mt-8 p-4 text-white rounded">
@@ -155,27 +155,16 @@ export default function FormPage() {
               </h2>
               <ul className="mt-4 text-lg">
                 <li className="mt-2">
-                  * Nhận đăng ký và hoàn tất lệ phí: 30/08/2020 - 20/09/2020
-                </li>
-                <li className="mt-2">
-                  * Nhận đăng ký và đặt cọc: 30/08/2020 - 13/09/2020
-                </li>
-                <li className="mt-2">
-                  * Hoàn trả lệ phí nếu hủy đăng ký: Hết ngày 23/09/2020 (Sau
-                  thời điểm này nếu hủy đăng ký sẽ không được hoàn cọc)
-                </li>
-                <li className="mt-2">
-                  * Đối tượng được đóng lệ phí theo mức đóng hỗ trợ: Thành viên
-                  có thời gian sinh hoạt tại BTN Gia Định trên 3 tháng.
+                  * Nhận đăng ký và hoàn tất lệ phí: 04/04/2020 - 18/04/2020
                 </li>
               </ul>
               <h2 className="mt-4 text-lg font-semibold">
                 <em>Thời gian & Địa điểm</em>
               </h2>
               <ul className="mt-4 text-lg">
-                <li className="mt-2">- Nhà thờ Gia Định: tối 29&30/09/2020</li>
+                <li className="mt-2">* 6h sáng 30/4 - 17h chiều 1/5</li>
                 <li className="mt-2">
-                  - Resort Unique Kê Gà (Bình Thuận): 02/10/2020-03/10/2020
+                  * Khu du lịch Thảo Thiện Garden - Đồng Nai
                 </li>
               </ul>
             </div>
@@ -192,7 +181,7 @@ export default function FormPage() {
               <h3 className="text-lg font-semibold">Thông tin cá nhân</h3>
               <span className="text-gray-500 text-opacity-75">
                 Bao gồm các thông tin cơ bản về bạn để BTC đăng ký thủ tục xe,
-                khách sạn, chia phòng...
+                lều trại, chia lều...
               </span>
             </div>
             <div className="">
@@ -289,7 +278,7 @@ export default function FormPage() {
                   cols={2}
                 />
               </div>
-              <div className="flex flex-col mt-8">
+              {/* <div className="flex flex-col mt-8">
                 <label className="text-lg">Size áo</label>
                 <GridRadio
                   list={FORM_MODELS.clothesSize}
@@ -306,7 +295,7 @@ export default function FormPage() {
                     validation={{ required: true }}
                   />
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
           <hr className="mt-8 bg-gray-700" />
@@ -324,7 +313,7 @@ export default function FormPage() {
                 <GridRadio
                   // eslint-disable-next-line prefer-spread
                   list={FORM_MODELS.groups}
-                  cols={5}
+                  cols={4}
                   onSelect={(value) => onChangeRadio('group')(value)}
                 />
               </div>
@@ -364,7 +353,7 @@ export default function FormPage() {
                 <label className="text-lg">Quy cách</label>
                 <GridRadio
                   list={FORM_MODELS.paymentStage}
-                  cols={2}
+                  cols={1}
                   onSelect={(value) => onChangeRadio('paymentStage')(value)}
                 />
               </div>

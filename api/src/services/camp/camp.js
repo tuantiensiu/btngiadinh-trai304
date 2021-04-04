@@ -78,10 +78,10 @@ export const getMessage = (formPayload) => {
   // Template variables
   const depositeAmount = process.env.DEPOSITE || 500000
   const contact = '0902457367'
-  const camp = 'TKMT'
+  const camp = 'LINK'
   const action = paymentStage === 'FULL' ? 'nộp lệ phí' : 'nộp cọc'
-  const bankProvider = 'Vietcombank'
-  const bankID = `0531002575122`
+  const bankProvider = 'Techcombank'
+  const bankID = `19036831320015`
   const bankName = `TRUONG THANH NHU NGOC`
   const who =
     paymentMethod !== 'BANK'
@@ -104,17 +104,17 @@ export const getMessage = (formPayload) => {
     amount = paymentLevel
   }
   const remainDay = paymentMethod === 'BANK' ? 3 : 7
-  const deadlineDay = '22/9'
+  const deadlineDay = '18/4'
 
   // Temp statement
   const bankStatement =
     paymentMethod === 'BANK' ? `${bankID}/${bankProvider}/${bankName}` : ''
-  const transactionCode = `TKMT${group}${lastNationDigit}${lastNameSlug}`
+  const transactionCode = `${camp}${group}${lastNationDigit}${lastNameSlug}`
   // const s = `${bankStatement}/${transactionCode}`
 
   const messageTemplates = {
-    BANK: `Bạn đã đăng ký {camp}, {fullName}. Vui lòng {action} {amount} qua STK: {bankStatement},nội dung CK: {transactionCode} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
-    PEOPLE: `Bạn đã đăng ký {camp}, {fullName}. Vui lòng {action} {amount} cho {who} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
+    BANK: `Bạn đã đăng ký trại {camp}, {fullName}. Vui lòng {action} {amount} qua STK: {bankStatement},nội dung CK: {transactionCode} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
+    PEOPLE: `Bạn đã đăng ký trại {camp}, {fullName}. Vui lòng {action} {amount} cho {who} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
   }
 
   const variables = {

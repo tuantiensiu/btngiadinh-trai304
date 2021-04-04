@@ -37,8 +37,8 @@ const Routes = () => {
       <Route path="/metas/{id}/edit" page={EditMetaPage} name="editMeta" />
       <Route path="/metas/{id}" page={MetaPage} name="meta" />
       <Route path="/metas" page={MetasPage} name="metas" />
-      <Route path="/camp-form" page={CampFormPage} name="campForm" />
-      <Route path="/" page={CampFormPage} name="home" />
+      <Route path="/" page={CampFormPage} name="campForm" />
+      <Route path="/home" page={CampFormPage} name="home" />
       <Route notfound page={NotFoundPage} />
     </Router>
   )
