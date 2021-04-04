@@ -335,10 +335,10 @@ export default function FormPage() {
                 Chọn các mức đóng lệ phí, và dâng hiến cho kì trại.
               </span>
               <br />
-              <span className="text-pink-500 text-opacity-75">
+              {/* <span className="text-pink-500 text-opacity-75">
                 Lưu ý: Nếu bạn nhóm lại cùng thanh niên chưa đủ tối thiểu 3
                 tháng, bạn cần đóng đủ lệ phí của một trại viên.
-              </span>
+              </span> */}
             </div>
             <div className="">
               <div className="flex flex-col">
