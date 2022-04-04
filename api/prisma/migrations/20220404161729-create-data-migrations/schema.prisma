@@ -9,7 +9,7 @@ generator client {
 }
 
 model Meta {
-  id             String        @default(cuid()) @id
+  id             String        @id @default(cuid())
   key            String
   value          String
   type           String
@@ -18,7 +18,7 @@ model Meta {
 }
 
 model DraftProfile {
-  id          String                 @default(cuid()) @id
+  id          String                 @id @default(cuid())
   fullName    String
   nationalId  String?
   phoneNumber String?
@@ -30,14 +30,14 @@ model DraftProfile {
 }
 
 model ContainerType {
-  id         String      @default(cuid()) @id
+  id         String      @id @default(cuid())
   slug       String      @unique
   name       String
   containers Container[]
 }
 
 model ContainerHost {
-  id         String      @default(cuid()) @id
+  id         String      @id @default(cuid())
   name       String
   contact    String?
   note       String?
@@ -45,7 +45,8 @@ model ContainerHost {
 }
 
 model Container {
-  id              String                 @default(cuid()) @id
+  id              String                 @id @default(cuid())
+  slug            String?
   name            String
   note            String?
   profiles        ProfilesOnContainers[]
@@ -59,7 +60,7 @@ model Container {
 }
 
 model ContainerRole {
-  id          String                @default(cuid()) @id
+  id          String                @id @default(cuid())
   slug        String                @unique
   name        String
   container   ProfilesOnContainers? @relation(fields: [containerId, profileId], references: [containerId, profileId])
@@ -75,5 +76,13 @@ model ProfilesOnContainers {
   role        ContainerRole[]
   note        String?
   createdAt   DateTime        @default(now())
+
   @@id([containerId, profileId])
+}
+
+model RW_DataMigration {
+  version    String   @id
+  name       String
+  startedAt  DateTime
+  finishedAt DateTime
 }

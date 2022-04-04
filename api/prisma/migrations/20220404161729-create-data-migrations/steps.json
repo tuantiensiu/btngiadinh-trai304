@@ -2,6 +2,302 @@
   "version": "0.3.14-fixed",
   "steps": [
     {
+      "tag": "CreateSource",
+      "source": "DS"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Source",
+        "source": "DS"
+      },
+      "argument": "provider",
+      "value": "\"mysql\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Source",
+        "source": "DS"
+      },
+      "argument": "url",
+      "value": "\"***\""
+    },
+    {
+      "tag": "CreateModel",
+      "model": "Meta"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Meta",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Meta",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Meta",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Meta",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "cuid()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Meta",
+      "field": "key",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Meta",
+      "field": "value",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Meta",
+      "field": "type",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Meta",
+      "field": "DraftProfile",
+      "type": "DraftProfile",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Meta",
+          "field": "DraftProfile"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Meta",
+          "field": "DraftProfile"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[draftProfileId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Meta",
+          "field": "DraftProfile"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Meta",
+      "field": "draftProfileId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "DraftProfile"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DraftProfile",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "DraftProfile",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "DraftProfile",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "DraftProfile",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "cuid()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DraftProfile",
+      "field": "fullName",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DraftProfile",
+      "field": "nationalId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DraftProfile",
+      "field": "phoneNumber",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DraftProfile",
+      "field": "birthday",
+      "type": "DateTime",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DraftProfile",
+      "field": "meta",
+      "type": "Meta",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DraftProfile",
+      "field": "activated",
+      "type": "Boolean",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "DraftProfile",
+          "field": "activated"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "DraftProfile",
+          "field": "activated"
+        },
+        "directive": "default"
+      },
+      "argument": "value",
+      "value": "true"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DraftProfile",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "DraftProfile",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "DraftProfile",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "DraftProfile",
+      "field": "containers",
+      "type": "ProfilesOnContainers",
+      "arity": "List"
+    },
+    {
       "tag": "CreateModel",
       "model": "ContainerType"
     },
@@ -11,6 +307,17 @@
       "field": "id",
       "type": "String",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ContainerType",
+          "field": "id"
+        },
+        "directive": "id"
+      }
     },
     {
       "tag": "CreateDirective",
@@ -36,17 +343,6 @@
       },
       "argument": "",
       "value": "cuid()"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "ContainerType",
-          "field": "id"
-        },
-        "directive": "id"
-      }
     },
     {
       "tag": "CreateField",
@@ -99,6 +395,17 @@
           "model": "ContainerHost",
           "field": "id"
         },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ContainerHost",
+          "field": "id"
+        },
         "directive": "default"
       }
     },
@@ -115,17 +422,6 @@
       },
       "argument": "",
       "value": "cuid()"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "ContainerHost",
-          "field": "id"
-        },
-        "directive": "id"
-      }
     },
     {
       "tag": "CreateField",
@@ -174,6 +470,17 @@
           "model": "Container",
           "field": "id"
         },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Container",
+          "field": "id"
+        },
         "directive": "default"
       }
     },
@@ -192,15 +499,11 @@
       "value": "cuid()"
     },
     {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Container",
-          "field": "id"
-        },
-        "directive": "id"
-      }
+      "tag": "CreateField",
+      "model": "Container",
+      "field": "slug",
+      "type": "String",
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -430,6 +733,17 @@
           "model": "ContainerRole",
           "field": "id"
         },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ContainerRole",
+          "field": "id"
+        },
         "directive": "default"
       }
     },
@@ -448,14 +762,21 @@
       "value": "cuid()"
     },
     {
+      "tag": "CreateField",
+      "model": "ContainerRole",
+      "field": "slug",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
       "tag": "CreateDirective",
       "location": {
         "path": {
           "tag": "Field",
           "model": "ContainerRole",
-          "field": "id"
+          "field": "slug"
         },
-        "directive": "id"
+        "directive": "unique"
       }
     },
     {
@@ -705,54 +1026,14 @@
       "value": "[containerId, profileId]"
     },
     {
-      "tag": "DeleteModel",
-      "model": "User"
-    },
-    {
-      "tag": "DeleteModel",
-      "model": "Profile"
-    },
-    {
-      "tag": "DeleteModel",
-      "model": "Group"
-    },
-    {
-      "tag": "DeleteModel",
-      "model": "GroupEnrollment"
-    },
-    {
-      "tag": "DeleteModel",
-      "model": "Org"
-    },
-    {
-      "tag": "DeleteModel",
-      "model": "Activity"
-    },
-    {
-      "tag": "DeleteModel",
-      "model": "Schedule"
-    },
-    {
-      "tag": "DeleteModel",
-      "model": "Attendance"
-    },
-    {
-      "tag": "DeleteModel",
-      "model": "ReportQuestion"
-    },
-    {
-      "tag": "DeleteModel",
-      "model": "ReportCampaign"
-    },
-    {
-      "tag": "DeleteModel",
-      "model": "ReportInGroup"
+      "tag": "CreateModel",
+      "model": "RW_DataMigration"
     },
     {
       "tag": "CreateField",
-      "model": "DraftProfile",
-      "field": "activated",
-      "type": "Boolean",
+      "model": "RW_DataMigration",
+      "field": "version",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -760,32 +1041,32 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "DraftProfile",
-          "field": "activated"
+          "model": "RW_DataMigration",
+          "field": "version"
         },
-        "directive": "default"
+        "directive": "id"
       }
     },
     {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "DraftProfile",
-          "field": "activated"
-        },
-        "directive": "default"
-      },
-      "argument": "value",
-      "value": "true"
+      "tag": "CreateField",
+      "model": "RW_DataMigration",
+      "field": "name",
+      "type": "String",
+      "arity": "Required"
     },
     {
       "tag": "CreateField",
-      "model": "DraftProfile",
-      "field": "containers",
-      "type": "ProfilesOnContainers",
-      "arity": "List"
+      "model": "RW_DataMigration",
+      "field": "startedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "RW_DataMigration",
+      "field": "finishedAt",
+      "type": "DateTime",
+      "arity": "Required"
     }
   ]
 }
