@@ -33,7 +33,7 @@ const FORM_MODELS = {
     { value: 'Other', title: 'Khác' },
   ],
   // eslint-disable-next-line prefer-spread
-  groups: Array.apply(null, { length: 16 })
+  groups: Array.apply(null, { length: 15 })
     .map(Number.call, Number)
     .map((i) => ({ value: i + 1, title: i + 1 })),
   joinAge: [
@@ -41,9 +41,9 @@ const FORM_MODELS = {
     { value: 'lt3', title: 'Dưới 3 tháng' },
   ],
   paymentLevel: {
-    lt3: [{ value: '515000', title: 'Chi phí trại viên|515.000đ' }],
+    lt3: [{ value: '550000', title: 'Chi phí trại viên|550.000đ' }],
     gt3: [
-      { value: '515000', title: 'Chi phí trại viên|515.000đ' },
+      { value: '550000', title: 'Chi phí trại viên|550.000đ' },
       // { value: '1100000', title: 'Thu nhập 3-5 triệu|1.100.000đ' },
       // { value: '1300000', title: 'Thu nhập trên 5-7 triệu|1.300.000đ' },
       // { value: '1500000', title: 'Thu nhập trên 7 triệu|1.500.000đ' },
@@ -146,7 +146,7 @@ export default function FormPage() {
       <div className="gap-4 h-auto p-4 md:p-8 min-w-full max-w-md mx-auto">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-2xl md:text-3xl lg font-bold uppercase">
-            Phiếu Đăng Ký Trại LINK 30/4
+            Phiếu Đăng Ký Trại 30/4
           </h1>
           <div>
             <div className="bg-gray-700 mt-8 p-4 text-white rounded">
@@ -155,17 +155,15 @@ export default function FormPage() {
               </h2>
               <ul className="mt-4 text-lg">
                 <li className="mt-2">
-                  * Nhận đăng ký và hoàn tất lệ phí: 04/04/2020 - 18/04/2020
+                  * Nhận đăng ký và hoàn tất lệ phí: 04/04/2022 - 18/04/2022
                 </li>
               </ul>
               <h2 className="mt-4 text-lg font-semibold">
                 <em>Thời gian & Địa điểm</em>
               </h2>
               <ul className="mt-4 text-lg">
-                <li className="mt-2">* 6h sáng 30/4 - 17h chiều 1/5</li>
-                <li className="mt-2">
-                  * Khu du lịch Thảo Thiện Garden - Đồng Nai
-                </li>
+                <li className="mt-2">* 02-03/5/2022</li>
+                <li className="mt-2">* Khu du lịch Đèo nước ngọt</li>
               </ul>
             </div>
             <div className="mt-8">
@@ -203,7 +201,7 @@ export default function FormPage() {
                 />
                 <FieldError name="fullName" className="error-message" />
               </div>
-              <div className="flex flex-col mt-8">
+              {/* <div className="flex flex-col mt-8">
                 <Label
                   name="nationalId"
                   className="text-lg"
@@ -223,7 +221,7 @@ export default function FormPage() {
                   }}
                 />
                 <FieldError name="nationalId" className="error-message" />
-              </div>
+              </div> */}
               <div className="flex flex-col mt-8">
                 <Label name="phoneNumber" className="text-lg">
                   Số điện thoại
@@ -349,14 +347,14 @@ export default function FormPage() {
                   onSelect={(value) => onChangeRadio('paymentLevel')(value)}
                 />
               </div>
-              <div className="flex flex-col mt-8">
+              {/* <div className="flex flex-col mt-8">
                 <label className="text-lg">Quy cách</label>
                 <GridRadio
                   list={FORM_MODELS.paymentStage}
                   cols={1}
                   onSelect={(value) => onChangeRadio('paymentStage')(value)}
                 />
-              </div>
+              </div> */}
               <div className="flex flex-col mt-8">
                 <label className="text-lg">Dâng hiến:</label>
                 <NumberField

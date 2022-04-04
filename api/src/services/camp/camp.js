@@ -56,10 +56,10 @@ export const sendSMS = async (phoneNumber, message) => {
 
 export const getMessage = (formPayload) => {
   // const url = `https://tkmt.btngiadinh.com/ho-so?id=${draftProfile.id}`
-  const lastNationDigit = formPayload.data.nationalId.slice(
-    formPayload.data.nationalId.length - 2,
-    formPayload.data.nationalId.length
-  )
+  // const lastNationDigit = formPayload.data.nationalId.slice(
+  //   formPayload.data.nationalId.length - 2,
+  //   formPayload.data.nationalId.length
+  // )
   // Get last name and toggle upper case
   const fullName = formPayload.data.fullName
   const lastName = fullName.split(' ')
@@ -76,9 +76,9 @@ export const getMessage = (formPayload) => {
   // console.log('messageKey', paymentMethod, paymentMethod === 'BANK')
 
   // Template variables
-  const depositeAmount = process.env.DEPOSITE || 500000
+  const depositeAmount = process.env.DEPOSITE || 550000
   const contact = '0902457367'
-  const camp = 'LINK'
+  const camp = 'TSH2022'
   const action = paymentStage === 'FULL' ? 'nộp lệ phí' : 'nộp cọc'
   const bankProvider = 'Techcombank'
   const bankID = `19036831320015`
@@ -109,7 +109,7 @@ export const getMessage = (formPayload) => {
   // Temp statement
   const bankStatement =
     paymentMethod === 'BANK' ? `${bankID}/${bankProvider}/${bankName}` : ''
-  const transactionCode = `${camp}${group}${lastNationDigit}${lastNameSlug}`
+  const transactionCode = `${lastNameSlug}${group}${camp}`
   // const s = `${bankStatement}/${transactionCode}`
 
   const messageTemplates = {
