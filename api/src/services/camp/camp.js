@@ -104,16 +104,16 @@ export const getMessage = (formPayload) => {
     amount = paymentLevel
   }
   const remainDay = paymentMethod === 'BANK' ? 3 : 7
-  const deadlineDay = '18/4'
+  const deadlineDay = '24/04'
 
   // Temp statement
   const bankStatement =
     paymentMethod === 'BANK' ? `${bankID}/${bankProvider}/${bankName}` : ''
-  const transactionCode = `${lastNameSlug}${group}${camp}`
+  const transactionCode = `${lastNameSlug}-${group}-${camp}`
   // const s = `${bankStatement}/${transactionCode}`
 
   const messageTemplates = {
-    BANK: `Bạn đã đăng ký trại {camp}, {fullName}. Vui lòng {action} {amount} qua STK: {bankStatement},nội dung CK: {transactionCode} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
+    BANK: `Bạn đã đăng ký trại {camp}. Vui lòng {action} {amount} qua STK: {bankStatement},nội dung CK: {transactionCode} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
     PEOPLE: `Bạn đã đăng ký trại {camp}, {fullName}. Vui lòng {action} {amount} cho {who} trong vòng {remainDay} ngày kể từ ngày đăng ký và hoàn tất lệ phí trước ngày {deadlineDay}. Sau {remainDay} ngày hệ thống sẽ tự hủy đơn đăng ký nếu bạn chưa {action}. Chi tiết liên hệ {contact}.`,
   }
 

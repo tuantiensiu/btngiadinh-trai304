@@ -79,7 +79,7 @@ export default function FormPage() {
     group: 1,
     joinAge: 'gt3',
     gender: 'MALE',
-    paymentLevel: '515000',
+    paymentLevel: '550000',
     offering: 0,
     paymentMethod: 'BANK',
     paymentStage: 'FULL',
@@ -163,7 +163,7 @@ export default function FormPage() {
               </h2>
               <ul className="mt-4 text-lg">
                 <li className="mt-2">* 02-03/5/2022</li>
-                <li className="mt-2">* Khu du lịch Đèo nước ngọt</li>
+                <li className="mt-2">* KDL Đèo Nước Ngọt</li>
               </ul>
             </div>
             <div className="mt-8">
@@ -315,14 +315,14 @@ export default function FormPage() {
                   onSelect={(value) => onChangeRadio('group')(value)}
                 />
               </div>
-              <div className="flex flex-col mt-8">
+              {/* <div className="flex flex-col mt-8">
                 <label className="text-lg">Thời gian nhóm lại</label>
                 <GridRadio
                   list={FORM_MODELS.joinAge}
                   cols={2}
                   onSelect={(value) => onChangeRadio('joinAge')(value)}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
           <hr className="mt-8 bg-gray-700" />
