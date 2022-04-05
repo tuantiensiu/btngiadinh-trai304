@@ -1,9 +1,3 @@
 # Prisma Migrate lockfile v1
 
-20200729005148-migration
-20200816073016-migration
-20200828005843-migration
-20200913222828-migration
-20200913223711-migration
-20200925035614-migration
-20220404135009-create-data-migrations
+20220405020559-create-data-migrations

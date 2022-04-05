@@ -6,10 +6,10 @@
     "defaults"
   ],
   "dependencies": {
-    "@redwoodjs/auth": "^0.16.0",
-    "@redwoodjs/forms": "0.16.0",
-    "@redwoodjs/router": "^0.16.0",
-    "@redwoodjs/web": "^0.16.0",
+    "@redwoodjs/auth": "^1.0.0",
+    "@redwoodjs/forms": "1.0.0",
+    "@redwoodjs/router": "^1.0.0",
+    "@redwoodjs/web": "^1.0.0",
     "@tailwindcss/ui": "0.5.0",
     "classnames": "2.2.6",
     "dayjs": "1.8.34",
