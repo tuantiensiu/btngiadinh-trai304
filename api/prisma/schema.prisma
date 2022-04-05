@@ -1,4 +1,4 @@
-datasource DS {
+datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
@@ -10,18 +10,18 @@ generator client {
 
 model Meta {
   id             String        @id @default(cuid())
-  key            String
-  value          String
-  type           String
+  key            String        @db.LongText
+  value          String        @db.LongText
+  type           String        @db.LongText
   DraftProfile   DraftProfile? @relation(fields: [draftProfileId], references: [id])
-  draftProfileId String?
+  draftProfileId String?       @db.LongText
 }
 
 model DraftProfile {
   id          String                 @id @default(cuid())
-  fullName    String
-  nationalId  String?
-  phoneNumber String?
+  fullName    String                 @db.LongText
+  nationalId  String?                @db.LongText
+  phoneNumber String?                @db.LongText
   birthday    DateTime?
   meta        Meta[]
   activated   Boolean                @default(value: true)
@@ -32,49 +32,49 @@ model DraftProfile {
 model ContainerType {
   id         String      @id @default(cuid())
   slug       String      @unique
-  name       String
+  name       String      @db.LongText
   containers Container[]
 }
 
 model ContainerHost {
   id         String      @id @default(cuid())
-  name       String
-  contact    String?
-  note       String?
+  name       String      @db.LongText
+  contact    String?     @db.LongText
+  note       String?     @db.LongText
   containers Container[]
 }
 
 model Container {
   id              String                 @id @default(cuid())
-  slug            String?
-  name            String
-  note            String?
+  slug            String?                @db.LongText
+  name            String                 @db.LongText
+  note            String?                @db.LongText
   profiles        ProfilesOnContainers[]
   host            ContainerHost?         @relation(fields: [containerHostId], references: [id])
   type            ContainerType          @relation(fields: [containerTypeId], references: [id])
   capacity        Int?                   @default(value: 0)
   updatedAt       DateTime               @updatedAt
   createdAt       DateTime               @default(now())
-  containerTypeId String
-  containerHostId String?
+  containerTypeId String                 @db.LongText
+  containerHostId String?                @db.LongText
 }
 
 model ContainerRole {
   id          String                @id @default(cuid())
   slug        String                @unique
-  name        String
+  name        String                @db.LongText
   container   ProfilesOnContainers? @relation(fields: [containerId, profileId], references: [containerId, profileId])
-  containerId String?
-  profileId   String?
+  containerId String?               @db.LongText
+  profileId   String?               @db.LongText
 }
 
 model ProfilesOnContainers {
   container   Container       @relation(fields: [containerId], references: [id])
-  containerId String
+  containerId String          @db.VarChar(512)
   profile     DraftProfile    @relation(fields: [profileId], references: [id])
-  profileId   String
+  profileId   String          @db.VarChar(512)
   role        ContainerRole[]
-  note        String?
+  note        String?         @db.LongText
   createdAt   DateTime        @default(now())
 
   @@id([containerId, profileId])
