@@ -79,10 +79,3 @@ model ProfilesOnContainers {
 
   @@id([containerId, profileId])
 }
-
-model RW_DataMigration {
-  version    String   @id
-  name       String
-  startedAt  DateTime
-  finishedAt DateTime
-}
